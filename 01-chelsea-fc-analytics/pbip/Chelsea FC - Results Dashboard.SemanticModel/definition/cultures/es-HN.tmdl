@@ -6605,6 +6605,16 @@ cultureInfo es-HN
 			          "subcategory": {
 			            "State": "Generated"
 			          }
+			        },
+			        {
+			          "Revenue Stream": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
