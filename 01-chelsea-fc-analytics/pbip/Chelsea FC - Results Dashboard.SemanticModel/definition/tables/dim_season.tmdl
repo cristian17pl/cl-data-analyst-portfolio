@@ -1,0 +1,140 @@
+table dim_season
+	lineageTag: 243e56b5-bd94-4214-832b-b78cfe1382e3
+
+	column season_id
+		dataType: string
+		lineageTag: 394a4b74-3b76-4263-ab4a-bac8feb29b8d
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_label
+		dataType: string
+		lineageTag: 0e612420-c069-498c-906e-a50b76656cad
+		summarizeBy: none
+		sourceColumn: season_label
+		sortByColumn: start_year
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 86d64c56-eb62-4e90-8a6b-e416abb46f73
+		summarizeBy: sum
+		sourceColumn: start_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_year
+		dataType: int64
+		formatString: 0
+		lineageTag: f9461d07-184c-4bd3-a319-8a5f341b935b
+		summarizeBy: sum
+		sourceColumn: end_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column ownership_era
+		dataType: string
+		lineageTag: 27b8f886-d9d7-41a9-91a3-f91fe906a3a5
+		summarizeBy: none
+		sourceColumn: ownership_era
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_primary
+		dataType: string
+		lineageTag: 87a06c99-96aa-4cf1-b0d6-f3ce528f73c8
+		summarizeBy: none
+		sourceColumn: manager_primary
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_secondary
+		dataType: string
+		lineageTag: 1d40c51c-414b-4e45-877a-9c59a81bc782
+		summarizeBy: none
+		sourceColumn: manager_secondary
+
+		annotation SummarizationSetBy = Automatic
+
+	column pl_finish
+		dataType: string
+		lineageTag: b9e46a03-6bc4-40f5-80cc-dcbcbe3ee46c
+		summarizeBy: none
+		sourceColumn: pl_finish
+
+		annotation SummarizationSetBy = Automatic
+
+	column ucl_result
+		dataType: string
+		lineageTag: 494d52d8-e3ed-4eeb-ba5a-c1f91e05d1cf
+		summarizeBy: none
+		sourceColumn: ucl_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column europa_result
+		dataType: string
+		lineageTag: 40376f49-c045-4fba-9d8e-1cf0b11c251b
+		summarizeBy: none
+		sourceColumn: europa_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column conference_result
+		dataType: string
+		lineageTag: 7316f7f3-9712-4a22-88c6-7d2eb4b1876c
+		summarizeBy: none
+		sourceColumn: conference_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column fa_cup_result
+		dataType: string
+		lineageTag: af2ee08c-5e39-4fff-8687-5baa740752c2
+		summarizeBy: none
+		sourceColumn: fa_cup_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column efl_cup_result
+		dataType: string
+		lineageTag: e833846f-0a0e-4ee1-992a-381328924baa
+		summarizeBy: none
+		sourceColumn: efl_cup_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column cwc_result
+		dataType: string
+		lineageTag: 5d2df1f4-2be6-44b8-bf82-fc6fac8610e4
+		summarizeBy: none
+		sourceColumn: cwc_result
+
+		annotation SummarizationSetBy = Automatic
+
+	column trophies_won
+		dataType: string
+		lineageTag: 51dbc50d-3e49-47aa-be41-05514e4ad7e8
+		summarizeBy: none
+		sourceColumn: trophies_won
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_season = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\dim_season.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"season_id", type text}, {"season_label", type text}, {"start_year", Int64.Type}, {"end_year", Int64.Type}, {"ownership_era", type text}, {"manager_primary", type text}, {"manager_secondary", type text}, {"pl_finish", type text}, {"ucl_result", type text}, {"europa_result", type text}, {"conference_result", type text}, {"fa_cup_result", type text}, {"efl_cup_result", type text}, {"cwc_result", type text}, {"trophies_won", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

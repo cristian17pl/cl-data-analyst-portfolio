@@ -1,0 +1,155 @@
+table fact_player_performance
+	lineageTag: 78c2dfa5-7c64-4e42-99ba-c187ef868549
+
+	column perf_id
+		dataType: string
+		lineageTag: f11af5ca-eea7-4213-80ad-32d371e3955e
+		summarizeBy: none
+		sourceColumn: perf_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 2dc56039-a7a7-4b25-aa37-8453e0981940
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_id
+		dataType: string
+		lineageTag: 3e07e298-5769-4461-a71c-0335bef17f4c
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_name
+		dataType: string
+		lineageTag: b1fe2c9f-930b-4f51-9928-6ce41a1b5cd4
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_group
+		dataType: string
+		lineageTag: 3b3670a7-29f9-4bad-8c26-15c8fa5798f8
+		summarizeBy: none
+		sourceColumn: position_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column appearances
+		dataType: int64
+		formatString: 0
+		lineageTag: ba94c0de-6925-4a2a-bcbc-be7b32eae497
+		summarizeBy: sum
+		sourceColumn: appearances
+
+		annotation SummarizationSetBy = Automatic
+
+	column starts
+		dataType: int64
+		formatString: 0
+		lineageTag: 461ef226-74d3-40a9-b114-146aef319f4e
+		summarizeBy: sum
+		sourceColumn: starts
+
+		annotation SummarizationSetBy = Automatic
+
+	column minutes_played
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ecb09cc-eb1f-4dc7-a8de-b83ec02726ad
+		summarizeBy: sum
+		sourceColumn: minutes_played
+
+		annotation SummarizationSetBy = Automatic
+
+	column goals
+		dataType: int64
+		formatString: 0
+		lineageTag: d5088383-a255-4068-bdb9-b082c9b55260
+		summarizeBy: sum
+		sourceColumn: goals
+
+		annotation SummarizationSetBy = Automatic
+
+	column assists
+		dataType: int64
+		formatString: 0
+		lineageTag: 8738f99d-182b-4db2-944d-a392d0b62d0a
+		summarizeBy: sum
+		sourceColumn: assists
+
+		annotation SummarizationSetBy = Automatic
+
+	column yellow_cards
+		dataType: int64
+		formatString: 0
+		lineageTag: a91e9c94-0c12-497f-840a-bfab79c94084
+		summarizeBy: sum
+		sourceColumn: yellow_cards
+
+		annotation SummarizationSetBy = Automatic
+
+	column red_cards
+		dataType: int64
+		formatString: 0
+		lineageTag: 362ecf16-ce44-4b9c-acea-9d0f5a06724f
+		summarizeBy: sum
+		sourceColumn: red_cards
+
+		annotation SummarizationSetBy = Automatic
+
+	column clean_sheets
+		dataType: int64
+		formatString: 0
+		lineageTag: 803702de-06e4-448a-8811-294866296959
+		summarizeBy: sum
+		sourceColumn: clean_sheets
+
+		annotation SummarizationSetBy = Automatic
+
+	column saves
+		dataType: int64
+		formatString: 0
+		lineageTag: f5215219-ef8b-443d-9915-c0eb1affaa52
+		summarizeBy: sum
+		sourceColumn: saves
+
+		annotation SummarizationSetBy = Automatic
+
+	column pass_accuracy_pct
+		dataType: int64
+		formatString: 0
+		lineageTag: e3dfdfdc-171b-4d1b-bd11-bfe0bb337604
+		summarizeBy: sum
+		sourceColumn: pass_accuracy_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating_avg
+		dataType: double
+		lineageTag: db2049ca-7ca6-42a5-a9bc-4bd038abc0cc
+		summarizeBy: sum
+		sourceColumn: rating_avg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_player_performance = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_player_performance.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"perf_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"position_group", type text}, {"appearances", Int64.Type}, {"starts", Int64.Type}, {"minutes_played", Int64.Type}, {"goals", Int64.Type}, {"assists", Int64.Type}, {"yellow_cards", Int64.Type}, {"red_cards", Int64.Type}, {"clean_sheets", Int64.Type}, {"saves", Int64.Type}, {"pass_accuracy_pct", Int64.Type}, {"rating_avg", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

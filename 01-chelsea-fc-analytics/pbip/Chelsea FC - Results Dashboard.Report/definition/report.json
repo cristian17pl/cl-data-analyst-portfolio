@@ -1,0 +1,125 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY26SU05",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "AccessibleTidal",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "AccessibleTidal",
+          "path": "BuiltInThemes/AccessibleTidal.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "CY26SU05",
+          "path": "BaseThemes/CY26SU05.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Slide16689648516786751.SVG",
+          "path": "Slide16689648516786751.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide24374754266372337.SVG",
+          "path": "Slide24374754266372337.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide325122882525599566.SVG",
+          "path": "Slide325122882525599566.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide45106053748219067.SVG",
+          "path": "Slide45106053748219067.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide58537831355328307.SVG",
+          "path": "Slide58537831355328307.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide616039450255195853.SVG",
+          "path": "Slide616039450255195853.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide738313375927157467.SVG",
+          "path": "Slide738313375927157467.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Slide83667134355586765.SVG",
+          "path": "Slide83667134355586765.SVG",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true,
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  }
+}

@@ -1,0 +1,108 @@
+table fact_player_valuations
+	lineageTag: 66d0000a-0b9f-4a8d-a67b-65c5a972f28c
+
+	column valuation_id
+		dataType: string
+		lineageTag: 98a6b03e-bef3-49bd-8356-d2150289af8c
+		summarizeBy: none
+		sourceColumn: valuation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 19283828-bad9-43dc-a10c-27fe355875a1
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_id
+		dataType: string
+		lineageTag: e5e6ef24-cc09-4fd1-acf9-dfaf8bb86f5f
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_name
+		dataType: string
+		lineageTag: 135427a2-0161-455a-ba02-f25888e7cead
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_group
+		dataType: string
+		lineageTag: 6ebc15de-162a-44a0-bddb-e7038d500ff7
+		summarizeBy: none
+		sourceColumn: position_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_value_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: c92a3a4d-f06d-49ef-a6ed-5c863e0488c3
+		summarizeBy: sum
+		sourceColumn: market_value_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column market_value_eur
+		dataType: int64
+		formatString: "€"\ #,0;-"€"\ #,0;"€"\ #,0
+		lineageTag: 3040123f-1731-4fa2-ad2c-a2568bd9303b
+		summarizeBy: sum
+		sourceColumn: market_value_eur
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_at_valuation
+		dataType: int64
+		formatString: 0
+		lineageTag: 02e1388f-2fd9-40f1-9f82-65e41d0d1d35
+		summarizeBy: sum
+		sourceColumn: age_at_valuation
+
+		annotation SummarizationSetBy = Automatic
+
+	column valuation_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 7e393c8b-6121-4a28-9909-cf379790b9d6
+		summarizeBy: none
+		sourceColumn: valuation_date
+
+		variation Variación
+			isDefault
+			relationship: 547b3f05-72ef-4d95-8d8d-7795b75f1662
+			defaultHierarchy: LocalDateTable_304ea9fc-627a-467f-89a6-156d9794e190.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valuation_source
+		dataType: string
+		lineageTag: b5de0aa0-3616-4bb0-8cf4-4a24a0855690
+		summarizeBy: none
+		sourceColumn: valuation_source
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_player_valuations = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_player_valuations.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"valuation_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"position_group", type text}, {"market_value_gbp", Int64.Type}, {"market_value_eur", Int64.Type}, {"age_at_valuation", Int64.Type}, {"valuation_date", type date}, {"valuation_source", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

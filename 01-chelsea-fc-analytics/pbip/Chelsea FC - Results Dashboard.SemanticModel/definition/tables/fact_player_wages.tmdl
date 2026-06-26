@@ -1,0 +1,119 @@
+table fact_player_wages
+	lineageTag: 023c0c35-8678-4b1f-ab53-70309c89b3cc
+
+	column wage_id
+		dataType: string
+		lineageTag: d9525691-6633-4e30-9f02-15d406a7a67a
+		summarizeBy: none
+		sourceColumn: wage_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 5ed96f0b-2331-40bd-8375-310d478ee3fd
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_id
+		dataType: string
+		lineageTag: bdd466ef-36f3-461e-a63a-d0297ba50072
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_name
+		dataType: string
+		lineageTag: 93d25c4e-4f66-4192-ad6b-f6eb3dc38ea3
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_group
+		dataType: string
+		lineageTag: ad9cff54-58cb-40a4-bfce-d6ee7deed1b7
+		summarizeBy: none
+		sourceColumn: position_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekly_wage_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 2c3109b2-3c45-4b34-822f-a51973559cd3
+		summarizeBy: sum
+		sourceColumn: weekly_wage_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column annual_wage_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 783e7dea-304a-4376-87b2-8a20dbd46213
+		summarizeBy: sum
+		sourceColumn: annual_wage_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column contract_end_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 434e406b-c94e-404f-b240-027bcfe1c3af
+		summarizeBy: sum
+		sourceColumn: contract_end_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column agent_fee_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: c5ca90c5-5774-48f7-9e72-8a1773f002a5
+		summarizeBy: sum
+		sourceColumn: agent_fee_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column signing_bonus_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 1129bea1-d2b2-4b73-94e5-8ad975db5d12
+		summarizeBy: sum
+		sourceColumn: signing_bonus_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column performance_bonus_gbp
+		dataType: int64
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: 0ae510e9-6383-4dfe-a6ca-7b3d2f89e972
+		summarizeBy: sum
+		sourceColumn: performance_bonus_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	partition fact_player_wages = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_player_wages.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"wage_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"position_group", type text}, {"weekly_wage_gbp", Int64.Type}, {"annual_wage_gbp", Int64.Type}, {"contract_end_year", Int64.Type}, {"agent_fee_gbp", Int64.Type}, {"signing_bonus_gbp", Int64.Type}, {"performance_bonus_gbp", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

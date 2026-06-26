@@ -1,0 +1,7 @@
+season_id,season_label,start_year,end_year,ownership_era,manager_primary,manager_secondary,pl_finish,ucl_result,europa_result,conference_result,fa_cup_result,efl_cup_result,cwc_result,trophies_won
+S1,2020-21,2020,2021,Abramovich,Frank Lampard,Thomas Tuchel,4,Winners,,,,Semi-finals,,UCL
+S2,2021-22,2021,2022,Abramovich / BlueCo,Thomas Tuchel,,3,Quarter-finals,,,Runners-up,Runners-up,Winners,Club World Cup + Super Cup
+S3,2022-23,2022,2023,BlueCo,Thomas Tuchel,Graham Potter / Frank Lampard,12,Last 16,,,Quarter-finals,Quarter-finals,,None
+S4,2023-24,2023,2024,BlueCo,Mauricio Pochettino,,6,Last 16,,,Quarter-finals,Quarter-finals,,None
+S5,2024-25,2024,2025,BlueCo,Enzo Maresca,,4,,,,Semi-finals,Semi-finals,,Conference League
+S6,2025-26,2025,2026,BlueCo,Enzo Maresca / Liam Rosenior,8,Round of 16,,,Final,Semi-finals,,None

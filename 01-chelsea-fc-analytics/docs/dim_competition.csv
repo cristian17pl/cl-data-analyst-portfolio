@@ -1,0 +1,9 @@
+competition_id,competition_name,competition_short,type,confederation,prestige_level
+C1,Premier League,PL,Domestic League,UEFA,1
+C2,UEFA Champions League,UCL,European,UEFA,1
+C3,FA Cup,FAC,Domestic Cup,FA,2
+C4,EFL Cup,EFL,Domestic Cup,EFL,3
+C5,UEFA Europa League,UEL,European,UEFA,2
+C6,UEFA Conference League,UECL,European,UEFA,3
+C7,FIFA Club World Cup,CWC,International,FIFA,2
+C8,UEFA Super Cup,USC,International,UEFA,2

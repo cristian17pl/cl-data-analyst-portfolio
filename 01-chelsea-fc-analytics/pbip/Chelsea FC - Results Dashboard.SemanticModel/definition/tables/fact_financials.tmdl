@@ -1,0 +1,86 @@
+table fact_financials
+	lineageTag: 7c8a5e2d-236d-4a7a-b0fd-4e50e7dd091e
+
+	column financial_id
+		dataType: string
+		lineageTag: 0ab28ae9-0e66-485a-8626-47b49934aa62
+		summarizeBy: none
+		sourceColumn: financial_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 5d4047a5-292d-445c-aaac-73c237cdda52
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 1c4c8e48-b166-4083-aef4-eca31466a7f1
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column subcategory
+		dataType: string
+		lineageTag: ea0f9747-3d67-417a-9ac4-999d3b7b5544
+		summarizeBy: none
+		sourceColumn: subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: a5549758-4998-40df-9476-b6aef68ac530
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount_gbp
+		dataType: int64
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: 46b3e7fe-a2db-40c0-93d7-1b9cd6a62955
+		summarizeBy: sum
+		sourceColumn: amount_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column amount_eur
+		dataType: int64
+		formatString: "€"\ #,0;-"€"\ #,0;"€"\ #,0
+		lineageTag: 274c6334-a857-498e-8cf5-1d7f46aeb46e
+		summarizeBy: sum
+		sourceColumn: amount_eur
+
+		annotation SummarizationSetBy = Automatic
+
+	column notes
+		dataType: string
+		lineageTag: f67ad764-f33f-4926-b030-42466af95c2d
+		summarizeBy: none
+		sourceColumn: notes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_financials = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_financials.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"financial_id", type text}, {"season_id", type text}, {"category", type text}, {"subcategory", type text}, {"type", type text}, {"amount_gbp", Int64.Type}, {"amount_eur", Int64.Type}, {"notes", type text}, {"", type text}, {"_1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Tipo cambiado",{"", "_1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
