@@ -1,0 +1,64 @@
+relationship 547b3f05-72ef-4d95-8d8d-7795b75f1662
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_player_valuations.valuation_date
+	toColumn: LocalDateTable_304ea9fc-627a-467f-89a6-156d9794e190.Date
+
+relationship 969fffd3-34b6-46d6-b4ea-53af22a0c1fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_matches.match_date
+	toColumn: LocalDateTable_4d861630-46fc-4649-b3ff-5f9ffc9bc5aa.Date
+
+relationship AutoDetected_ccf17e0e-e2a3-4c6c-90da-4ea455a9090e
+	fromColumn: fact_matches.competition_id
+	toColumn: dim_competition.competition_id
+
+relationship AutoDetected_82605fcc-231d-4820-b69f-1fa8a211476c
+	fromColumn: fact_transfers.season_id
+	toColumn: dim_season.season_id
+
+relationship AutoDetected_6fb3cf49-8fbd-4c7b-83c5-47dc09e016d6
+	fromColumn: fact_player_wages.season_id
+	toColumn: dim_season.season_id
+
+relationship AutoDetected_47a3cee4-cb07-412f-9fa6-0d7c1c194858
+	fromColumn: fact_player_valuations.season_id
+	toColumn: dim_season.season_id
+
+relationship AutoDetected_ae91af95-25bf-4188-8006-6437bc2c3ed9
+	fromColumn: fact_player_performance.season_id
+	toColumn: dim_season.season_id
+
+relationship AutoDetected_bcf826a1-827e-433b-9a60-7b8b3b0c4fd4
+	fromColumn: fact_matches.season_id
+	toColumn: dim_season.season_id
+
+relationship AutoDetected_cf8faadf-1685-45a4-ac0e-6d0b9bfb428e
+	fromColumn: fact_financials.season_id
+	toColumn: dim_season.season_id
+
+relationship 7a1d8527-3e12-463b-997b-68e12981fd48
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_player.date_of_birth
+	toColumn: LocalDateTable_ac76f9f9-a590-442e-a910-56f5b343c097.Date
+
+relationship AutoDetected_7aff4b3a-ebd0-42e3-9c62-9521289bd8e1
+	fromColumn: fact_transfers.player_id
+	toColumn: dim_player.player_id
+
+relationship AutoDetected_9f3ec19e-021e-41c2-8e99-7555060aacd2
+	fromColumn: fact_player_wages.player_id
+	toColumn: dim_player.player_id
+
+relationship AutoDetected_5cfebac0-9ba2-4699-83f4-d2cefd059a8b
+	fromColumn: fact_player_valuations.player_id
+	toColumn: dim_player.player_id
+
+relationship AutoDetected_0b9887a2-db46-4d24-a454-f66b3eca5b7d
+	fromColumn: fact_player_performance.player_id
+	toColumn: dim_player.player_id
+
+relationship 69a1c27c-2627-4bb7-bb39-e9019ae456ce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_4e623ed9-feb5-4672-87f6-065c8d44ffda.Date
+

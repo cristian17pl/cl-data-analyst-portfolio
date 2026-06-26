@@ -1,0 +1,133 @@
+table fact_transfers
+	lineageTag: 87008cf6-9c3e-4801-b190-18138530d778
+
+	column transfer_id
+		dataType: string
+		lineageTag: 226bed9c-9faf-41ff-b255-91f3f4de500f
+		summarizeBy: none
+		sourceColumn: transfer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 32f545a5-2e4e-4067-8156-94e8c0b18ae0
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_id
+		dataType: string
+		lineageTag: 28e6d640-2385-4401-84b1-c497039fde85
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_name
+		dataType: string
+		lineageTag: 48e5554f-8c56-45f0-975a-a0b0915e97ff
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column direction
+		dataType: string
+		lineageTag: 38c3eb06-3cc7-4395-8506-8b0d9770acf4
+		summarizeBy: none
+		sourceColumn: direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column transfer_window
+		dataType: string
+		lineageTag: 220fe294-b8bf-4d47-b750-0afa014ba4d8
+		summarizeBy: none
+		sourceColumn: transfer_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column from_club
+		dataType: string
+		lineageTag: 67c954cb-4d7d-4183-91e3-88c90e75c8e0
+		summarizeBy: none
+		sourceColumn: from_club
+
+		annotation SummarizationSetBy = Automatic
+
+	column to_club
+		dataType: string
+		lineageTag: 308c6990-f871-4931-a3c2-7a8aaad4fead
+		summarizeBy: none
+		sourceColumn: to_club
+
+		annotation SummarizationSetBy = Automatic
+
+	column transfer_fee_gbp
+		dataType: int64
+		formatString: "£"#,0;-"£"#,0;"£"#,0
+		lineageTag: 48e98013-32c8-4fcc-b7ff-17dc5e1b5932
+		summarizeBy: sum
+		sourceColumn: transfer_fee_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column transfer_fee_eur
+		dataType: int64
+		formatString: "€"\ #,0;-"€"\ #,0;"€"\ #,0
+		lineageTag: 472a5929-70ea-488d-b6ea-d5577b0a801a
+		summarizeBy: sum
+		sourceColumn: transfer_fee_eur
+
+		annotation SummarizationSetBy = Automatic
+
+	column loan
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1bd35598-19bd-4ce1-8930-72d04b0741f8
+		summarizeBy: none
+		sourceColumn: loan
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_group
+		dataType: string
+		lineageTag: 2dc333bd-58bb-4b95-b416-d2241108c26a
+		summarizeBy: none
+		sourceColumn: position_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_at_transfer
+		dataType: int64
+		formatString: 0
+		lineageTag: 64754f69-e3b4-4e3f-bda0-22d21edf8a8c
+		summarizeBy: sum
+		sourceColumn: age_at_transfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality
+		dataType: string
+		lineageTag: 27fb795c-b612-40f3-97e1-6a168ff0693b
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_transfers = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_transfers.csv"),[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"transfer_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"direction", type text}, {"transfer_window", type text}, {"from_club", type text}, {"to_club", type text}, {"transfer_fee_gbp", Int64.Type}, {"transfer_fee_eur", Int64.Type}, {"loan", type logical}, {"position_group", type text}, {"age_at_transfer", Int64.Type}, {"nationality", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

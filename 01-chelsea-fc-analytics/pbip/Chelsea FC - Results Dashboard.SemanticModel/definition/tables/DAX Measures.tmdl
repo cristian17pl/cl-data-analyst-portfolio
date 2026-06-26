@@ -1,0 +1,877 @@
+table 'DAX Measures'
+	lineageTag: e8f7a110-755a-400a-9d4d-f1d4465b2276
+
+	measure '# Total Matches Played' = DISTINCTCOUNT(fact_matches[match_id])
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: b59566d6-95c7-43b1-af89-c915afb12943
+
+	measure '# Home Matches Played' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[home_away] = "H"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 5e504401-dcf2-40cb-b00a-76ec690034e4
+
+	measure '# Away Matches Played' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[home_away] = "A"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 3e2db747-645f-415e-a89b-28ce5fa7bd72
+
+	measure '# Won Matches' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[result] = "W"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 98f660e4-1774-4cc1-8430-69d9b4ef1752
+
+	measure '# Lost Matches' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[result] = "L"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 9fee0d5a-e271-4a4a-88f1-3c1cd2aa23e5
+
+	measure '# Draw Matches' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[result] = "D"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: d6c07e37-d5d7-4599-8676-606dbb2b944f
+
+	measure '# Goals Scored' =
+			
+			SUM(fact_matches[goals_for])
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 29f38175-f544-4c2c-bb72-7338b9f6263a
+
+	measure '# Goals Conceded' =
+			
+			SUM(fact_matches[goals_against])
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 4b22929d-4e71-45e3-946a-43da302f39f5
+
+	measure '# Goal Difference' = [# Goals Scored] - [# Goals Conceded]
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 20883732-8e6b-487a-aa55-6613125da5d2
+
+	measure '# Clean Sheets' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_matches[match_id]),
+			    fact_matches[goals_against] = 0
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: b21a4841-e233-4114-83b3-740d891b9328
+
+	measure '% Win Rate' = ```
+			
+			DIVIDE(
+			    [# Won Matches],
+			    [# Total Matches Played], 
+			    BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1_Matches\%
+		lineageTag: 09125640-1b93-4f9e-b774-62453d282f11
+
+	measure '% Home Win Rate' =
+			
+			CALCULATE(
+			    [% Win Rate],
+			    fact_matches[home_away] = "H"
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1_Matches\%
+		lineageTag: 1366751e-e738-410f-9161-c147479fbda9
+
+	measure '% Away Win Rate' =
+			
+			CALCULATE(
+			    [% Win Rate],
+			    fact_matches[home_away] = "A"
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1_Matches\%
+		lineageTag: 8aa79186-d0e1-4539-a9f0-7c2efd048bde
+
+	measure 'REF Current Season' = MAX(dim_season[season_label])
+		displayFolder: 0_General
+		lineageTag: da4d1dcd-a456-4e85-ae9c-3aa0d13ff28d
+
+	measure '$ Total Revenue (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Revenue"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 17dc923f-42a1-43e7-ad5e-872396fed438
+
+	measure '$ Total Revenue (€)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_eur]),
+			    fact_financials[type] = "Revenue"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\€
+		lineageTag: 9da216d3-a117-457f-81f8-ea03604b93a2
+
+	measure '$ Total Cost (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Cost"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: c95e3756-1782-4149-9f96-dd77819db554
+
+	measure '$ Total Cost (€)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_eur]),
+			    fact_financials[type] = "Cost"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\€
+		lineageTag: 8e9395d1-8312-4166-b8b2-509a39db789f
+
+	measure '$ Net Profit/Loss (£)' = [$ Total Revenue (£)] - [$ Total Cost (£)]
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 4e41ee8f-ea41-480b-b029-45e2e03f24c9
+
+	measure '$ Net Profit/Loss (€)' = [$ Total Revenue (€)] - [$ Total Cost (€)]
+		formatString: 0
+		displayFolder: 2_Financials\$\€
+		lineageTag: c9303aa3-6a0c-4234-9530-ddd22f94915b
+
+	measure '$ Matchday Revenue (£)' = SUM(fact_matches[matchday_revenue_gbp])
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: fedede48-5f54-45ba-bc3d-30b8d487f87e
+
+	measure '# Avg Goals Scored' = DIVIDE([# Goals Scored], [# Total Matches Played],0)
+		displayFolder: 1_Matches\#
+		lineageTag: 0b686cce-bb62-48f0-9a8a-404f89aa30fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Avg Goals Conceded' = ```
+			DIVIDE([# Goals Conceded], [# Total Matches Played],0) 
+			```
+		displayFolder: 1_Matches\#
+		lineageTag: fa52135d-9c36-4c1d-9386-49cef46a8e2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Clean Sheet Rate' =
+			
+			DIVIDE([# Clean Sheets], [# Total Matches Played], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1_Matches\%
+		lineageTag: d5a400d4-a75d-4353-9758-3dccea6f6a53
+
+	measure '# PL Matches Played' = ```
+			
+			CALCULATE(
+			    [# Total Matches Played], 
+			    fact_matches[competition_id] = "C1"
+			)
+			```
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 50019525-8e1d-4425-9833-a45e5a34bec8
+
+	measure '# PL Points' =
+			
+			// Premier League is C1 //
+			CALCULATE(
+			    SUMX(
+			        fact_matches,
+			        SWITCH(fact_matches[result],
+			            "W", 3,
+			            "D", 1,
+			            0
+			        )
+			    ),
+			    fact_matches[competition_id] = "C1"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: b6693aa4-f628-4444-ab4b-07e6f0edd39c
+
+	measure '% PL Win Rate' = ```
+			
+			DIVIDE(
+			    CALCULATE(
+			        [# Won Matches], 
+			        fact_matches[competition_id] = "C1"
+			        ),
+			    [# PL Matches Played],
+			    0
+			)
+			```
+		displayFolder: 1_Matches\%
+		lineageTag: edbb3586-73d1-4597-a7c5-6f4fb2938374
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Total Home Attendance' =
+			
+			CALCULATE(
+			    SUM(fact_matches[attendance]),
+			    fact_matches[home_away] = "H"
+			)
+		formatString: 0
+		displayFolder: 1_Matches\#
+		lineageTag: 2186cf28-f63d-4534-99f4-db0517e9fd3d
+
+	measure '# Avg Home Attendance' =
+			
+			CALCULATE(
+			    AVERAGE(fact_matches[attendance]),
+			    fact_matches[home_away] = "H",
+			    fact_matches[attendance] > 0
+			)
+		displayFolder: 1_Matches\#
+		lineageTag: 528895a1-ed0c-4057-bcc8-5b20b539241c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Avg Matchday Revenue per Home Game (£)' =
+			
+			DIVIDE(
+			    [$ Matchday Revenue (£)],
+			    [# Home Matches Played],
+			    0
+			)
+		displayFolder: 2_Financials\$\£
+		lineageTag: 449dde46-a996-420e-8599-0eea1abeac29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Broadcast Revenue (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Revenue",
+			    fact_financials[category] = "Revenue",
+			    fact_financials[subcategory] = "Broadcast"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 868d0a6b-f861-4e3d-8443-616d9d9188b9
+
+	measure '$ Commercial Revenue (£)' = ```
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Revenue",
+			    fact_financials[subcategory] = "Commercial"
+			) 
+			```
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 910eee0e-4c4a-4add-af2a-5f103aff1548
+
+	measure '$ Matchday Revenue 2 (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Revenue",
+			    fact_financials[subcategory] = "Matchday"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: f7cbeb7f-f078-409e-810c-52b8a496ce95
+
+	measure '$ Player Sales Revenue (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[type] = "Revenue",
+			    fact_financials[subcategory] = "Player Sales"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 963cc3e3-5e84-4ad9-a210-24fb96282816
+
+	measure '% Broadcast Revenue of Total' =
+			
+			DIVIDE([$ Broadcast Revenue (£)], [$ Total Revenue (£)], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2_Financials\%\£
+		lineageTag: 38423458-ffed-43fb-9f62-376df88f573f
+
+	measure '% Commercial Revenue of Total' =
+			
+			DIVIDE([$ Commercial Revenue (£)], [$ Total Revenue (£)], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2_Financials\%\£
+		lineageTag: b5eccc08-0442-43ac-8028-2289183b99d8
+
+	measure '% Matchday Revenue of Total' =
+			
+			DIVIDE([$ Matchday Revenue 2 (£)], [$ Total Revenue (£)], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2_Financials\%\£
+		lineageTag: ae8abad1-86d1-49ee-a0ed-1ca7f72f563f
+
+	measure '$ Total Player Wage Costs (£)' =
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[subcategory] = "Wages - Players"
+			)
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 72088f55-891d-47a9-998c-f45c0b19e846
+
+	measure '$ Total Staff Wage Costs (£)' = ```
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[subcategory] = "Wages - Staff"
+			) 
+			```
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: f82b8843-99be-4e37-bf68-690f9058e5ff
+
+	measure '$ Total Transfer Amortization Costs (£)' = ```
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[subcategory] = "Transfer Amortisation"
+			) 
+			```
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 6fcfaf15-8d97-41a1-8f20-ee8b109f2927
+
+	measure '$ Total Agent Fees Costs (£)' = ```
+			
+			CALCULATE(
+			    SUM(fact_financials[amount_gbp]),
+			    fact_financials[subcategory] = "Agent Fees"
+			)  
+			```
+		formatString: 0
+		displayFolder: 2_Financials\$\£
+		lineageTag: 97a6d7b2-b07d-4576-aaea-1d48e5544a08
+
+	measure '% Wage to Revenue Ratio' =
+			
+			DIVIDE([$ Total Player Wage Costs (£)], [$ Total Revenue (£)], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2_Financials\%\£
+		lineageTag: f64e162b-1ef4-4568-893f-7067533d2135
+
+	measure '% Revenue YoY Growth' =
+			
+			VAR CurrentRevenue = [$ Total Revenue (£)]
+			VAR PreviousRevenue =
+			    CALCULATE(
+			        [$ Total Revenue (£)],
+			        PREVIOUSYEAR(Calendar[Date])
+			    )
+			RETURN
+			    DIVIDE(CurrentRevenue - PreviousRevenue, PreviousRevenue, 0)
+		displayFolder: 2_Financials\%\£
+		lineageTag: c5477e77-e093-4487-b717-72063ffd67d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Total Transfer Spend (£)' =
+			
+			CALCULATE(
+			    SUM(fact_transfers[transfer_fee_gbp]),
+			    fact_transfers[direction] = "IN",
+			    fact_transfers[loan] = FALSE()
+			)
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		displayFolder: 3_Transfers\$
+		lineageTag: 9e44bb38-5e13-4cf1-aa24-c3bed6463904
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	measure '$ Total Transfer Income (£)' =
+			
+			CALCULATE(
+			    SUM(fact_transfers[transfer_fee_gbp]),
+			    fact_transfers[direction] = "OUT",
+			    fact_transfers[loan] = FALSE()
+			)
+		formatString: 0
+		displayFolder: 3_Transfers\$
+		lineageTag: a4d37261-d412-4711-bf14-597663889067
+
+	measure '$ Net Transfer Spend (£)' =
+			
+			[$ Total Transfer Spend (£)] - [$ Total Transfer Income (£)]
+		formatString: 0
+		displayFolder: 3_Transfers\$
+		lineageTag: 1a65f22b-95d1-4c7f-a955-aa9f21916533
+
+	measure '$ Avg Transfer Fee IN (£)' =
+			
+			CALCULATE(
+			    AVERAGE(fact_transfers[transfer_fee_gbp]),
+			    fact_transfers[direction] = "IN",
+			    fact_transfers[loan] = FALSE(),
+			    fact_transfers[transfer_fee_gbp] > 0
+			)
+		displayFolder: 3_Transfers\$
+		lineageTag: 9789d4d7-0bcc-48f4-874a-76b7ddc8c27a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Total Transfers IN' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_transfers),
+			    fact_transfers[direction] = "IN"
+			)
+		formatString: 0
+		displayFolder: 3_Transfers\#
+		lineageTag: 93cd6541-73dd-442a-81fe-4c995bf6b972
+
+	measure '# Total Transfers OUT' = ```
+			
+			CALCULATE(
+			    COUNTROWS(fact_transfers),
+			    fact_transfers[direction] = "OUT"
+			) 
+			```
+		formatString: 0
+		displayFolder: 3_Transfers\#
+		lineageTag: 400eadd0-beab-4678-b7ca-ada97e2b1648
+
+	measure '# Total Loans' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_transfers),
+			    fact_transfers[loan] = TRUE()
+			)
+		formatString: 0
+		displayFolder: 3_Transfers\#
+		lineageTag: d3ef0901-ba54-4d58-b490-9d75a7068a73
+
+	measure '# Avg Age of Signings' =
+			
+			CALCULATE(
+			    AVERAGE(fact_transfers[age_at_transfer]),
+			    fact_transfers[direction] = "IN",
+			    fact_transfers[loan] = FALSE()
+			)
+		displayFolder: 3_Transfers\#
+		lineageTag: 28db20d1-f06e-4604-ac1d-a3b6f47d4d24
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Total Annual Wage Bill (£)' =
+			
+			SUM(fact_player_wages[annual_wage_gbp])
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: 39190125-d454-4ce2-8718-8013f7cb1b6a
+
+	measure '$ Total Weekly Wage Bill (£)' =
+			
+			SUM(fact_player_wages[weekly_wage_gbp])
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: 0b8d872c-aefd-439c-bd20-4acfc086ba42
+
+	measure '$ Avg Weekly Wage Bill (£)' =
+			
+			AVERAGE(fact_player_wages[weekly_wage_gbp])
+		displayFolder: 4_Wages\$
+		lineageTag: 7c19eb07-2b97-41e2-910f-8b9fbd78507c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Highest Paid Player (£)' = ```
+			
+			CALCULATE(
+			    FIRSTNONBLANK(fact_player_wages[player_name], 1),
+			    TOPN(
+			        1, 
+			        fact_player_wages, 
+			        fact_player_wages[weekly_wage_gbp], 
+			        DESC
+			    )
+			)
+			```
+		displayFolder: 4_Wages\$
+		lineageTag: 0f987f56-8550-4bdd-9692-0430d5e3655d
+
+	measure '$ Total Signing Bonuses (£)' = ```
+			
+			SUM(fact_player_wages[signing_bonus_gbp]) 
+			```
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: 21af640e-5761-4cbc-9dc6-89df8c978f70
+
+	measure '$ Total Performance Bonuses (£)' =
+			
+			SUM(fact_player_wages[performance_bonus_gbp])
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: 062d0915-3566-458a-857e-1aaef79fc35f
+
+	measure '$ Total Agent Fees Wages (£)' =
+			
+			SUM(fact_player_wages[agent_fee_gbp])
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: f75fd128-9dcc-4a4e-a30d-588e38370e52
+
+	measure '$ Total Bonus Paid (£)' =
+			
+			[$ Total Signing Bonuses (£)] + [$ Total Performance Bonuses (£)]
+		formatString: 0
+		displayFolder: 4_Wages\$
+		lineageTag: a32c5fd6-4bdb-443f-bcc6-06054d5f2803
+
+	measure '% Wage Bill YoY Change' = ```
+			
+			VAR CurrentWages = [$ Total Annual Wage Bill (£)]
+			VAR PreviousWages =
+			    CALCULATE(
+			        [$ Total Annual Wage Bill (£)],
+			        FILTER(
+			            ALL(dim_season),
+			            dim_season[season_id] = 
+			                CALCULATE(
+			                    MIN(dim_season[season_id]),
+			                    ALLSELECTED(dim_season)
+			                ) - 1
+			        )
+			    )
+			RETURN
+			    DIVIDE(CurrentWages - PreviousWages, PreviousWages, 0)
+			```
+		formatString: 0
+		displayFolder: 4_Wages\%
+		lineageTag: 24753fed-40e8-4658-a912-28a98782c625
+
+	measure '$ Wage per Appearance (£)' =
+			
+			DIVIDE(
+			    [$ Total Annual Wage Bill (£)],
+			    CALCULATE(SUM(fact_player_performance[appearances])),
+			    0
+			)
+		displayFolder: 4_Wages\$
+		lineageTag: 40dfe66f-2a93-48dc-aa2e-12c6bcd58e1b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Squad Market Value (£)' =
+			
+			SUM(fact_player_valuations[market_value_gbp])
+		formatString: 0
+		displayFolder: 5_Squad_Value\$
+		lineageTag: 2c43e262-a578-4c15-a06d-894e9d209868
+
+	measure '$ Avg Player Market Value (£)' =
+			
+			AVERAGE(fact_player_valuations[market_value_gbp])
+		displayFolder: 5_Squad_Value\$
+		lineageTag: 4251eda7-8b0c-4f38-9388-c25b0e5949a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Highest Player Market Value (£)' =
+			
+			MAX(fact_player_valuations[market_value_gbp])
+		formatString: 0
+		displayFolder: 5_Squad_Value\$
+		lineageTag: f2fd1d35-d75e-4942-9d97-8575f4390f18
+
+	measure '$ Most Valuable Player (£)' = ```
+			
+			CALCULATE(
+			    FIRSTNONBLANK(fact_player_valuations[player_name], 1),
+			    TOPN(
+			        1, 
+			        fact_player_valuations, 
+			        fact_player_valuations[market_value_gbp], 
+			        DESC
+			    )
+			)
+			```
+		displayFolder: 5_Squad_Value\$
+		lineageTag: 98827e44-067c-4d82-a855-cc0a0e3a315a
+
+	measure '$ Squad Value YoY Change (£)' = ```
+			
+			VAR CurrentValue = [$ Squad Market Value (£)]
+			VAR PreviousValue =
+			    CALCULATE(
+			        [$ Squad Market Value (£)],
+			        FILTER(
+			            ALL(dim_season),
+			            dim_season[season_id] = 
+			                CALCULATE(MAX(dim_season[season_id]), ALLSELECTED(dim_season)) - 1
+			        )
+			    )
+			RETURN
+			    CurrentValue - PreviousValue
+			```
+		formatString: 0
+		displayFolder: 5_Squad_Value\$
+		lineageTag: fe71adf0-9322-4815-8f52-e159c4f9d891
+
+	measure '% Squad Value YoY Change (£)' = ```
+			
+			VAR CurrentValue = [$ Squad Market Value (£)]
+			VAR PreviousValue =
+			    CALCULATE(
+			        [$ Squad Market Value (£)],
+			        FILTER(
+			            ALL(dim_season),
+			            dim_season[season_id] = 
+			                CALCULATE(MAX(dim_season[season_id]), ALLSELECTED(dim_season)) - 1
+			        )
+			    )
+			RETURN
+			    DIVIDE(CurrentValue - PreviousValue, PreviousValue, 0) 
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 5_Squad_Value\%
+		lineageTag: dd00bc8e-44ea-47a0-bf1c-a906423ffbd6
+
+	measure '$ Value vs Fee Ratio' =
+			
+			// Ratio: if > 1 the player is worth more than paid, if < 1 overpaid //
+			DIVIDE(
+			    CALCULATE(SUM(fact_player_valuations[market_value_gbp])),
+			    CALCULATE(
+			        SUM(fact_transfers[transfer_fee_gbp]),
+			        fact_transfers[direction] = "IN",
+			        fact_transfers[loan] = FALSE()
+			    ),
+			    0
+			)
+		displayFolder: 5_Squad_Value\$
+		lineageTag: 3f3de45d-02a5-4009-966e-6aa19a9d4aec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Total Goals' =
+			
+			SUM(fact_player_performance[goals])
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 81cc3d8d-4005-4bf4-a1c4-89c143fed9b9
+
+	measure '# Total Assists' =
+			
+			SUM(fact_player_performance[assists])
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 26cd3d07-535b-43ff-a13f-a13e9ca7e30a
+
+	measure '# Total Goal Contributions' =
+			
+			[# Total Goals] + [# Total Assists]
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 56057833-51a6-4a00-8dfe-cdf88a422c6f
+
+	measure '# Total Appearances' = ```
+			
+			SUM(fact_player_performance[appearances]) 
+			```
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 7c6888b9-0500-4ce0-b91a-8f3a55be4e4f
+
+	measure '# Total Minutes Played' =
+			
+			SUM(fact_player_performance[minutes_played])
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 6788b2d8-445a-43c8-bf93-aa707f88612f
+
+	measure '# Minutes per Goal' =
+			
+			DIVIDE(
+			    [# Total Minutes Played],
+			    [# Total Goals],
+			    0
+			)
+		displayFolder: 6_Performance\#
+		lineageTag: a1369fcf-427e-4adf-95a9-328d102d7053
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Minutes per Goal Contribution' =
+			
+			DIVIDE(
+			    [# Total Minutes Played],
+			    [# Total Goal Contributions],
+			    0
+			)
+		displayFolder: 6_Performance\#
+		lineageTag: fe512799-bbc5-4c9d-a7a1-95eeb68fcc20
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Avg Player Rating' = ```
+			
+			AVERAGE(fact_player_performance[rating_avg]) 
+			```
+		displayFolder: 6_Performance\#
+		lineageTag: 3490793a-ea83-4b96-b15e-a50293431890
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Top Scorer Name' = ```
+			
+			CALCULATE(
+			    FIRSTNONBLANK(fact_player_performance[player_name], 1),
+			    TOPN(
+			        1, 
+			        fact_player_performance, 
+			        fact_player_performance[goals], 
+			        DESC
+			    )
+			)
+			```
+		displayFolder: 6_Performance\#
+		lineageTag: f7e1980d-f498-471a-9396-ec0d262526db
+
+	measure '# Top Scorer Goals' =
+			
+			CALCULATE(
+			    MAX(fact_player_performance[goals]),
+			    ALLSELECTED(fact_player_performance)
+			)
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 0dfc6f7d-be75-485a-9476-817caa0c5035
+
+	measure '# Total Yellow Cards' =
+			
+			SUM(fact_player_performance[yellow_cards])
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: c3a1bc88-86e4-4c51-a986-27f9eec1c1b8
+
+	measure '# Total Red Cards' =
+			
+			SUM(fact_player_performance[red_cards])
+		formatString: 0
+		displayFolder: 6_Performance\#
+		lineageTag: 668d5490-6d06-4cd2-a478-ca3776c9ea62
+
+	measure '# Goals per 90 Minutes' =
+			
+			DIVIDE([# Total Goals], DIVIDE([# Total Minutes Played], 90, 0), 0)
+		formatString: 0.00
+		displayFolder: 6_Performance\#
+		lineageTag: 8f714e7e-258b-48a2-bb04-a0f25ee06201
+
+	measure '# Assists per 90 Minutes' =
+			
+			DIVIDE([# Total Assists], DIVIDE([# Total Minutes Played], 90, 0), 0)
+		formatString: 0.00
+		displayFolder: 6_Performance\#
+		lineageTag: 37b64728-0556-408b-8478-3428f57aaab5
+
+	measure '# Goal Contributions per 90' =
+			
+			DIVIDE([# Total Goal Contributions], DIVIDE([# Total Minutes Played], 90, 0), 0)
+		formatString: 0.00
+		displayFolder: 6_Performance\#
+		lineageTag: 1f9c0535-5dce-4aac-9263-c27246f1b23c
+
+	measure '% Avg Pass Accuracy' =
+			
+			AVERAGE(fact_player_performance[pass_accuracy_pct])
+		displayFolder: 6_Performance\%
+		lineageTag: b69a7088-a4fd-4394-86ac-fe6c9b964d58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Players Tracked' = DISTINCTCOUNT(dim_player[player_id])
+		formatString: 0
+		displayFolder: 0_General
+		lineageTag: c138175a-0d6f-4335-aba3-3c211319fd79
+
+	measure '# Season Analyzed' = ```
+			DISTINCTCOUNT(fact_financials[season_id]) 
+			```
+		formatString: 0
+		displayFolder: 2_Financials\#
+		lineageTag: 9dc1e752-c516-452b-87d4-d482c8b28c57
+
+	measure '# Trophies Won' = COUNT(dim_season[trophies_won])
+		formatString: 0
+		displayFolder: 0_General
+		lineageTag: cf218901-4568-4a71-9987-542e650d3d1a
+
+	measure 'REF PL Position' = MAX(dim_season[pl_finish])
+		displayFolder: 0_General
+		lineageTag: 474cee4f-b446-42fe-94e7-83093cf6755d
+
+	measure 'Timeline HTML' =
+			
+			VAR Season = SELECTEDVALUE(dim_season[season_label])
+			RETURN
+			"<div style='text-align:center; color:#C8A84B; font-size:14px; font-weight:bold;'>"
+			& Season & "</div>
+			<div style='color:#FFFFFF; font-size:12px;'>"
+			& SELECTEDVALUE(dim_season[pl_finish]) & "</div>"
+		displayFolder: 7_Visuals
+		lineageTag: c92fbf50-4b0c-474e-889b-474c158d9d7c
+
+	column Column
+		isHidden
+		formatString: 0
+		displayFolder: 0_General
+		lineageTag: f8960f0e-a5eb-422d-b259-28384938467c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DAX Measures' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = ceaac7a97767417e83db8b3b1b7c47bb
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

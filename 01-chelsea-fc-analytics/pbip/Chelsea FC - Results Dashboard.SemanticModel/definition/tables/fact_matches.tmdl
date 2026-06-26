@@ -1,0 +1,131 @@
+table fact_matches
+	lineageTag: 76f03aae-a367-41a2-a112-377f9e0f950e
+
+	column match_id
+		dataType: string
+		lineageTag: d27825c0-0ac4-4e58-b0ab-19a4c04a8f3b
+		summarizeBy: none
+		sourceColumn: match_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column season_id
+		dataType: string
+		lineageTag: 849ac729-d4b9-41f0-8858-111340f405c9
+		summarizeBy: none
+		sourceColumn: season_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column competition_id
+		dataType: string
+		lineageTag: 20bc91b3-1787-4550-8afe-26fa0d51f50a
+		summarizeBy: none
+		sourceColumn: competition_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column match_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 1c72c613-cbe0-464d-b35b-e4aeb71d4917
+		summarizeBy: none
+		sourceColumn: match_date
+
+		variation Variación
+			isDefault
+			relationship: 969fffd3-34b6-46d6-b4ea-53af22a0c1fc
+			defaultHierarchy: LocalDateTable_4d861630-46fc-4649-b3ff-5f9ffc9bc5aa.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column round
+		dataType: string
+		lineageTag: c6d6b1e4-4aaa-445d-8da6-d8253f8e24d6
+		summarizeBy: none
+		sourceColumn: round
+
+		annotation SummarizationSetBy = Automatic
+
+	column venue
+		dataType: string
+		lineageTag: 05c7b736-8433-4eee-8f5e-5d6f206b1c1a
+		summarizeBy: none
+		sourceColumn: venue
+
+		annotation SummarizationSetBy = Automatic
+
+	column opponent
+		dataType: string
+		lineageTag: 5ab503d5-8248-4a7e-bf0f-575a1918811e
+		summarizeBy: none
+		sourceColumn: opponent
+
+		annotation SummarizationSetBy = Automatic
+
+	column goals_for
+		dataType: int64
+		formatString: 0
+		lineageTag: afdfd591-5c45-4032-b6c8-6ebd594dfc05
+		summarizeBy: sum
+		sourceColumn: goals_for
+
+		annotation SummarizationSetBy = Automatic
+
+	column goals_against
+		dataType: int64
+		formatString: 0
+		lineageTag: cd1d2c56-f534-4b31-b4b7-87e5b76b13d8
+		summarizeBy: sum
+		sourceColumn: goals_against
+
+		annotation SummarizationSetBy = Automatic
+
+	column result
+		dataType: string
+		lineageTag: 9c09eebe-74ff-43ba-96d4-7271e2a9c12d
+		summarizeBy: none
+		sourceColumn: result
+
+		annotation SummarizationSetBy = Automatic
+
+	column attendance
+		dataType: int64
+		formatString: 0
+		lineageTag: c315a856-76c5-4bb8-a22f-7dba76b1a0a7
+		summarizeBy: sum
+		sourceColumn: attendance
+
+		annotation SummarizationSetBy = Automatic
+
+	column home_away
+		dataType: string
+		lineageTag: 113f592f-3a62-48c3-98c7-a208ac192e5d
+		summarizeBy: none
+		sourceColumn: home_away
+
+		annotation SummarizationSetBy = Automatic
+
+	column matchday_revenue_gbp
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ceeffe8-4d97-4c1d-bcab-431682a2c047
+		summarizeBy: sum
+		sourceColumn: matchday_revenue_gbp
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_matches = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_matches.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"match_id", type text}, {"season_id", type text}, {"competition_id", type text}, {"match_date", type date}, {"round", type text}, {"venue", type text}, {"opponent", type text}, {"goals_for", Int64.Type}, {"goals_against", Int64.Type}, {"result", type text}, {"attendance", Int64.Type}, {"home_away", type text}, {"matchday_revenue_gbp", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

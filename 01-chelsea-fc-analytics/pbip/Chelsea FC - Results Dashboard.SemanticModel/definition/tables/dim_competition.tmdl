@@ -1,0 +1,64 @@
+table dim_competition
+	lineageTag: 5f731ff3-9bf1-429d-8d62-c16daa78248c
+
+	column competition_id
+		dataType: string
+		lineageTag: cd8feede-a252-4de6-8fc7-0a6ec011a4aa
+		summarizeBy: none
+		sourceColumn: competition_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column competition_name
+		dataType: string
+		lineageTag: bdeef614-d98c-40a7-bd45-c8710b3f2764
+		summarizeBy: none
+		sourceColumn: competition_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column competition_short
+		dataType: string
+		lineageTag: d7e6a234-345b-4fe3-8755-50221b126692
+		summarizeBy: none
+		sourceColumn: competition_short
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 4386206c-d206-4b5f-9291-b60b53d1abb4
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column confederation
+		dataType: string
+		lineageTag: 83b43918-aa8d-4b4c-83cb-318b53084b7e
+		summarizeBy: none
+		sourceColumn: confederation
+
+		annotation SummarizationSetBy = Automatic
+
+	column prestige_level
+		dataType: int64
+		formatString: 0
+		lineageTag: 239e06c5-babc-4783-a648-afcb2e9d8868
+		summarizeBy: none
+		sourceColumn: prestige_level
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_competition = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\dim_competition.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"competition_id", type text}, {"competition_name", type text}, {"competition_short", type text}, {"type", type text}, {"confederation", type text}, {"prestige_level", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

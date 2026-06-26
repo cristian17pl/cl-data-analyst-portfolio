@@ -1,0 +1,41 @@
+player_id,player_name,nationality,position,position_group,date_of_birth,joined_chelsea,left_chelsea,joined_from,left_to
+P001,Edouard Mendy,Senegal,GK,Goalkeeper,1992-03-01,2020,2023,Rennes,Al-Ahli
+P002,Kepa Arrizabalaga,Spain,GK,Goalkeeper,1994-10-03,2018,2023,Athletic Bilbao,Real Madrid (Loan)
+P003,Robert Sanchez,Spain,GK,Goalkeeper,1997-11-18,2023,,Brighton,
+P004,Reece James,England,RB,Defender,1999-12-08,2019,,Academy,
+P005,Cesar Azpilicueta,Spain,RB/CB,Defender,1989-08-28,2012,2023,Marseille,Atletico Madrid
+P006,Thiago Silva,Brazil,CB,Defender,1984-09-22,2020,2024,PSG,Fluminense
+P007,Antonio Rudiger,Germany,CB,Defender,1993-03-03,2017,2022,Roma,Real Madrid
+P008,Kalidou Koulibaly,Senegal,CB,Defender,1991-06-20,2022,2023,Napoli,Al-Hilal
+P009,Marc Cucurella,Spain,LB,Defender,1998-07-22,2022,,Brighton,
+P010,Ben Chilwell,England,LB,Defender,1996-12-21,2020,2024,Leicester,Released
+P011,Levi Colwill,England,CB,Defender,2003-02-26,2023,,Academy,
+P012,Wesley Fofana,France,CB,Defender,2000-12-17,2022,,Leicester,
+P013,Malo Gusto,France,RB,Defender,2003-05-19,2023,,Lyon,
+P014,Jorrel Hato,Netherlands,CB,Defender,2005-01-09,2025,,Ajax,
+P015,N'Golo Kante,France,CM,Midfielder,1991-03-29,2016,2023,Leicester,Al-Ittihad
+P016,Jorginho,Italy,CM,Midfielder,1991-12-20,2018,2023,Napoli,Arsenal
+P017,Mason Mount,England,CM/AM,Midfielder,1999-01-10,2013,2023,Academy,Manchester United
+P018,Mateo Kovacic,Croatia,CM,Midfielder,1994-05-06,2019,2023,Real Madrid,Manchester City
+P019,Ruben Loftus-Cheek,England,CM,Midfielder,1996-01-23,2004,2023,Academy,AC Milan
+P020,Enzo Fernandez,Argentina,CM,Midfielder,2001-01-17,2023,,Benfica,
+P021,Moises Caicedo,Ecuador,CM,Midfielder,2001-11-02,2023,,Brighton,
+P022,Conor Gallagher,England,CM,Midfielder,2000-02-06,2004,2024,Academy,Atletico Madrid
+P023,Romeo Lavia,Belgium,CM,Midfielder,2004-01-06,2023,,Southampton,
+P024,Raheem Sterling,England,RW,Midfielder,1994-12-08,2022,2024,Manchester City,Arsenal (Loan)
+P025,Christian Pulisic,USA,RW/LW,Midfielder,1998-09-18,2019,2023,Dortmund,AC Milan
+P026,Hakim Ziyech,Morocco,RW,Midfielder,1993-03-19,2020,2023,Ajax,Galatasaray
+P027,Kai Havertz,Germany,AM/CF,Forward,1999-11-11,2020,2023,Leverkusen,Arsenal
+P028,Timo Werner,Germany,CF/LW,Forward,1996-03-06,2020,2023,Leipzig,Leipzig (Return)
+P029,Romelu Lukaku,Belgium,CF,Forward,1993-05-13,2021,2022,Inter Milan,Inter Milan (Loan)
+P030,Armando Broja,Albania,CF,Forward,2001-09-10,2019,2024,Academy,Released
+P031,Nicolas Jackson,Senegal,CF,Forward,2001-06-20,2023,2025,Villarreal,Bayern Munich (Loan)
+P032,Cole Palmer,England,AM,Midfielder,2002-05-06,2023,,Manchester City,
+P033,Noni Madueke,England,RW,Midfielder,2002-03-10,2023,,PSV,
+P034,Pedro Neto,Portugal,LW,Midfielder,2000-03-09,2024,,Wolves,
+P035,Joao Pedro,Brazil,CF,Forward,2001-09-26,2025,,Brighton,
+P036,Liam Delap,England,CF,Forward,2003-08-08,2025,,Manchester City,
+P037,Jamie Gittens,England,LW,Midfielder,2004-10-02,2025,,Dortmund,
+P038,Alejandro Garnacho,Argentina,RW,Midfielder,2004-07-01,2025,,Manchester United,
+P039,Willian Estevao,Brazil,RW,Midfielder,2007-04-24,2025,,Palmeiras,
+P040,Tosin Adarabioyo,England,CB,Defender,2000-09-24,2024,,Fulham,

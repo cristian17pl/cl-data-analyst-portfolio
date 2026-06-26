@@ -1,0 +1,433 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 49.65549799765725,
+            "y": 599.96540945596348
+          },
+          "nodeIndex": "fact_transfers",
+          "nodeLineageTag": "87008cf6-9c3e-4801-b190-18138530d778",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 365.43501671615792,
+            "y": 605.92406921568227
+          },
+          "nodeIndex": "fact_player_wages",
+          "nodeLineageTag": "023c0c35-8678-4b1f-ab53-70309c89b3cc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 728.88381351240946,
+            "y": 601.95162937586974
+          },
+          "nodeIndex": "fact_player_valuations",
+          "nodeLineageTag": "66d0000a-0b9f-4a8d-a67b-65c5a972f28c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1072.4704111095984,
+            "y": 597.97918953605722
+          },
+          "nodeIndex": "fact_player_performance",
+          "nodeLineageTag": "78c2dfa5-7c64-4e42-99ba-c187ef868549",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1412.0845688669745,
+            "y": 595.99296961615073
+          },
+          "nodeIndex": "fact_matches",
+          "nodeLineageTag": "76f03aae-a367-41a2-a112-377f9e0f950e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1727.1966978941362,
+            "y": 586.56984459367459
+          },
+          "nodeIndex": "fact_financials",
+          "nodeLineageTag": "7c8a5e2d-236d-4a7a-b0fd-4e50e7dd091e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 540.0751269349139,
+            "y": 169.21750835807896
+          },
+          "nodeIndex": "dim_competition",
+          "nodeLineageTag": "5f731ff3-9bf1-429d-8d62-c16daa78248c",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 877.70306477238364,
+            "y": 169.20967412482608
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1253.069181088073,
+            "y": 161.26479444520092
+          },
+          "nodeIndex": "dim_player",
+          "nodeLineageTag": "dd99f935-572a-4170-b3a8-b6f92d4f2d28",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1961.5411998964789,
+            "y": 326.08456886697428
+          },
+          "nodeIndex": "Calendar",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2245.5411998964792,
+            "y": 326.08456886697428
+          },
+          "nodeIndex": "DAX Measures",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 50.346892102823141,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 353,
+            "y": 235
+          },
+          "nodeIndex": "fact_financials",
+          "nodeLineageTag": "7c8a5e2d-236d-4a7a-b0fd-4e50e7dd091e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 8
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 292,
+            "width": 234
+          },
+          "zIndex": 1
+        }
+      ],
+      "name": "Financials",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 333.1847511806298,
+            "y": 367
+          },
+          "nodeIndex": "fact_player_wages",
+          "nodeLineageTag": "023c0c35-8678-4b1f-ab53-70309c89b3cc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 577.36163941535983,
+            "y": 0
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 85,
+            "y": 2
+          },
+          "nodeIndex": "dim_player",
+          "nodeLineageTag": "dd99f935-572a-4170-b3a8-b6f92d4f2d28",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Wages",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 323.1847511806298,
+            "y": 400
+          },
+          "nodeIndex": "fact_transfers",
+          "nodeLineageTag": "87008cf6-9c3e-4801-b190-18138530d778",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 593.36163941535983,
+            "y": 0
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 78,
+            "y": 6
+          },
+          "nodeIndex": "dim_player",
+          "nodeLineageTag": "dd99f935-572a-4170-b3a8-b6f92d4f2d28",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Transfers",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 4,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 319.1847511806298,
+            "y": 318
+          },
+          "nodeIndex": "fact_matches",
+          "nodeLineageTag": "76f03aae-a367-41a2-a112-377f9e0f950e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 552.36163941535983,
+            "y": 0
+          },
+          "nodeIndex": "dim_competition",
+          "nodeLineageTag": "5f731ff3-9bf1-429d-8d62-c16daa78248c",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 79,
+            "y": 0
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Matches",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 5,
+      "scrollPosition": {
+        "x": 0,
+        "y": 4
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 377.1847511806298,
+            "y": 430
+          },
+          "nodeIndex": "fact_player_performance",
+          "nodeLineageTag": "78c2dfa5-7c64-4e42-99ba-c187ef868549",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 810.36163941535983,
+            "y": 143
+          },
+          "nodeIndex": "dim_season",
+          "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 94
+          },
+          "nodeIndex": "dim_player",
+          "nodeLineageTag": "dd99f935-572a-4170-b3a8-b6f92d4f2d28",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 370,
+            "y": 104
+          },
+          "nodeIndex": "fact_player_valuations",
+          "nodeLineageTag": "66d0000a-0b9f-4a8d-a67b-65c5a972f28c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Performance & Valuation",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

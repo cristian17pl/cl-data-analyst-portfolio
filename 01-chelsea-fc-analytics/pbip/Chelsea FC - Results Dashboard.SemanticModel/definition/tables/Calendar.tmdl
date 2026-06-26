@@ -1,0 +1,133 @@
+table Calendar
+	lineageTag: 53c99151-2684-43b1-99e2-558a864efc54
+
+	column Date
+		formatString: General Date
+		lineageTag: cd29f0a8-0946-4e3b-ade0-4754ad014e70
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variación
+			isDefault
+			relationship: 69a1c27c-2627-4bb7-bb39-e9019ae456ce
+			defaultHierarchy: LocalDateTable_4e623ed9-feb5-4672-87f6-065c8d44ffda.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: da4542c3-ec9e-42fa-a005-e1a9052de65b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 828494db-cfc8-4228-a638-2aff16ce9f81
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: 091197e2-9fcf-43a7-9696-b24012c24bd6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		lineageTag: 441fbe4b-ab86-4424-9e28-ceef2ea8e1d0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Short]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		lineageTag: 5efc4022-45dd-4ea6-aa98-ad64fe86baa9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Season Label'
+		lineageTag: 956f55db-5c93-4f2f-b5c0-7c81c355cef1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Season Label]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		lineageTag: 6c1bbad1-5b60-4b4e-9206-99cf904831c5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Number'
+		formatString: 0
+		lineageTag: 8f29dc8d-eb12-4c3b-b2b0-479e8ef8f656
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Weekend'
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9c7ab85-c97a-4743-81ed-c52f73021274
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Is Weekend]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Number'
+		formatString: 0
+		lineageTag: 891f6a7a-e867-4fa2-9417-c040b488bf7e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source = ```
+				
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2020, 7, 1), DATE(2026, 6, 30)),
+				    "Year",                YEAR([Date]),
+				    "Month Number",        MONTH([Date]),
+				    "Month Name",          FORMAT([Date], "MMMM"),
+				    "Month Short",         FORMAT([Date], "MMM"),
+				    "Quarter",             "Q" & FORMAT([Date], "Q"),
+				    "Season Label",        
+				        SWITCH(
+				            TRUE(),
+				            [Date] >= DATE(2020,7,1) && [Date] <= DATE(2021,6,30), "2020-21",
+				            [Date] >= DATE(2021,7,1) && [Date] <= DATE(2022,6,30), "2021-22",
+				            [Date] >= DATE(2022,7,1) && [Date] <= DATE(2023,6,30), "2022-23",
+				            [Date] >= DATE(2023,7,1) && [Date] <= DATE(2024,6,30), "2023-24",
+				            [Date] >= DATE(2024,7,1) && [Date] <= DATE(2025,6,30), "2024-25",
+				            [Date] >= DATE(2025,7,1) && [Date] <= DATE(2026,6,30), "2025-26",
+				            "Unknown"
+				        ),
+				    "Day of Week",         FORMAT([Date], "dddd"),
+				    "Day Number",          WEEKDAY([Date], 2),
+				    "Is Weekend",          IF(WEEKDAY([Date], 2) >= 6, TRUE(), FALSE()),
+				    "Week Number",         WEEKNUM([Date])
+				)
+				```
+
+	annotation PBI_Id = 2b9e154350e7416990a8609e6f03f8a4
+

@@ -1,0 +1,73 @@
+financial_id,season_id,category,subcategory,type,amount_gbp,amount_eur,notes
+F001,S1,Revenue,Broadcast,Revenue,218000000,242000000,PL domestic + UCL prize money + Champions share
+F002,S1,Revenue,Commercial,Revenue,152000000,169000000,Sponsorships + kit deal + merchandising
+F003,S1,Revenue,Matchday,Revenue,0,0,COVID no fans allowed
+F004,S1,Revenue,Player Sales,Revenue,35000000,39000000,Player sales and loans
+F005,S1,Revenue,Friendly Matches,Revenue,3500000,3900000,Pre-season income
+F006,S1,Cost,Wages - Players,Cost,215000000,239000000,Total first team player wage bill
+F007,S1,Cost,Wages - Staff,Cost,42000000,47000000,Coaching staff +  backroom and admin
+F008,S1,Cost,Transfer Amortisation,Cost,185000000,206000000,Amortised cost of previous signings
+F009,S1,Cost,Agent Fees,Cost,18000000,20000000,Agent commissions on transfers and renewals
+F010,S1,Cost,Operations,Cost,28000000,31000000,Stadium training ground + logistics
+F011,S1,Cost,Marketing,Cost,9000000,10000000,Marketing and promotion spend
+F012,S1,Cost,Academy,Cost,15000000,17000000,Academy operations and youth development
+F013,S2,Revenue,Broadcast,Revenue,241000000,268000000,PL domestic + UCL prize money
+F014,S2,Revenue,Commercial,Revenue,178000000,198000000,New kit deal + sponsorships + merch
+F015,S2,Revenue,Matchday,Revenue,82000000,91000000,Full crowds returned Stamford Bridge
+F016,S2,Revenue,Player Sales,Revenue,45000000,50000000,Player departures including loans
+F017,S2,Revenue,Friendly Matches,Revenue,5200000,5800000,Pre-season tour income
+F018,S2,Cost,Wages - Players,Cost,295000000,328000000,Includes Lukaku + Sterling signings
+F019,S2,Cost,Wages - Staff,Cost,48000000,53000000,Coaching staff + backroom and admin
+F020,S2,Cost,Transfer Amortisation,Cost,210000000,233000000,Amortised transfer costs
+F021,S2,Cost,Agent Fees,Cost,28000000,31000000,Busy transfer window activity
+F022,S2,Cost,Operations,Cost,31000000,34000000,Stadium training ground + logistics
+F023,S2,Cost,Marketing,Cost,10000000,11000000,Marketing and promotion spend
+F024,S2,Cost,Academy,Cost,16000000,18000000,Academy operations and youth development
+F025,S3,Revenue,Broadcast,Revenue,212000000,236000000,12th PL finish reduces broadcast share
+F026,S3,Revenue,Commercial,Revenue,185000000,206000000,Commercial growth post Boehly takeover
+F027,S3,Revenue,Matchday,Revenue,78000000,87000000,Stamford Bridge full season
+F028,S3,Revenue,Player Sales,Revenue,82000000,91000000,Multiple sales including Kovacic + Kante + Mount
+F029,S3,Revenue,Friendly Matches,Revenue,6000000,6700000,Pre-season tour USA
+F030,S3,Cost,Wages - Players,Cost,325000000,361000000,Enzo Fernandez added mid-season
+F031,S3,Cost,Wages - Staff,Cost,52000000,58000000,Multiple manager changes added costs
+F032,S3,Cost,Transfer Amortisation,Cost,265000000,294000000,Massive transfer spend amortising
+F033,S3,Cost,Agent Fees,Cost,38000000,42000000,Record spending windows
+F034,S3,Cost,Operations,Cost,33000000,37000000,Stadium training ground + logistics
+F035,S3,Cost,Marketing,Cost,11000000,12000000,Marketing and promotion spend
+F036,S3,Cost,Academy,Cost,17000000,19000000,Academy operations and youth development
+F037,S4,Revenue,Broadcast,Revenue,224000000,249000000,UCL group stage + 6th PL finish
+F038,S4,Revenue,Commercial,Revenue,198000000,220000000,Commercial deals growth
+F039,S4,Revenue,Matchday,Revenue,85000000,94000000,UCL match days boost
+F040,S4,Revenue,Player Sales,Revenue,65000000,72000000,Various player sales
+F041,S4,Revenue,Friendly Matches,Revenue,7500000,8300000,Pre-season tour income
+F042,S4,Cost,Wages - Players,Cost,348000000,387000000,Full year of Caicedo and Enzo wages
+F043,S4,Cost,Wages - Staff,Cost,55000000,61000000,Coaching staff costs
+F044,S4,Cost,Transfer Amortisation,Cost,310000000,344000000,Continued amortisation of record spend
+F045,S4,Cost,Agent Fees,Cost,42000000,47000000,Further transfer activity
+F046,S4,Cost,Operations,Cost,35000000,39000000,Stadium training ground + logistics
+F047,S4,Cost,Marketing,Cost,12000000,13000000,Marketing and promotion spend
+F048,S4,Cost,Academy,Cost,18000000,20000000,Academy operations and youth development
+F049,S5,Revenue,Broadcast,Revenue,258000000,287000000,4th PL finish + Conference League prize + CL
+F050,S5,Revenue,Commercial,Revenue,215000000,239000000,New front shirt sponsor secured
+F051,S5,Revenue,Matchday,Revenue,92000000,102000000,Conference League home games + strong PL attendance
+F052,S5,Revenue,Player Sales,Revenue,78000000,87000000,Gallagher sale + Chilwell departure
+F053,S5,Revenue,Friendly Matches,Revenue,8500000,9400000,Pre-season tour income
+F054,S5,Cost,Wages - Players,Cost,338000000,375000000,Some high earners sold offsets new signings
+F055,S5,Cost,Wages - Staff,Cost,57000000,63000000,Coaching staff costs
+F056,S5,Cost,Transfer Amortisation,Cost,295000000,328000000,Amortisation continues
+F057,S5,Cost,Agent Fees,Cost,35000000,39000000,Transfer activity fees
+F058,S5,Cost,Operations,Cost,36000000,40000000,Stadium training ground + logistics
+F059,S5,Cost,Marketing,Cost,13000000,14000000,Marketing and promotion spend
+F060,S5,Cost,Academy,Cost,19000000,21000000,Academy operations and youth development
+F061,S6,Revenue,Broadcast,Revenue,238000000,264000000,UCL Round of 16 exit + lower PL finish
+F062,S6,Revenue,Commercial,Revenue,228000000,253000000,Commercial growth continues
+F063,S6,Revenue,Matchday,Revenue,88000000,98000000,UCL home games + FA Cup final run
+F064,S6,Revenue,Player Sales,Revenue,55000000,61000000,Pedro Neto and Jackson loan income
+F065,S6,Revenue,Friendly Matches,Revenue,9000000,10000000,Pre-season tour income
+F066,S6,Cost,Wages - Players,Cost,355000000,394000000,Summer 2025 signings added
+F067,S6,Cost,Wages - Staff,Cost,60000000,67000000,Manager changes mid season
+F068,S6,Cost,Transfer Amortisation,Cost,320000000,355000000,Continued amortisation
+F069,S6,Cost,Agent Fees,Cost,40000000,44000000,Summer 2025 transfer fees
+F070,S6,Cost,Operations,Cost,37000000,41000000,Stadium training ground + logistics
+F071,S6,Cost,Marketing,Cost,14000000,16000000,Marketing and promotion spend
+F072,S6,Cost,Academy,Cost,20000000,22000000,Academy operations and youth development

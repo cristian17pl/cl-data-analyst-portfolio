@@ -1,0 +1,33 @@
+model Model
+	culture: es-HN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fact_transfers","fact_player_wages","fact_player_valuations","fact_player_performance","fact_matches","fact_financials","dim_competition","dim_season","dim_player"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table fact_transfers
+ref table fact_player_wages
+ref table fact_player_valuations
+ref table DateTableTemplate_d9f2bda6-1562-4a5c-a850-7e42b52a6a51
+ref table LocalDateTable_304ea9fc-627a-467f-89a6-156d9794e190
+ref table fact_player_performance
+ref table fact_matches
+ref table LocalDateTable_4d861630-46fc-4649-b3ff-5f9ffc9bc5aa
+ref table fact_financials
+ref table dim_competition
+ref table dim_season
+ref table dim_player
+ref table LocalDateTable_ac76f9f9-a590-442e-a910-56f5b343c097
+ref table Calendar
+ref table LocalDateTable_4e623ed9-feb5-4672-87f6-065c8d44ffda
+ref table 'DAX Measures'
+
+ref cultureInfo es-HN
+

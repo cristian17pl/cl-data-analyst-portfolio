@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Chelsea FC - Results Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6b8f911a-435e-475c-92f1-1bfeaacf32ea"
+  }
+}

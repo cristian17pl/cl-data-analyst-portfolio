@@ -1,0 +1,105 @@
+table dim_player
+	lineageTag: dd99f935-572a-4170-b3a8-b6f92d4f2d28
+
+	column player_id
+		dataType: string
+		lineageTag: cbc71c68-f2e2-417b-a9b7-00a4ce468fe2
+		summarizeBy: none
+		sourceColumn: player_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_name
+		dataType: string
+		lineageTag: 6f74e9b9-9d0f-41e7-92eb-ed1a009c5e15
+		summarizeBy: none
+		sourceColumn: player_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality
+		dataType: string
+		lineageTag: ca7a5072-b449-4421-8247-766d1ed367c4
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column position
+		dataType: string
+		lineageTag: 72b9b26a-abe7-4fd4-a301-65fb69fdf3b6
+		summarizeBy: none
+		sourceColumn: position
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_group
+		dataType: string
+		lineageTag: 1be072db-a844-4f18-bc5b-d38a81540410
+		summarizeBy: none
+		sourceColumn: position_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_of_birth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 55e78618-7ad9-4b05-a8c3-87ccaae5418f
+		summarizeBy: none
+		sourceColumn: date_of_birth
+
+		variation Variación
+			isDefault
+			relationship: 7a1d8527-3e12-463b-997b-68e12981fd48
+			defaultHierarchy: LocalDateTable_ac76f9f9-a590-442e-a910-56f5b343c097.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column joined_chelsea
+		dataType: int64
+		formatString: 0
+		lineageTag: fab6ee5c-0df4-4e95-99f5-7cad630ab527
+		summarizeBy: sum
+		sourceColumn: joined_chelsea
+
+		annotation SummarizationSetBy = Automatic
+
+	column left_chelsea
+		dataType: int64
+		formatString: 0
+		lineageTag: 20ef8460-a108-4b5e-9500-c43bdf6b1cd0
+		summarizeBy: sum
+		sourceColumn: left_chelsea
+
+		annotation SummarizationSetBy = Automatic
+
+	column joined_from
+		dataType: string
+		lineageTag: b1737f14-2dea-4e89-b34e-87457215774d
+		summarizeBy: none
+		sourceColumn: joined_from
+
+		annotation SummarizationSetBy = Automatic
+
+	column left_to
+		dataType: string
+		lineageTag: ae73bb26-b80c-4e84-bbdf-f9b5b60331c3
+		summarizeBy: none
+		sourceColumn: left_to
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_player = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\dim_player.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"player_id", type text}, {"player_name", type text}, {"nationality", type text}, {"position", type text}, {"position_group", type text}, {"date_of_birth", type date}, {"joined_chelsea", Int64.Type}, {"left_chelsea", Int64.Type}, {"joined_from", type text}, {"left_to", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
