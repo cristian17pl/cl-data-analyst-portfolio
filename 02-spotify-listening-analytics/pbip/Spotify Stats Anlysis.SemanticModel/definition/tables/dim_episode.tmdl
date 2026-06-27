@@ -1,0 +1,51 @@
+table dim_episode
+	lineageTag: f5349097-b02f-4be4-9871-536723ef2c28
+
+	column episode_name
+		dataType: string
+		lineageTag: f0e75743-0ed8-4c90-9c96-117905335d5b
+		summarizeBy: none
+		sourceColumn: episode_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column episode_show_name
+		dataType: string
+		lineageTag: b8b350e5-a655-436c-9b63-7b7c26f3467b
+		summarizeBy: none
+		sourceColumn: episode_show_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column episode_key
+		dataType: string
+		lineageTag: 0e12cb75-50b6-4122-acec-623191e37e03
+		summarizeBy: none
+		sourceColumn: episode_key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_episode = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\02-spotify-listening-analytics\docs\my_spotify_data\Spotify Extended Streaming History"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"ts", type datetime}, {"platform", type text}, {"ms_played", Int64.Type}, {"conn_country", type text}, {"master_metadata_track_name", type text}, {"master_metadata_album_artist_name", type text}, {"master_metadata_album_album_name", type text}, {"spotify_track_uri", type text}, {"episode_name", type any}, {"episode_show_name", type any}, {"spotify_episode_uri", type any}, {"audiobook_title", type any}, {"audiobook_uri", type any}, {"audiobook_chapter_uri", type any}, {"audiobook_chapter_title", type any}, {"reason_start", type text}, {"reason_end", type text}, {"shuffle", type logical}, {"skipped", type logical}, {"offline", type logical}, {"offline_timestamp", type any}, {"incognito_mode", type logical}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name", "ts", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"spotify_track_uri", "track_key"}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Renamed Columns",{"episode_name", "episode_show_name", "spotify_episode_uri"}),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Removed Other Columns", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Blank Rows", {"spotify_episode_uri"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Duplicates",{{"spotify_episode_uri", "episode_key"}})
+				in
+				    #"Renamed Columns2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

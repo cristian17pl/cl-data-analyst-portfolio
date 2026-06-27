@@ -1,0 +1,78 @@
+table dim_reason_end
+	lineageTag: b3cf0af2-1d14-476c-9f07-5f9461990890
+
+	column reason_end
+		dataType: string
+		lineageTag: 8e2660a6-f1e7-4bd9-8d69-20f46cdd86e0
+		summarizeBy: none
+		sourceColumn: reason_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_end_label
+		dataType: string
+		lineageTag: 2039116c-5c29-4ff9-9ffc-643ffd299be8
+		summarizeBy: none
+		sourceColumn: reason_end_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_end_category
+		dataType: string
+		lineageTag: c11ab25d-64b6-4428-aa87-69d6a798238f
+		summarizeBy: none
+		sourceColumn: reason_end_category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_reason_end = m
+		mode: import
+		source =
+				let
+				    Source = fact_streaming_history,
+				    KeepColumns = Table.SelectColumns(Source, {"reason_end"}),
+				    RemoveNulls = Table.SelectRows(KeepColumns, each [reason_end] <> null and Text.Trim([reason_end]) <> ""),
+				    RemoveDuplicates = Table.Distinct(RemoveNulls),
+				
+				    AddReasonLabel = Table.AddColumn(
+				        RemoveDuplicates,
+				        "reason_end_label",
+				        each
+				            if [reason_end] = "trackdone" then "Finished naturally"
+				            else if [reason_end] = "endplay" then "Playback stopped"
+				            else if [reason_end] = "fwdbtn" then "Skipped forward"
+				            else if [reason_end] = "backbtn" then "Went back"
+				            else if [reason_end] = "logout" then "Logged out/session ended"
+				            else if [reason_end] = "remote" then "Controlled from another device"
+				            else if [reason_end] = "unexpected-exit-while-paused" then "App closed while paused"
+				            else if [reason_end] = "unexpected-exit" then "Unexpected app exit"
+				            else if [reason_end] = "trackerror" then "Playback error"
+				            else if [reason_end] = "switched-to-video" then "Switched to video"
+				            else if [reason_end] = "switched-to-audio" then "Switched to audio"
+				            else if [reason_end] = "clickrow" then "Selected another item"
+				            else if [reason_end] = "unknown" then "Unknown"
+				            else "Other",
+				        type text
+				    ),
+				
+				    AddReasonCategory = Table.AddColumn(
+				        AddReasonLabel,
+				        "reason_end_category",
+				        each
+				            if [reason_end] = "trackdone" then "Completed"
+				            else if List.Contains({"fwdbtn", "backbtn", "clickrow"}, [reason_end]) then "User changed playback"
+				            else if [reason_end] = "endplay" then "Stopped"
+				            else if List.Contains({"logout", "remote"}, [reason_end]) then "Session/device event"
+				            else if List.Contains({"unexpected-exit", "unexpected-exit-while-paused"}, [reason_end]) then "App/session interruption"
+				            else if List.Contains({"switched-to-video", "switched-to-audio"}, [reason_end]) then "Format switch"
+				            else if [reason_end] = "trackerror" then "Error"
+				            else "Unknown/Other",
+				        type text
+				    )
+				in
+				    AddReasonCategory
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

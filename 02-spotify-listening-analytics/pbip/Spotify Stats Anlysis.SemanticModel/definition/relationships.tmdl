@@ -1,0 +1,28 @@
+relationship AutoDetected_6562a18a-726f-4bcb-a3fb-ebaa63ca078c
+	fromColumn: fact_streaming_history.platform
+	toColumn: dim_platform.platform
+
+relationship AutoDetected_d0f13e8c-09bc-400e-bbb6-1a29e2fa7eae
+	fromColumn: fact_streaming_history.episode_key
+	toColumn: dim_episode.episode_key
+
+relationship AutoDetected_325c0706-a43b-40d9-a5b9-5d488cc0ab45
+	fromColumn: fact_streaming_history.reason_start
+	toColumn: dim_reason_start.reason_start
+
+relationship AutoDetected_13948b83-4547-483b-b890-ee148eb5e8fe
+	fromColumn: fact_streaming_history.reason_end
+	toColumn: dim_reason_end.reason_end
+
+relationship 4a666189-46c9-a9ae-28fb-53292b639cf3
+	fromColumn: fact_streaming_history.track_key
+	toColumn: dim_song_artist.track_key
+
+relationship cc02183a-4e3d-e02e-3c5a-bf442940652a
+	fromColumn: fact_streaming_history.stream_date
+	toColumn: dim_calendar.Date
+
+relationship 4e9affa4-6db9-294b-f850-29fb8dbf56d2
+	fromColumn: fact_streaming_history.stream_hour
+	toColumn: dim_time.hour
+

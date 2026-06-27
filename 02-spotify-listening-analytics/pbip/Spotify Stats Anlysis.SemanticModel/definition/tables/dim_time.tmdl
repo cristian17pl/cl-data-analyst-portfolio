@@ -1,0 +1,89 @@
+table dim_time
+	lineageTag: 554bc1cf-7e02-4fde-a203-9104574aa0d3
+
+	column Value
+		formatString: 0
+		lineageTag: 6757ab4a-c7cb-4e0e-90d5-5eb3252e7b2a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour
+		formatString: 0
+		lineageTag: 6ef7a9fe-7732-419d-8e78-f91d69e2d04c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [hour]
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour_label
+		lineageTag: 92810ef0-fb29-46dc-a30c-b87a1f89e855
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [hour_label]
+		sortByColumn: hour_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour_sort
+		formatString: 0
+		lineageTag: 5cd137e0-6195-4451-8ca9-4f23d067864a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [hour_sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_part
+		lineageTag: 2b9d2ba8-a669-4468-881f-bc92af81c402
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [day_part]
+		sortByColumn: day_part_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_part_sort
+		formatString: 0
+		lineageTag: 4ff9d30f-e793-44a0-9767-28d5e44cef6c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [day_part_sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_time = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    GENERATESERIES ( 0, 23, 1 ),
+				
+				    "hour", [Value],
+				    "hour_label", FORMAT ( TIME ( [Value], 0, 0 ), "h AM/PM" ),
+				    "hour_sort", [Value],
+				
+				    "day_part",
+				        SWITCH (
+				            TRUE (),
+				            [Value] >= 5 && [Value] < 12, "Morning",
+				            [Value] >= 12 && [Value] < 17, "Afternoon",
+				            [Value] >= 17 && [Value] < 21, "Evening",
+				            "Night"
+				        ),
+				
+				    "day_part_sort",
+				        SWITCH (
+				            TRUE (),
+				            [Value] >= 5 && [Value] < 12, 1,
+				            [Value] >= 12 && [Value] < 17, 2,
+				            [Value] >= 17 && [Value] < 21, 3,
+				            4
+				        )
+				)
+
+	annotation PBI_Id = e2f4e1f299bb48a1834368eb86524758
+

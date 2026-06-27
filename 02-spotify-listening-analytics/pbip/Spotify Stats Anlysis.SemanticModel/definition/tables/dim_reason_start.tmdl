@@ -1,0 +1,76 @@
+table dim_reason_start
+	lineageTag: 934d3d6b-ea94-4eeb-a297-e6c19a255aa8
+
+	column reason_start
+		dataType: string
+		lineageTag: 8e39e8bd-05b4-455c-bb97-ecba60bd43c8
+		summarizeBy: none
+		sourceColumn: reason_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_start_label
+		dataType: string
+		lineageTag: 1dad6c1d-d62d-4173-b168-d0761e12b6bd
+		summarizeBy: none
+		sourceColumn: reason_start_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_start_category
+		dataType: string
+		lineageTag: 0abf7e3f-8025-4219-adc2-46ad3b3b5d23
+		summarizeBy: none
+		sourceColumn: reason_start_category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_reason_start = m
+		mode: import
+		source =
+				let
+				    Source = fact_streaming_history,
+				    KeepColumns = Table.SelectColumns(Source, {"reason_start"}),
+				    RemoveNulls = Table.SelectRows(KeepColumns, each [reason_start] <> null and Text.Trim([reason_start]) <> ""),
+				    RemoveDuplicates = Table.Distinct(RemoveNulls),
+				
+				    AddReasonLabel = Table.AddColumn(
+				        RemoveDuplicates,
+				        "reason_start_label",
+				        each
+				            if [reason_start] = "trackdone" then "Previous track finished"
+				            else if [reason_start] = "clickrow" then "Selected manually"
+				            else if [reason_start] = "fwdbtn" then "Skipped forward"
+				            else if [reason_start] = "backbtn" then "Went back"
+				            else if [reason_start] = "playbtn" then "Pressed play"
+				            else if [reason_start] = "appload" then "App loaded"
+				            else if [reason_start] = "remote" then "Started from another device"
+				            else if [reason_start] = "reconnect" then "Reconnected session"
+				            else if [reason_start] = "trackerror" then "Playback error recovery"
+				            else if [reason_start] = "switched-to-video" then "Switched to video"
+				            else if [reason_start] = "switched-to-audio" then "Switched to audio"
+				            else if [reason_start] = "unknown" then "Unknown"
+				            else "Other",
+				        type text
+				    ),
+				
+				    AddReasonCategory = Table.AddColumn(
+				        AddReasonLabel,
+				        "reason_start_category",
+				        each
+				            if [reason_start] = "trackdone" then "Automatic continuation"
+				            else if List.Contains({"clickrow", "playbtn"}, [reason_start]) then "Manual selection"
+				            else if List.Contains({"fwdbtn", "backbtn"}, [reason_start]) then "Navigation"
+				            else if List.Contains({"appload", "reconnect", "remote"}, [reason_start]) then "Session/device event"
+				            else if List.Contains({"switched-to-video", "switched-to-audio"}, [reason_start]) then "Format switch"
+				            else if [reason_start] = "trackerror" then "Error"
+				            else "Unknown/Other",
+				        type text
+				    )
+				in
+				    AddReasonCategory
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

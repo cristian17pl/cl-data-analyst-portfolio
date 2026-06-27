@@ -1,0 +1,124 @@
+table dim_platform
+	lineageTag: 270df788-3aab-47d8-939d-37a03609ce4d
+
+	column platform
+		dataType: string
+		lineageTag: eeecc38a-c47d-41ff-b52c-3bc8744e616c
+		summarizeBy: none
+		sourceColumn: platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column platform_group
+		dataType: string
+		lineageTag: c6faa46e-9311-4455-92d6-06ed7e2533d6
+		summarizeBy: none
+		sourceColumn: platform_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_type
+		dataType: string
+		lineageTag: f07ef4ea-adcd-4594-bf52-fb68087728f3
+		summarizeBy: none
+		sourceColumn: device_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column os_family
+		dataType: string
+		lineageTag: 2483b1b1-4a57-4a5a-acf8-47f42bc70057
+		summarizeBy: none
+		sourceColumn: os_family
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_brand
+		dataType: string
+		lineageTag: 24f01b1b-1ff2-4445-88ca-8a8423bfb450
+		summarizeBy: none
+		sourceColumn: device_brand
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_platform = m
+		mode: import
+		source =
+				let
+				    Source = fact_streaming_history,
+				    KeepPlatform = Table.SelectColumns(Source, {"platform"}),
+				    RemoveNulls = Table.SelectRows(KeepPlatform, each [platform] <> null and Text.Trim([platform]) <> ""),
+				    RemoveDuplicates = Table.Distinct(RemoveNulls),
+				
+				    AddPlatformLower = Table.AddColumn(
+				        RemoveDuplicates,
+				        "platform_lower",
+				        each Text.Lower([platform]),
+				        type text
+				    ),
+				
+				    AddPlatformGroup = Table.AddColumn(
+				        AddPlatformLower,
+				        "platform_group",
+				        each
+				            if Text.Contains([platform_lower], "android") then "Android"
+				            else if Text.Contains([platform_lower], "ios") or Text.Contains([platform_lower], "iphone") or Text.Contains([platform_lower], "ipad") then "iOS"
+				            else if Text.Contains([platform_lower], "windows") then "Windows"
+				            else if Text.Contains([platform_lower], "playstation") or Text.Contains([platform_lower], "scei") or Text.Contains([platform_lower], "ps4") then "PlayStation"
+				            else if Text.Contains([platform_lower], "chromecast") or Text.Contains([platform_lower], "cast") then "Chromecast"
+				            else if Text.Contains([platform_lower], "tizen") or Text.Contains([platform_lower], "webos") or Text.Contains([platform_lower], "tv") then "Smart TV"
+				            else if Text.Contains([platform_lower], "not_applicable") then "Not Applicable"
+				            else "Other",
+				        type text
+				    ),
+				
+				    AddDeviceType = Table.AddColumn(
+				        AddPlatformGroup,
+				        "device_type",
+				        each
+				            if [platform_group] = "Android" and Text.Contains([platform_lower], "tablet") then "Tablet"
+				            else if [platform_group] = "Android" then "Mobile"
+				            else if [platform_group] = "iOS" and Text.Contains([platform_lower], "ipad") then "Tablet"
+				            else if [platform_group] = "iOS" then "Mobile"
+				            else if [platform_group] = "Windows" then "Desktop"
+				            else if [platform_group] = "PlayStation" then "Console"
+				            else if [platform_group] = "Chromecast" or [platform_group] = "Smart TV" then "TV/Cast"
+				            else "Unknown",
+				        type text
+				    ),
+				
+				    AddOSFamily = Table.AddColumn(
+				        AddDeviceType,
+				        "os_family",
+				        each
+				            if Text.Contains([platform_lower], "android") then "Android"
+				            else if Text.Contains([platform_lower], "ios") or Text.Contains([platform_lower], "iphone") or Text.Contains([platform_lower], "ipad") then "iOS"
+				            else if Text.Contains([platform_lower], "windows") then "Windows"
+				            else if Text.Contains([platform_lower], "tizen") then "Tizen"
+				            else if Text.Contains([platform_lower], "webos") then "webOS"
+				            else if Text.Contains([platform_lower], "playstation") or Text.Contains([platform_lower], "scei") then "PlayStation"
+				            else "Unknown",
+				        type text
+				    ),
+				
+				    AddDeviceBrand = Table.AddColumn(
+				        AddOSFamily,
+				        "device_brand",
+				        each
+				            if Text.Contains([platform_lower], "samsung") then "Samsung"
+				            else if Text.Contains([platform_lower], "lge") or Text.Contains([platform_lower], "lg;") or Text.Contains([platform_lower], "webos") then "LG"
+				            else if Text.Contains([platform_lower], "sony") or Text.Contains([platform_lower], "scei") then "Sony"
+				            else if Text.Contains([platform_lower], "google") or Text.Contains([platform_lower], "chromecast") then "Google"
+				            else if Text.Contains([platform_lower], "iphone") or Text.Contains([platform_lower], "ipad") or Text.Contains([platform_lower], "ios") then "Apple"
+				            else "Unknown",
+				        type text
+				    ),
+				
+				    RemoveHelper = Table.RemoveColumns(AddDeviceBrand, {"platform_lower"})
+				in
+				    RemoveHelper
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -203,6 +203,16 @@ cython_debug/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
+# Personal Spotify export data
+02-spotify-listening-analytics/docs/*.zip
+02-spotify-listening-analytics/docs/my_spotify_data/
+02-spotify-listening-analytics/docs/Spotify Extended Streaming History/
+02-spotify-listening-analytics/**/*.json
+
+# Power BI local/cache artifacts
+*.pbix
+**/.pbi/
+
 # Ruff stuff:
 .ruff_cache/
 
