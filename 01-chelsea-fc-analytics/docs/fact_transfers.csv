@@ -1,47 +1,64 @@
-transfer_id,season_id,player_id,player_name,direction,transfer_window,from_club,to_club,transfer_fee_gbp,transfer_fee_eur,loan,position_group,age_at_transfer,nationality
-T001,S1,P001,Edouard Mendy,IN,Summer 2020,Rennes,Chelsea,24000000,27000000,FALSE,Goalkeeper,28,Senegal
-T002,S1,P010,Ben Chilwell,IN,Summer 2020,Leicester City,Chelsea,45000000,50000000,FALSE,Defender,23,England
-T003,S1,P027,Kai Havertz,IN,Summer 2020,Bayer Leverkusen,Chelsea,71000000,80000000,FALSE,Forward,21,Germany
-T004,S1,P025,Christian Pulisic,IN,Summer 2019,Borussia Dortmund,Chelsea,57600000,64000000,FALSE,Midfielder,20,USA
-T005,S1,P026,Hakim Ziyech,IN,Summer 2020,Ajax,Chelsea,33300000,37000000,FALSE,Midfielder,27,Morocco
-T006,S1,P028,Timo Werner,IN,Summer 2020,RB Leipzig,Chelsea,46800000,53000000,FALSE,Forward,24,Germany
-T007,S2,P024,Raheem Sterling,IN,Summer 2022,Manchester City,Chelsea,45000000,50000000,FALSE,Midfielder,27,England
-T008,S2,P009,Marc Cucurella,IN,Summer 2022,Brighton,Chelsea,58500000,65000000,FALSE,Defender,24,Spain
-T009,S2,P008,Kalidou Koulibaly,IN,Summer 2022,Napoli,Chelsea,33300000,37000000,FALSE,Defender,31,Senegal
-T010,S2,P029,Romelu Lukaku,IN,Summer 2021,Inter Milan,Chelsea,94500000,105000000,FALSE,Forward,28,Belgium
-T011,S3,P020,Enzo Fernandez,IN,Winter 2023,Benfica,Chelsea,106800000,121000000,FALSE,Midfielder,22,Argentina
-T012,S3,P012,Wesley Fofana,IN,Summer 2022,Leicester City,Chelsea,70000000,78000000,FALSE,Defender,21,France
-T013,S3,P013,Malo Gusto,IN,Winter 2023,Olympique Lyon,Chelsea,26100000,29000000,FALSE,Defender,20,France
-T014,S3,P011,Levi Colwill,IN,Summer 2022,Academy,Chelsea,0,0,FALSE,Defender,19,England
-T015,S3,P022,Conor Gallagher,IN,Summer 2022,Academy,Chelsea,0,0,FALSE,Midfielder,22,England
-T016,S2,P029,Romelu Lukaku,OUT,Summer 2022,Chelsea,Inter Milan (Loan),0,0,TRUE,Forward,29,Belgium
-T017,S3,P007,Antonio Rudiger,OUT,Summer 2022,Chelsea,Real Madrid,0,0,FALSE,Defender,29,Germany
-T018,S3,P016,Jorginho,OUT,Winter 2023,Chelsea,Arsenal,11700000,13000000,FALSE,Midfielder,31,Italy
-T019,S4,P021,Moises Caicedo,IN,Summer 2023,Brighton,Chelsea,111600000,124000000,FALSE,Midfielder,22,Ecuador
-T020,S4,P032,Cole Palmer,IN,Summer 2023,Manchester City,Chelsea,40500000,45000000,FALSE,Midfielder,21,England
-T021,S4,P023,Romeo Lavia,IN,Summer 2023,Southampton,Chelsea,54000000,58000000,FALSE,Midfielder,19,Belgium
-T022,S4,P031,Nicolas Jackson,IN,Summer 2023,Villarreal,Chelsea,32000000,35000000,FALSE,Forward,22,Senegal
-T023,S4,P033,Noni Madueke,IN,Winter 2023,PSV Eindhoven,Chelsea,27000000,30000000,FALSE,Midfielder,21,England
-T024,S4,P034,Pedro Neto,IN,Summer 2024,Wolverhampton,Chelsea,54000000,60000000,FALSE,Midfielder,24,Portugal
-T025,S4,P003,Robert Sanchez,IN,Summer 2023,Brighton,Chelsea,22500000,25000000,FALSE,Goalkeeper,26,Spain
-T026,S4,P008,Kalidou Koulibaly,OUT,Summer 2023,Chelsea,Al-Hilal,14400000,16000000,FALSE,Defender,32,Senegal
-T027,S4,P015,N'Golo Kante,OUT,Summer 2023,Chelsea,Al-Ittihad,0,0,FALSE,Midfielder,32,France
-T028,S4,P018,Mateo Kovacic,OUT,Summer 2023,Chelsea,Manchester City,22500000,25000000,FALSE,Midfielder,29,Croatia
-T029,S4,P017,Mason Mount,OUT,Summer 2023,Chelsea,Manchester United,54000000,60000000,FALSE,Midfielder,24,England
-T030,S4,P019,Ruben Loftus-Cheek,OUT,Summer 2023,Chelsea,AC Milan,14400000,16000000,FALSE,Midfielder,27,England
-T031,S4,P025,Christian Pulisic,OUT,Summer 2023,Chelsea,AC Milan,20000000,22000000,FALSE,Midfielder,24,USA
-T032,S4,P026,Hakim Ziyech,OUT,Summer 2023,Chelsea,Galatasaray,3600000,4000000,FALSE,Midfielder,30,Morocco
-T033,S4,P001,Edouard Mendy,OUT,Summer 2023,Chelsea,Al-Ahli,18000000,20000000,FALSE,Goalkeeper,31,Senegal
-T034,S5,P040,Tosin Adarabioyo,IN,Summer 2024,Fulham,Chelsea,0,0,FALSE,Defender,26,England
-T035,S5,P024,Raheem Sterling,OUT,Summer 2024,Chelsea,Arsenal (Loan),0,0,TRUE,Midfielder,29,England
-T036,S5,P006,Thiago Silva,OUT,Summer 2024,Chelsea,Fluminense,0,0,FALSE,Defender,40,Brazil
-T037,S5,P022,Conor Gallagher,OUT,Summer 2024,Chelsea,Atletico Madrid,36000000,40000000,FALSE,Midfielder,24,England
-T038,S5,P010,Ben Chilwell,OUT,Summer 2024,Chelsea,Released,0,0,FALSE,Defender,27,England
-T039,S6,P014,Jorrel Hato,IN,Summer 2025,Ajax,Chelsea,32000000,36000000,FALSE,Defender,20,Netherlands
-T040,S6,P035,Joao Pedro,IN,Summer 2025,Brighton,Chelsea,45000000,50000000,FALSE,Forward,24,Brazil
-T041,S6,P036,Liam Delap,IN,Summer 2025,Manchester City,Chelsea,30000000,34000000,FALSE,Forward,22,England
-T042,S6,P037,Jamie Gittens,IN,Summer 2025,Borussia Dortmund,Chelsea,42000000,47000000,FALSE,Midfielder,21,England
-T043,S6,P038,Alejandro Garnacho,IN,Summer 2025,Manchester United,Chelsea,50000000,56000000,FALSE,Midfielder,21,Argentina
-T044,S6,P039,Willian Estevao,IN,Summer 2025,Palmeiras,Chelsea,55000000,61000000,FALSE,Midfielder,18,Brazil
-T045,S6,P031,Nicolas Jackson,OUT,Summer 2025,Chelsea,Bayern Munich (Loan),0,0,TRUE,Forward,24,Senegal
+transfer_id,season_id,player_id,player_name,direction,transfer_window,from_club,to_club,transfer_fee_gbp,transfer_fee_eur,loan,position_group,age_at_transfer,nationality
+T001,S1,P001,Edouard Mendy,IN,Summer 2020,Rennes,Chelsea,24000000,27000000,FALSE,Goalkeeper,28,Senegal
+T002,S1,P010,Ben Chilwell,IN,Summer 2020,Leicester City,Chelsea,45000000,50000000,FALSE,Defender,23,England
+T003,S1,P027,Kai Havertz,IN,Summer 2020,Bayer Leverkusen,Chelsea,71000000,80000000,FALSE,Forward,21,Germany
+T004,S1,P025,Christian Pulisic,IN,Summer 2019,Borussia Dortmund,Chelsea,57600000,64000000,FALSE,Midfielder,20,USA
+T005,S1,P026,Hakim Ziyech,IN,Summer 2020,Ajax,Chelsea,33300000,37000000,FALSE,Midfielder,27,Morocco
+T006,S1,P028,Timo Werner,IN,Summer 2020,RB Leipzig,Chelsea,46800000,53000000,FALSE,Forward,24,Germany
+T007,S2,P024,Raheem Sterling,IN,Summer 2022,Manchester City,Chelsea,45000000,50000000,FALSE,Midfielder,27,England
+T008,S2,P009,Marc Cucurella,IN,Summer 2022,Brighton,Chelsea,58500000,65000000,FALSE,Defender,24,Spain
+T009,S2,P008,Kalidou Koulibaly,IN,Summer 2022,Napoli,Chelsea,33300000,37000000,FALSE,Defender,31,Senegal
+T010,S2,P029,Romelu Lukaku,IN,Summer 2021,Inter Milan,Chelsea,94500000,105000000,FALSE,Forward,28,Belgium
+T011,S3,P020,Enzo Fernandez,IN,Winter 2023,Benfica,Chelsea,106800000,121000000,FALSE,Midfielder,22,Argentina
+T012,S3,P012,Wesley Fofana,IN,Summer 2022,Leicester City,Chelsea,70000000,78000000,FALSE,Defender,21,France
+T013,S3,P013,Malo Gusto,IN,Winter 2023,Olympique Lyon,Chelsea,26100000,29000000,FALSE,Defender,20,France
+T014,S3,P011,Levi Colwill,IN,Summer 2022,Academy,Chelsea,0,0,FALSE,Defender,19,England
+T015,S3,P022,Conor Gallagher,IN,Summer 2022,Academy,Chelsea,0,0,FALSE,Midfielder,22,England
+T016,S2,P029,Romelu Lukaku,OUT,Summer 2022,Chelsea,Inter Milan,0,0,TRUE,Forward,29,Belgium
+T017,S3,P007,Antonio Rudiger,OUT,Summer 2022,Chelsea,Real Madrid,0,0,FALSE,Defender,29,Germany
+T018,S3,P016,Jorginho,OUT,Winter 2023,Chelsea,Arsenal,11700000,13000000,FALSE,Midfielder,31,Italy
+T019,S4,P021,Moises Caicedo,IN,Summer 2023,Brighton,Chelsea,111600000,124000000,FALSE,Midfielder,22,Ecuador
+T020,S4,P032,Cole Palmer,IN,Summer 2023,Manchester City,Chelsea,40500000,45000000,FALSE,Midfielder,21,England
+T021,S4,P023,Romeo Lavia,IN,Summer 2023,Southampton,Chelsea,54000000,58000000,FALSE,Midfielder,19,Belgium
+T022,S4,P031,Nicolas Jackson,IN,Summer 2023,Villarreal,Chelsea,32000000,35000000,FALSE,Forward,22,Senegal
+T023,S4,P033,Noni Madueke,IN,Winter 2023,PSV Eindhoven,Chelsea,27000000,30000000,FALSE,Midfielder,21,England
+T024,S4,P034,Pedro Neto,IN,Summer 2024,Wolverhampton,Chelsea,54000000,60000000,FALSE,Midfielder,24,Portugal
+T025,S4,P003,Robert Sanchez,IN,Summer 2023,Brighton,Chelsea,22500000,25000000,FALSE,Goalkeeper,26,Spain
+T026,S4,P008,Kalidou Koulibaly,OUT,Summer 2023,Chelsea,Al-Hilal,14400000,16000000,FALSE,Defender,32,Senegal
+T027,S4,P015,N'Golo Kante,OUT,Summer 2023,Chelsea,Al-Ittihad,0,0,FALSE,Midfielder,32,France
+T028,S4,P018,Mateo Kovacic,OUT,Summer 2023,Chelsea,Manchester City,22500000,25000000,FALSE,Midfielder,29,Croatia
+T029,S4,P017,Mason Mount,OUT,Summer 2023,Chelsea,Manchester United,54000000,60000000,FALSE,Midfielder,24,England
+T030,S4,P019,Ruben Loftus-Cheek,OUT,Summer 2023,Chelsea,AC Milan,14400000,16000000,FALSE,Midfielder,27,England
+T031,S4,P025,Christian Pulisic,OUT,Summer 2023,Chelsea,AC Milan,20000000,22000000,FALSE,Midfielder,24,USA
+T032,S4,P026,Hakim Ziyech,OUT,Summer 2023,Chelsea,Galatasaray,3600000,4000000,FALSE,Midfielder,30,Morocco
+T033,S4,P001,Edouard Mendy,OUT,Summer 2023,Chelsea,Al-Ahli,18000000,20000000,FALSE,Goalkeeper,31,Senegal
+T034,S5,P040,Tosin Adarabioyo,IN,Summer 2024,Fulham,Chelsea,0,0,FALSE,Defender,26,England
+T035,S5,P024,Raheem Sterling,OUT,Summer 2024,Chelsea,Arsenal,0,0,TRUE,Midfielder,29,England
+T036,S5,P006,Thiago Silva,OUT,Summer 2024,Chelsea,Fluminense,0,0,FALSE,Defender,40,Brazil
+T037,S5,P022,Conor Gallagher,OUT,Summer 2024,Chelsea,Atletico Madrid,36000000,40000000,FALSE,Midfielder,24,England
+T038,S5,P010,Ben Chilwell,OUT,Summer 2024,Chelsea,Released,0,0,FALSE,Defender,27,England
+T039,S6,P014,Jorrel Hato,IN,Summer 2025,Ajax,Chelsea,32000000,36000000,FALSE,Defender,20,Netherlands
+T040,S6,P035,Joao Pedro,IN,Summer 2025,Brighton,Chelsea,45000000,50000000,FALSE,Forward,24,Brazil
+T041,S6,P036,Liam Delap,IN,Summer 2025,Manchester City,Chelsea,30000000,34000000,FALSE,Forward,22,England
+T042,S6,P037,Jamie Gittens,IN,Summer 2025,Borussia Dortmund,Chelsea,42000000,47000000,FALSE,Midfielder,21,England
+T043,S6,P038,Alejandro Garnacho,IN,Summer 2025,Manchester United,Chelsea,50000000,56000000,FALSE,Midfielder,21,Argentina
+T044,S6,P039,Willian Estevao,IN,Summer 2025,Palmeiras,Chelsea,55000000,61000000,FALSE,Midfielder,18,Brazil
+T045,S6,P031,Nicolas Jackson,OUT,Summer 2025,Chelsea,Bayern Munich,0,0,TRUE,Forward,24,Senegal
 T046,S6,P034,Pedro Neto,OUT,Summer 2025,Chelsea,Released,25000000,28000000,FALSE,Midfielder,25,Portugal
+T047,S1,P041,Alvaro Morata,OUT,Summer 2020,Chelsea,Atletico Madrid,50000000,56000000,FALSE,Forward,27,Spain
+T048,S1,P042,Mario Pasalic,OUT,Summer 2020,Chelsea,Atalanta,13500000,15000000,FALSE,Midfielder,25,Croatia
+T049,S1,P043,Ethan Ampadu,OUT,Summer 2020,Chelsea,Sheffield United,1000000,1100000,TRUE,Defender,20,Wales
+T050,S2,P044,Tammy Abraham,OUT,Summer 2021,Chelsea,Roma,34000000,38000000,FALSE,Forward,23,England
+T051,S2,P045,Fikayo Tomori,OUT,Summer 2021,Chelsea,AC Milan,25000000,28000000,FALSE,Defender,23,England
+T052,S2,P046,Kurt Zouma,OUT,Summer 2021,Chelsea,West Ham,29000000,32000000,FALSE,Defender,26,France
+T053,S2,P047,Marc Guehi,OUT,Summer 2021,Chelsea,Crystal Palace,18000000,20000000,FALSE,Defender,21,England
+T054,S2,P048,Olivier Giroud,OUT,Summer 2021,Chelsea,AC Milan,1000000,1100000,FALSE,Forward,34,France
+T055,S3,P028,Timo Werner,OUT,Summer 2022,Chelsea,RB Leipzig,25000000,28000000,FALSE,Forward,26,Germany
+T056,S4,P027,Kai Havertz,OUT,Summer 2023,Chelsea,Arsenal,65000000,72000000,FALSE,Forward,24,Germany
+T057,S4,P005,Cesar Azpilicueta,OUT,Summer 2023,Chelsea,Atletico Madrid,0,0,FALSE,Defender,33,Spain
+T058,S5,P030,Armando Broja,OUT,Summer 2024,Chelsea,Ipswich Town,20000000,22000000,FALSE,Forward,22,Albania
+T059,S5,P002,Kepa Arrizabalaga,OUT,Summer 2024,Chelsea,Bournemouth,5000000,5600000,FALSE,Goalkeeper,29,Spain
+T060,S5,P049,Ian Maatsen,OUT,Summer 2024,Chelsea,Aston Villa,37500000,42000000,FALSE,Defender,22,Netherlands
+T061,S6,P033,Noni Madueke,OUT,Summer 2025,Chelsea,Arsenal,52000000,58000000,FALSE,Midfielder,23,England
+T062,S6,P050,Christopher Nkunku,OUT,Summer 2025,Chelsea,Bayern Munich,35000000,39000000,FALSE,Forward,27,France
+T063,S6,P051,Djordje Petrovic,OUT,Summer 2025,Chelsea,Strasbourg,15000000,17000000,FALSE,Goalkeeper,25,Serbia

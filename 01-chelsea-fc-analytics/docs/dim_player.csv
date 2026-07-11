@@ -31,11 +31,22 @@ P029,Romelu Lukaku,Belgium,CF,Forward,1993-05-13,2021,2022,Inter Milan,Inter Mil
 P030,Armando Broja,Albania,CF,Forward,2001-09-10,2019,2024,Academy,Released
 P031,Nicolas Jackson,Senegal,CF,Forward,2001-06-20,2023,2025,Villarreal,Bayern Munich (Loan)
 P032,Cole Palmer,England,AM,Midfielder,2002-05-06,2023,,Manchester City,
-P033,Noni Madueke,England,RW,Midfielder,2002-03-10,2023,,PSV,
-P034,Pedro Neto,Portugal,LW,Midfielder,2000-03-09,2024,,Wolves,
+P033,Noni Madueke,England,RW,Midfielder,2002-03-10,2023,2025,PSV,Arsenal
+P034,Pedro Neto,Portugal,LW,Midfielder,2000-03-09,2024,2025,Wolves,Released
 P035,Joao Pedro,Brazil,CF,Forward,2001-09-26,2025,,Brighton,
 P036,Liam Delap,England,CF,Forward,2003-08-08,2025,,Manchester City,
 P037,Jamie Gittens,England,LW,Midfielder,2004-10-02,2025,,Dortmund,
 P038,Alejandro Garnacho,Argentina,RW,Midfielder,2004-07-01,2025,,Manchester United,
 P039,Willian Estevao,Brazil,RW,Midfielder,2007-04-24,2025,,Palmeiras,
 P040,Tosin Adarabioyo,England,CB,Defender,2000-09-24,2024,,Fulham,
+P041,Alvaro Morata,Spain,CF,Forward,1992-10-23,2017,2020,Real Madrid,Atletico Madrid
+P042,Mario Pasalic,Croatia,CM,Midfielder,1995-02-09,2014,2020,Hajduk Split,Atalanta
+P043,Ethan Ampadu,Wales,CB,Defender,2000-09-14,2017,2020,Exeter City,Sheffield United (Loan)
+P044,Tammy Abraham,England,CF,Forward,1997-10-02,2016,2021,Academy,Roma
+P045,Fikayo Tomori,England,CB,Defender,1997-12-19,2016,2021,Academy,AC Milan
+P046,Kurt Zouma,France,CB,Defender,1994-10-27,2014,2021,Saint-Etienne,West Ham
+P047,Marc Guehi,England,CB,Defender,2000-07-13,2019,2021,Academy,Crystal Palace
+P048,Olivier Giroud,France,CF,Forward,1986-09-30,2018,2021,Arsenal,AC Milan
+P049,Ian Maatsen,Netherlands,LB,Defender,2002-03-10,2019,2024,PSV,Aston Villa
+P050,Christopher Nkunku,France,CF,Forward,1997-11-14,2023,2025,RB Leipzig,Bayern Munich
+P051,Djordje Petrovic,Serbia,GK,Goalkeeper,1999-10-08,2023,2025,New England Revolution,Strasbourg

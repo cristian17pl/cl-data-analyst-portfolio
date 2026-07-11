@@ -109,7 +109,7 @@ table fact_player_wages
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_player_wages.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\fact_player_wages.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"wage_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"position_group", type text}, {"weekly_wage_gbp", Int64.Type}, {"annual_wage_gbp", Int64.Type}, {"contract_end_year", Int64.Type}, {"agent_fee_gbp", Int64.Type}, {"signing_bonus_gbp", Int64.Type}, {"performance_bonus_gbp", Int64.Type}})
 				in

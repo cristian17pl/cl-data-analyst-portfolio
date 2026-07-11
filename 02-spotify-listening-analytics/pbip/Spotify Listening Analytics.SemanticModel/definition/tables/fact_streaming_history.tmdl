@@ -1,0 +1,149 @@
+table fact_streaming_history
+	lineageTag: 2e072e16-4f62-4af7-8b00-e3eab32250a1
+
+	column platform
+		dataType: string
+		lineageTag: 5ff96249-c6b2-4dde-a087-d42020ba8dd8
+		summarizeBy: none
+		sourceColumn: platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column ms_played
+		dataType: int64
+		formatString: 0
+		lineageTag: e7af30f6-643b-4fe4-b758-36f1a95342d4
+		summarizeBy: sum
+		sourceColumn: ms_played
+
+		annotation SummarizationSetBy = Automatic
+
+	column conn_country
+		dataType: string
+		lineageTag: 911d10cc-64a8-4cc8-a53d-73fd6eac3949
+		summarizeBy: none
+		sourceColumn: conn_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column track_key
+		dataType: string
+		lineageTag: cad6d333-47f1-44db-bdd4-1d4ca8f6b1f7
+		summarizeBy: none
+		sourceColumn: track_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column episode_key
+		dataType: string
+		lineageTag: 387ef71f-d173-4d2d-8226-e3dcfdf87167
+		summarizeBy: none
+		sourceColumn: episode_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_start
+		dataType: string
+		lineageTag: 0619ef19-bc24-45dd-9ce1-e153eea5e1dd
+		summarizeBy: none
+		sourceColumn: reason_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column reason_end
+		dataType: string
+		lineageTag: edb0239a-3423-4323-bbdb-346fdba702a8
+		summarizeBy: none
+		sourceColumn: reason_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column shuffle
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b9daf002-45d4-4c1a-bbb2-45afae62c1f3
+		summarizeBy: none
+		sourceColumn: shuffle
+
+		annotation SummarizationSetBy = Automatic
+
+	column skipped
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6a7ff125-30d8-44b0-9dbd-9842be2ab506
+		summarizeBy: none
+		sourceColumn: skipped
+
+		annotation SummarizationSetBy = Automatic
+
+	column offline
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5d187b15-eb24-4978-b3d7-58aa3c8c1dbb
+		summarizeBy: none
+		sourceColumn: offline
+
+		annotation SummarizationSetBy = Automatic
+
+	column offline_timestamp
+		dataType: string
+		lineageTag: 09485ccc-c352-4f15-9e5a-070e00c5e765
+		summarizeBy: none
+		sourceColumn: offline_timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column incognito_mode
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4ee8fe01-f2d9-4383-b793-d4728e43ec9e
+		summarizeBy: none
+		sourceColumn: incognito_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column stream_date =
+			
+			DATEVALUE ( fact_streaming_history[ts] )
+		lineageTag: 12012796-eeaa-46a2-86eb-204db253ad01
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: feb094bc-2700-4ffc-a26d-2dcfef9e9118
+		summarizeBy: none
+		sourceColumn: ts
+
+		annotation SummarizationSetBy = Automatic
+
+	column stream_hour =
+			
+			HOUR ( fact_streaming_history[ts] )
+		formatString: 0
+		lineageTag: 0d9634ce-e645-487c-887a-432c1bbf0a2e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_streaming_history = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\02-spotify-listening-analytics\docs\my_spotify_data\Spotify Extended Streaming History"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Renamed Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"ts", type datetime}, {"platform", type text}, {"ms_played", Int64.Type}, {"conn_country", type text}, {"master_metadata_track_name", type text}, {"master_metadata_album_artist_name", type text}, {"master_metadata_album_album_name", type text}, {"spotify_track_uri", type text}, {"episode_name", type any}, {"episode_show_name", type any}, {"spotify_episode_uri", type any}, {"audiobook_title", type any}, {"audiobook_uri", type any}, {"audiobook_chapter_uri", type any}, {"audiobook_chapter_title", type any}, {"reason_start", type text}, {"reason_end", type text}, {"shuffle", type logical}, {"skipped", type logical}, {"offline", type logical}, {"offline_timestamp", type any}, {"incognito_mode", type logical}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"spotify_track_uri", "track_key"}, {"spotify_episode_uri", "episode_key"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Content", "Source.Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name", "episode_name", "episode_show_name", "audiobook_title", "audiobook_uri", "audiobook_chapter_uri", "audiobook_chapter_title"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -62,3 +62,8 @@ relationship 69a1c27c-2627-4bb7-bb39-e9019ae456ce
 	fromColumn: Calendar.Date
 	toColumn: LocalDateTable_4e623ed9-feb5-4672-87f6-065c8d44ffda.Date
 
+relationship c3e5a712-8b9d-4f1e-a023-6b7c8d9e0f1a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_matches.match_date
+	toColumn: Calendar.Date
+

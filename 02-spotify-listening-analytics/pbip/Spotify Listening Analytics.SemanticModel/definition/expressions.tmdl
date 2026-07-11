@@ -1,0 +1,47 @@
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 63a3459e-ca9c-4185-bca9-f117dbd218df
+	queryGroup: 'Transform File from Spotify Extended Streaming History\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\02-spotify-listening-analytics\docs\my_spotify_data\Spotify Extended Streaming History"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: e6723d24-08dd-4e8e-af41-d86973619ac7
+	queryGroup: 'Transform File from Spotify Extended Streaming History\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Json.Document(Parameter1),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"ts", "platform", "ms_played", "conn_country", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name", "spotify_track_uri", "episode_name", "episode_show_name", "spotify_episode_uri", "audiobook_title", "audiobook_uri", "audiobook_chapter_uri", "audiobook_chapter_title", "reason_start", "reason_end", "shuffle", "skipped", "offline", "offline_timestamp", "incognito_mode"}, {"ts", "platform", "ms_played", "conn_country", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name", "spotify_track_uri", "episode_name", "episode_show_name", "spotify_episode_uri", "audiobook_title", "audiobook_uri", "audiobook_chapter_uri", "audiobook_chapter_title", "reason_start", "reason_end", "shuffle", "skipped", "offline", "offline_timestamp", "incognito_mode"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1",{{"ts", type datetime}, {"platform", type text}, {"ms_played", Int64.Type}, {"conn_country", type text}, {"master_metadata_track_name", type text}, {"master_metadata_album_artist_name", type text}, {"master_metadata_album_album_name", type text}, {"spotify_track_uri", type text}, {"episode_name", type any}, {"episode_show_name", type any}, {"spotify_episode_uri", type any}, {"audiobook_title", type any}, {"audiobook_uri", type any}, {"audiobook_chapter_uri", type any}, {"audiobook_chapter_title", type any}, {"reason_start", type text}, {"reason_end", type text}, {"shuffle", type logical}, {"skipped", type logical}, {"offline", type logical}, {"offline_timestamp", type any}, {"incognito_mode", type logical}})
+		in
+		    #"Changed Type"
+	lineageTag: c5cb7393-145e-49f2-b2a0-9a79db5b0e78
+	queryGroup: 'Transform File from Spotify Extended Streaming History'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Json.Document(Parameter1),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"ts", "platform", "ms_played", "conn_country", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name", "spotify_track_uri", "episode_name", "episode_show_name", "spotify_episode_uri", "audiobook_title", "audiobook_uri", "audiobook_chapter_uri", "audiobook_chapter_title", "reason_start", "reason_end", "shuffle", "skipped", "offline", "offline_timestamp", "incognito_mode"}, {"ts", "platform", "ms_played", "conn_country", "master_metadata_track_name", "master_metadata_album_artist_name", "master_metadata_album_album_name", "spotify_track_uri", "episode_name", "episode_show_name", "spotify_episode_uri", "audiobook_title", "audiobook_uri", "audiobook_chapter_uri", "audiobook_chapter_title", "reason_start", "reason_end", "shuffle", "skipped", "offline", "offline_timestamp", "incognito_mode"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1",{{"ts", type datetime}, {"platform", type text}, {"ms_played", Int64.Type}, {"conn_country", type text}, {"master_metadata_track_name", type text}, {"master_metadata_album_artist_name", type text}, {"master_metadata_album_album_name", type text}, {"spotify_track_uri", type text}, {"episode_name", type any}, {"episode_show_name", type any}, {"spotify_episode_uri", type any}, {"audiobook_title", type any}, {"audiobook_uri", type any}, {"audiobook_chapter_uri", type any}, {"audiobook_chapter_title", type any}, {"reason_start", type text}, {"reason_end", type text}, {"shuffle", type logical}, {"skipped", type logical}, {"offline", type logical}, {"offline_timestamp", type any}, {"incognito_mode", type logical}})
+		in
+		    #"Changed Type"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File""}" ]
+	lineageTag: 0447164c-5c5e-4b59-a074-726d22ac03b9
+	queryGroup: 'Transform File from Spotify Extended Streaming History\Helper Queries'
+
+	annotation PBI_ResultType = Function
+

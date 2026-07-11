@@ -1,5 +1,5 @@
 financial_id,season_id,category,subcategory,type,amount_gbp,amount_eur,notes
-F001,S1,Revenue,Broadcast,Revenue,218000000,242000000,PL domestic + UCL prize money + Champions share
+F001,S1,Revenue,Broadcast,Revenue,218000000,242000000,PL domestic and UEFA media distributions
 F002,S1,Revenue,Commercial,Revenue,152000000,169000000,Sponsorships + kit deal + merchandising
 F003,S1,Revenue,Matchday,Revenue,0,0,COVID no fans allowed
 F004,S1,Revenue,Player Sales,Revenue,35000000,39000000,Player sales and loans
@@ -11,7 +11,7 @@ F009,S1,Cost,Agent Fees,Cost,18000000,20000000,Agent commissions on transfers an
 F010,S1,Cost,Operations,Cost,28000000,31000000,Stadium training ground + logistics
 F011,S1,Cost,Marketing,Cost,9000000,10000000,Marketing and promotion spend
 F012,S1,Cost,Academy,Cost,15000000,17000000,Academy operations and youth development
-F013,S2,Revenue,Broadcast,Revenue,241000000,268000000,PL domestic + UCL prize money
+F013,S2,Revenue,Broadcast,Revenue,241000000,268000000,PL domestic and UEFA media distributions
 F014,S2,Revenue,Commercial,Revenue,178000000,198000000,New kit deal + sponsorships + merch
 F015,S2,Revenue,Matchday,Revenue,82000000,91000000,Full crowds returned Stamford Bridge
 F016,S2,Revenue,Player Sales,Revenue,45000000,50000000,Player departures including loans
@@ -35,7 +35,7 @@ F033,S3,Cost,Agent Fees,Cost,38000000,42000000,Record spending windows
 F034,S3,Cost,Operations,Cost,33000000,37000000,Stadium training ground + logistics
 F035,S3,Cost,Marketing,Cost,11000000,12000000,Marketing and promotion spend
 F036,S3,Cost,Academy,Cost,17000000,19000000,Academy operations and youth development
-F037,S4,Revenue,Broadcast,Revenue,224000000,249000000,UCL group stage + 6th PL finish
+F037,S4,Revenue,Broadcast,Revenue,224000000,249000000,PL domestic and UEFA media distributions
 F038,S4,Revenue,Commercial,Revenue,198000000,220000000,Commercial deals growth
 F039,S4,Revenue,Matchday,Revenue,85000000,94000000,UCL match days boost
 F040,S4,Revenue,Player Sales,Revenue,65000000,72000000,Various player sales
@@ -47,7 +47,7 @@ F045,S4,Cost,Agent Fees,Cost,42000000,47000000,Further transfer activity
 F046,S4,Cost,Operations,Cost,35000000,39000000,Stadium training ground + logistics
 F047,S4,Cost,Marketing,Cost,12000000,13000000,Marketing and promotion spend
 F048,S4,Cost,Academy,Cost,18000000,20000000,Academy operations and youth development
-F049,S5,Revenue,Broadcast,Revenue,258000000,287000000,4th PL finish + Conference League prize + CL
+F049,S5,Revenue,Broadcast,Revenue,258000000,287000000,PL domestic and European media distributions
 F050,S5,Revenue,Commercial,Revenue,215000000,239000000,New front shirt sponsor secured
 F051,S5,Revenue,Matchday,Revenue,92000000,102000000,Conference League home games + strong PL attendance
 F052,S5,Revenue,Player Sales,Revenue,78000000,87000000,Gallagher sale + Chilwell departure
@@ -59,7 +59,7 @@ F057,S5,Cost,Agent Fees,Cost,35000000,39000000,Transfer activity fees
 F058,S5,Cost,Operations,Cost,36000000,40000000,Stadium training ground + logistics
 F059,S5,Cost,Marketing,Cost,13000000,14000000,Marketing and promotion spend
 F060,S5,Cost,Academy,Cost,19000000,21000000,Academy operations and youth development
-F061,S6,Revenue,Broadcast,Revenue,238000000,264000000,UCL Round of 16 exit + lower PL finish
+F061,S6,Revenue,Broadcast,Revenue,238000000,264000000,PL domestic and UEFA media distributions
 F062,S6,Revenue,Commercial,Revenue,228000000,253000000,Commercial growth continues
 F063,S6,Revenue,Matchday,Revenue,88000000,98000000,UCL home games + FA Cup final run
 F064,S6,Revenue,Player Sales,Revenue,55000000,61000000,Pedro Neto and Jackson loan income
@@ -71,3 +71,21 @@ F069,S6,Cost,Agent Fees,Cost,40000000,44000000,Summer 2025 transfer fees
 F070,S6,Cost,Operations,Cost,37000000,41000000,Stadium training ground + logistics
 F071,S6,Cost,Marketing,Cost,14000000,16000000,Marketing and promotion spend
 F072,S6,Cost,Academy,Cost,20000000,22000000,Academy operations and youth development
+F073,S1,Revenue,Competition Prize Money,Revenue,118000000,131000000,UCL title prize and domestic cup performance pools
+F074,S1,Revenue,Retail and Merchandising,Revenue,28000000,31000000,Club shop ecommerce and licensing income
+F075,S1,Revenue,Stadium Events and Hospitality,Revenue,2000000,2200000,COVID limited non matchday events and hospitality
+F076,S2,Revenue,Competition Prize Money,Revenue,92000000,102000000,UCL quarter final domestic cup finals and CWC prize pools
+F077,S2,Revenue,Retail and Merchandising,Revenue,34000000,38000000,Club shop ecommerce and licensing income
+F078,S2,Revenue,Stadium Events and Hospitality,Revenue,16000000,18000000,Hospitality packages stadium tours and venue events
+F079,S3,Revenue,Competition Prize Money,Revenue,55000000,61000000,UCL last 16 and domestic cup prize pools
+F080,S3,Revenue,Retail and Merchandising,Revenue,38000000,42000000,Club shop ecommerce and licensing income
+F081,S3,Revenue,Stadium Events and Hospitality,Revenue,20000000,22000000,Hospitality packages stadium tours and venue events
+F082,S4,Revenue,Competition Prize Money,Revenue,65000000,72000000,European qualification and domestic cup prize pools
+F083,S4,Revenue,Retail and Merchandising,Revenue,42000000,47000000,Club shop ecommerce and licensing income
+F084,S4,Revenue,Stadium Events and Hospitality,Revenue,24000000,27000000,Hospitality packages stadium tours and venue events
+F085,S5,Revenue,Competition Prize Money,Revenue,76000000,84000000,Conference League run domestic cups and PL merit payments
+F086,S5,Revenue,Retail and Merchandising,Revenue,48000000,53000000,Club shop ecommerce and licensing income
+F087,S5,Revenue,Stadium Events and Hospitality,Revenue,28000000,31000000,Hospitality packages stadium tours and venue events
+F088,S6,Revenue,Competition Prize Money,Revenue,82000000,91000000,UCL round of 16 FA Cup run and PL merit payments
+F089,S6,Revenue,Retail and Merchandising,Revenue,52000000,58000000,Club shop ecommerce and licensing income
+F090,S6,Revenue,Stadium Events and Hospitality,Revenue,30000000,33000000,Hospitality packages stadium tours and venue events

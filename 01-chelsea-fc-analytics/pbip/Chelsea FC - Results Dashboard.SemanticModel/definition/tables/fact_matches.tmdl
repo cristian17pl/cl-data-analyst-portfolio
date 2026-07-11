@@ -117,13 +117,72 @@ table fact_matches
 
 		annotation SummarizationSetBy = Automatic
 
+	column opponent_pl_finish
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c6b0a96-1a56-4d97-a585-785c08b80646
+		summarizeBy: none
+		sourceColumn: opponent_pl_finish
+
+		annotation SummarizationSetBy = Automatic
+
+	column opponent_strength_tier =
+			
+			SWITCH(
+			    TRUE(),
+			    ISBLANK(fact_matches[opponent_pl_finish]), "Cup / Unknown",
+			    fact_matches[opponent_pl_finish] <= 6, "Top-6",
+			    fact_matches[opponent_pl_finish] <= 12, "Mid-table",
+			    "Bottom half"
+			)
+		lineageTag: 25f9a9f1-8757-4369-88fd-e25813bb3c7c
+		summarizeBy: none
+		sortByColumn: opponent_strength_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column opponent_strength_sort =
+			
+			SWITCH(
+			    TRUE(),
+			    ISBLANK(fact_matches[opponent_pl_finish]), 4,
+			    fact_matches[opponent_pl_finish] <= 6, 1,
+			    fact_matches[opponent_pl_finish] <= 12, 2,
+			    3
+			)
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b6cda90-f01c-453a-9ff2-f9bcfd5b6ee7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column xg_for
+		dataType: double
+		lineageTag: cce90a47-9b3c-4079-a7f1-33aee566cb34
+		summarizeBy: sum
+		sourceColumn: xg_for
+
+		annotation SummarizationSetBy = Automatic
+
+	column xg_against
+		dataType: double
+		lineageTag: 28d2c61c-9c38-43f7-a88a-d3465483a568
+		summarizeBy: sum
+		sourceColumn: xg_against
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_matches = m
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_matches.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\fact_matches.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"match_id", type text}, {"season_id", type text}, {"competition_id", type text}, {"match_date", type date}, {"round", type text}, {"venue", type text}, {"opponent", type text}, {"goals_for", Int64.Type}, {"goals_against", Int64.Type}, {"result", type text}, {"attendance", Int64.Type}, {"home_away", type text}, {"matchday_revenue_gbp", Int64.Type}})
+				    #"Columnas seleccionadas" = Table.SelectColumns(#"Encabezados promovidos",{"match_id", "season_id", "competition_id", "match_date", "round", "venue", "opponent", "opponent_pl_finish", "goals_for", "goals_against", "result", "attendance", "home_away", "matchday_revenue_gbp", "xg_for", "xg_against"}),
+				    #"Opponent PL N/A limpiado" = Table.ReplaceValue(#"Columnas seleccionadas","N/A",null,Replacer.ReplaceValue,{"opponent_pl_finish"}),
+				    #"Opponent PL blanco limpiado" = Table.ReplaceValue(#"Opponent PL N/A limpiado","",null,Replacer.ReplaceValue,{"opponent_pl_finish"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Opponent PL blanco limpiado",{{"match_id", type text}, {"season_id", type text}, {"competition_id", type text}, {"match_date", type date}, {"round", type text}, {"venue", type text}, {"opponent", type text}, {"opponent_pl_finish", Int64.Type}, {"goals_for", Int64.Type}, {"goals_against", Int64.Type}, {"result", type text}, {"attendance", Int64.Type}, {"home_away", type text}, {"matchday_revenue_gbp", Int64.Type}, {"xg_for", type number}, {"xg_against", type number}})
 				in
 				    #"Tipo cambiado"
 

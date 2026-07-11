@@ -145,7 +145,7 @@ table fact_player_performance
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_player_performance.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\fact_player_performance.csv"),[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"perf_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"position_group", type text}, {"appearances", Int64.Type}, {"starts", Int64.Type}, {"minutes_played", Int64.Type}, {"goals", Int64.Type}, {"assists", Int64.Type}, {"yellow_cards", Int64.Type}, {"red_cards", Int64.Type}, {"clean_sheets", Int64.Type}, {"saves", Int64.Type}, {"pass_accuracy_pct", Int64.Type}, {"rating_avg", type number}})
 				in

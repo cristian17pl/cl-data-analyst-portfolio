@@ -1,102 +1,50 @@
-# Chelsea FC Analytics Dataset (2020/21 – 2025/26)
-## Power BI Portfolio Project
+# Chelsea FC Analytics Data Documentation
 
----
+This folder contains the CSV source data and dataset documentation used by the Chelsea FC Analytics Power BI report.
 
-## Overview
-This dataset covers 6 seasons of Chelsea FC data across all major competitions.
-It follows a **star schema** (medallion-style) designed for Power BI semantic modeling.
+## Data Provenance
 
-All financial figures are in **GBP (£)**. EUR equivalents are provided as secondary columns.
-Data is inspired by real-world sources (Transfermarkt, Capology, UEFA, Deloitte Football Money League).
+The dataset was **generated and curated with Claude and Codex**, using publicly available football and business data patterns as reference material.
 
----
+It is intended for portfolio storytelling, semantic modeling, dashboard design, and DAX practice. It is **not** an official Chelsea FC dataset and should not be used as an audited source of club records.
 
-## File Structure
+Reference inspiration includes:
+
+- Transfermarkt-style transfer fees and player market values
+- Capology-style wage estimates
+- Premier League and UEFA competition structures
+- Deloitte Football Money League-style financial benchmarking
+
+Some values were estimated, normalized, or enriched to create a complete analytical story across six seasons.
+
+## Player Counts
+
+- `dim_player.csv`: 51 player master records
+- `fact_player_valuations.csv`: 38 distinct players with valuation history
+- `fact_player_performance.csv`: 38 distinct players with performance history
+- Latest valuation snapshot (`2026-05-01`): 17 players
+
+The Power BI report separates these concepts because "total players in the dataset" and "players in the latest market-value snapshot" answer different questions.
+
+## Files
 
 | File | Type | Description |
 |---|---|---|
-| `dim_season.csv` | Dimension | Season metadata, managers, ownership era, competition results |
-| `dim_player.csv` | Dimension | Player master data across all seasons |
+| `dim_season.csv` | Dimension | Season metadata, manager, ownership era, PL finish, trophies |
+| `dim_player.csv` | Dimension | Player master data, position, position group, nationality |
 | `dim_competition.csv` | Dimension | Competition reference table |
-| `fact_matches.csv` | Fact | Match-level results, attendance, matchday revenue |
-| `fact_financials.csv` | Fact | Club P&L broken down by revenue/cost category per season |
-| `fact_transfers.csv` | Fact | Transfer activity in and out per season |
-| `fact_player_wages.csv` | Fact | Per-player, per-season wage breakdown including bonuses |
-| `fact_player_valuations.csv` | Fact | Market valuations per player per season (Transfermarkt-style) |
-| `fact_player_performance.csv` | Fact | Per-player, per-season performance statistics |
-
----
-
-## Data Model Relationships
-
-```
-dim_season (season_id) ──< fact_matches
-dim_season (season_id) ──< fact_financials
-dim_season (season_id) ──< fact_transfers
-dim_season (season_id) ──< fact_player_wages
-dim_season (season_id) ──< fact_player_valuations
-dim_season (season_id) ──< fact_player_performance
-
-dim_player (player_id) ──< fact_transfers
-dim_player (player_id) ──< fact_player_wages
-dim_player (player_id) ──< fact_player_valuations
-dim_player (player_id) ──< fact_player_performance
-
-dim_competition (competition_id) ──< fact_matches
-```
-
----
-
-## Suggested Dashboard Pages
-
-### 1. Season Overview
-- KPI cards: PL position, matches played, W/D/L, goals scored/conceded
-- Season timeline with trophies
-- Manager tenure bar
-
-### 2. Financial Performance
-- Revenue vs Cost waterfall by season
-- Revenue breakdown by stream (Broadcast, Commercial, Matchday, Player Sales)
-- Cost breakdown (Wages, Amortisation, Operations, Agent Fees)
-- Net profit/loss trend
-
-### 3. Transfer Activity
-- Net spend by season (in vs out)
-- Top 10 most expensive signings
-- Nationality breakdown of signings
-- Age at time of signing distribution
-
-### 4. Squad & Wages
-- Wage bill by season (trend)
-- Top earners by season (bar chart)
-- Wage vs market value scatter (efficiency)
-- Position group wage distribution
-
-### 5. Player Market Values
-- Squad total value trend
-- Top valued players per season
-- Value change YoY per player
-- Age vs value bubble chart
-
-### 6. Match Performance
-- Win/Draw/Loss % by competition
-- Goals scored vs conceded by season
-- Attendance trends (home)
-- Home vs Away record
-
-### 7. Player Performance
-- Top scorers and assisters per season
-- Minutes per goal/assist ratios
-- Rating trends by player
-- Position group contribution
-
----
+| `fact_matches.csv` | Fact | Match-level results, goals, attendance, matchday revenue, xG, opponent tiering inputs |
+| `fact_financials.csv` | Fact | Revenue and cost categories by season |
+| `fact_transfers.csv` | Fact | Transfer activity in/out and transfer fees |
+| `fact_player_wages.csv` | Fact | Player wage estimates by season |
+| `fact_player_valuations.csv` | Fact | Player market value snapshots |
+| `fact_player_performance.csv` | Fact | Player appearances, goals, assists, ratings, pass accuracy, clean sheets |
+| `fact_trophies.csv` | Fact | Trophy-level detail |
 
 ## Notes
-- Season S1 = 2020/21 (COVID, no matchday revenue)
-- Ownership changed from Abramovich to BlueCo in May 2022 (S2)
-- Financial figures for S6 are partial estimates (season in progress)
-- Match results for S6 are through approximately April 2026
-- Wage figures inspired by Capology and public reporting; treated as estimates
-- Market valuations follow Transfermarkt-style peak/decline logic by age and performance
+
+- Financial values are modeled in GBP.
+- 2025-26 data is treated as an analytical portfolio scenario, not a verified live season feed.
+- Player valuations include multiple snapshots to support within-season value movement.
+- The Power BI report is stored in PBIP/TMDL format under `../pbip`.
+- Final PDF previews are stored under `../reports`.

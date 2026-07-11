@@ -73,12 +73,11 @@ table fact_financials
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_financials.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\fact_financials.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"financial_id", type text}, {"season_id", type text}, {"category", type text}, {"subcategory", type text}, {"type", type text}, {"amount_gbp", Int64.Type}, {"amount_eur", Int64.Type}, {"notes", type text}, {"", type text}, {"_1", type text}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Tipo cambiado",{"", "_1"})
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"financial_id", type text}, {"season_id", type text}, {"category", type text}, {"subcategory", type text}, {"type", type text}, {"amount_gbp", Int64.Type}, {"amount_eur", Int64.Type}, {"notes", type text}})
 				in
-				    #"Removed Columns"
+				    #"Tipo cambiado"
 
 	annotation PBI_ResultType = Table
 

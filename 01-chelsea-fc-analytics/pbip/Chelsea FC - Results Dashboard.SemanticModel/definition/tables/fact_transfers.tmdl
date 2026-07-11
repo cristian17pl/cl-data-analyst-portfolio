@@ -123,7 +123,7 @@ table fact_transfers
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\fact_transfers.csv"),[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\fact_transfers.csv"),[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"transfer_id", type text}, {"season_id", type text}, {"player_id", type text}, {"player_name", type text}, {"direction", type text}, {"transfer_window", type text}, {"from_club", type text}, {"to_club", type text}, {"transfer_fee_gbp", Int64.Type}, {"transfer_fee_eur", Int64.Type}, {"loan", type logical}, {"position_group", type text}, {"age_at_transfer", Int64.Type}, {"nationality", type text}})
 				in

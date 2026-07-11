@@ -1,0 +1,347 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spotify — 9 Años de Escucha</title>
+<style>
+ :root{color-scheme:light}
+ *{box-sizing:border-box}
+ html{background:#f4f5f7}
+ body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:#1a1a1a;background:#f4f5f7}
+ header{padding:16px 22px;border-bottom:1px solid #e0e0e0;background:#fff}
+ header h1{font-size:19px;margin:0 0 4px}
+ header .bajada{color:#444;font-size:14px;max-width:80ch}
+ header .meta{color:#777;font-size:12px;margin-top:4px}
+ .toggle{margin-top:10px;display:inline-flex;border:1px solid #ccc;border-radius:8px;overflow:hidden}
+ .toggle button{border:0;background:#f5f5f5;padding:6px 16px;font-size:13px;cursor:pointer;color:#333}
+ .toggle button.on{background:#1f6feb;color:#fff;font-weight:600}
+ nav#tabs{display:flex;flex-wrap:wrap;gap:6px;padding:10px 22px;border-bottom:1px solid #eee;background:#fafafa}
+ nav#tabs button{border:1px solid #d0d0d0;background:#fff;border-radius:7px;padding:6px 12px;font-size:13px;cursor:pointer;color:#333}
+ nav#tabs button.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+ .main{display:flex;gap:18px;padding:18px 22px;align-items:flex-start;flex-wrap:wrap}
+ #stage{flex:1 1 620px;min-width:320px}
+ .pagemeta{margin-bottom:8px}
+ .pagemeta .title{font-size:16px;font-weight:600}
+ .pagemeta .takeaway{font-size:14px;color:#1a1a1a;background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:7px 12px;margin-top:6px}
+ .pagemeta .decision{font-size:12px;color:#666;margin-top:4px}
+ #canvas{position:relative;width:100%;max-width:1024px;aspect-ratio:1280/720;border:1px solid #0a1422;border-radius:6px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+ .visual{position:absolute;overflow:hidden;cursor:pointer;border-radius:6px}
+ .visual svg{display:block;width:100%;height:100%}
+ .visual:hover,.visual:focus{outline:2px solid #1f6feb;outline-offset:-1px;z-index:9999}
+ .visual.sel{outline:3px solid #1f6feb;outline-offset:-1px}
+ .visual .ribbon{position:absolute;top:0;right:0;font-size:9px;font-weight:700;color:#fff;padding:1px 6px;border-bottom-left-radius:6px;z-index:5}
+ .chip{position:absolute;display:flex;align-items:center;gap:5px;font-size:11px;border-radius:6px;padding:3px 8px;cursor:pointer;z-index:50}
+ .chip.slicer{background:#1E4A75;color:#C8A84B;border:1px solid #C8A84B}
+ .chip.bm{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.5)}
+ .chip.nav{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);font-weight:600}
+ .chip .caret{opacity:.8}
+ #detail{flex:0 0 330px;max-width:370px;border:1px solid #e0e0e0;border-radius:10px;padding:14px 16px;background:#fff;font-size:13px;position:sticky;top:14px}
+ #detail h3{margin:0 0 8px;font-size:14px}
+ #detail code{font-family:ui-monospace,Consolas,monospace;font-size:11px;background:#f0f2f5;padding:1px 4px;border-radius:3px}
+ #detail .pill{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;margin-bottom:8px}
+ #detail .row{margin:8px 0}
+ #detail .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#888;display:block;margin-bottom:2px}
+ #detail .cost{background:#fff8e1;border:1px solid #ffe082;border-radius:7px;padding:7px 10px}
+ #detail .bind{background:#eef4ff;border:1px solid #cfe0ff;border-radius:7px;padding:7px 10px;font-size:12px}
+ #detail .empty{color:#999}
+ .legend{display:flex;flex-wrap:wrap;gap:10px;padding:0 22px 10px;font-size:12px;color:#555}
+ .legend span{display:inline-flex;align-items:center;gap:5px}
+ .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+ .note{margin:8px 22px 18px;background:#eef4ff;border:1px solid #cfe0ff;border-radius:8px;padding:8px 12px;font-size:12px;color:#234}
+</style></head><body>
+<div id="app"></div>
+<script>
+const MODE = "disenar";
+const PROPOSAL = {"schemaVersion": "storytelling-proposal/1", "mode": "disenar", "report": {"title": "Spotify — 9 Años de Escucha", "throughLine": "Mis datos de Spotify revelan quién soy como oyente: cuándo escucho, a quién repito, y cómo cambié.", "audience": "Portfolio viewer / análisis personal", "framework": "Knaflic — Storytelling with Data; BLUF; Tufte — data-ink; Gestalt", "designSystem": {"palette": {"background": "#121212", "accent": "#1DB954", "positive": "#1DB954", "negative": "#E22134", "neutral": "#535353", "text": "#FFFFFF", "textSecondary": "#B3B3B3", "series": ["#1DB954", "#FF6437", "#1877F2", "#FFC862", "#9B59B6", "#FF69B4", "#00BCD4", "#E91E63"]}, "conditionalFormatting": {"heatmapLow": "#121212", "heatmapHigh": "#1DB954", "skipLow": "#1DB954", "skipHigh": "#E22134"}, "typography": {"titleFont": "Circular, Helvetica Neue, sans-serif", "bodyFont": "Circular, Helvetica Neue, sans-serif"}}}, "pages": [{"pageId": null, "newPageIndex": 1, "title": "Resumen Sonoro", "takeaway": "Más de X,000 horas en 9 años: el arco de una vida musical visible en una sola curva.", "audience": "Portfolio viewer", "decision": "¿Soy un oyente intenso o casual? ¿Cómo evolucionó mi escucha a lo largo del tiempo?", "width": 1280, "height": 720, "interactivity": {"slicers": [{"field": "dim_calendar.year", "type": "between", "scope": "all_pages", "slot": "slicer_year", "displayName": "Año"}], "bookmarks": [], "navigation": {"style": "top-bar", "showTitle": true}, "drillthrough": [], "tooltips": []}, "visuals": [{"visualId": "p1n01", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Total Hours Played", "message": "Total de horas escuchadas — la magnitud bruta.", "positionHint": {"col": 0, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "KPI ancla arriba-izquierda: el número que calibra la escala de todo lo demás. Es el 'qué' antes del 'cómo'. (BLUF + patrón Z)", "framework": "BLUF; Knaflic — un número que importa", "costWarning": "", "binding": {"projections": [{"role": "Data", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Total Horas"}]}}, {"visualId": "p1n02", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Unique Artists", "message": "Artistas únicos — amplitud del gusto musical.", "positionHint": {"col": 3, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "Contrasta con horas totales para revelar si el oyente es amplio o concentrado. (Knaflic — contexto)", "framework": "Knaflic — contexto primero", "costWarning": "", "binding": {"projections": [{"role": "Data", "kind": "Measure", "entity": "formulas", "property": "# Unique Artists", "displayName": "Artistas"}]}}, {"visualId": "p1n03", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Active Listening Days", "message": "Días con al menos un stream — frecuencia real, no solo volumen.", "positionHint": {"col": 6, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "Más significativo que el total de streams porque mide la consistencia del hábito. (Knaflic — la métrica correcta)", "framework": "Knaflic — elegir la métrica correcta", "costWarning": "", "binding": {"projections": [{"role": "Data", "kind": "Measure", "entity": "formulas", "property": "# Active Listening Days", "displayName": "Días Activos"}]}}, {"visualId": "p1n04", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Unique Tracks", "message": "Canciones únicas — amplitud del repertorio personal.", "positionHint": {"col": 9, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "Cuarto KPI: tamaño del catálogo personal. Junto a # Unique Artists da el ratio canciones/artista. (Knaflic — contexto; BLUF)", "framework": "BLUF; Knaflic — contexto", "costWarning": "", "binding": {"projections": [{"role": "Data", "kind": "Measure", "entity": "formulas", "property": "# Unique Tracks", "displayName": "Canciones"}]}}, {"visualId": "p1n05", "visualType": "areaChart", "recommendedVisualType": "areaChart", "metric": "# Total Hours Played × year_month_name", "message": "El arco de 9 años de escucha: cada pico y valle corresponde a una fase de vida.", "positionHint": {"col": 0, "row": 2, "colSpan": 8, "rowSpan": 8}, "justification": "Área sobre 108 meses muestra tanto tendencia como irregularidad estacional. El filled area codifica el volumen acumulado visualmente, y el título debe decir la conclusión: 'El pico de escucha coincide con el confinamiento de 2020.' (Knaflic — tendencia temporal → área/línea; Tufte — data-ink; IBCS — mensaje en el título, no la dimensión)", "framework": "Knaflic — tendencia temporal; Tufte — data-ink; IBCS — título con mensaje", "costWarning": "108 puntos en un área pueden quedar muy densos: considerar agregar líneas de referencia verticales por año con un textbox o la marca de año en el eje X.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "year_month_name", "displayName": "Mes"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "year_month", "direction": "Ascending"}]}}, {"visualId": "p1n06", "visualType": "clusteredBarChart", "recommendedVisualType": "clusteredBarChart", "metric": "# Avg Hours per Active Day × year", "message": "Intensidad por año: horas por día activo — ¿cuándo fui más 'adicto'?", "positionHint": {"col": 8, "row": 2, "colSpan": 4, "rowSpan": 5}, "justification": "Normalizar por días activos elimina el sesgo de años con datos parciales (2017 puede tener menos meses capturados). La métrica revela INTENSIDAD, historia distinta al área de volumen. Si la curva de área sube pero la intensidad cae, significa que escucho por más días pero con menor compromiso diario. (Knaflic — la métrica correcta; IBCS — comparación consistente sin distorsión de volumen)", "framework": "Knaflic — métrica correcta; IBCS — comparación sin distorsión", "costWarning": "", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "year", "displayName": "Año"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Avg Hours per Active Day", "displayName": "Hrs/Día Activo"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "year", "direction": "Ascending"}]}}, {"visualId": "p1n07", "visualType": "multiRowCard", "recommendedVisualType": "multiRowCard", "metric": "REF Top Artist + REF Top Track", "message": "El artista y canción más escuchados en el periodo seleccionado.", "positionHint": {"col": 8, "row": 7, "colSpan": 4, "rowSpan": 3}, "justification": "Contexto narrativo inmediato — el dato más personal y memorable del overview. Reacciona al slicer de año para revelar el 'artista del año'. El nombre concreto ancla la historia. (Knaflic — storytelling: lo concreto > lo abstracto)", "framework": "Knaflic — storytelling con lo concreto", "costWarning": "", "binding": {"projections": [{"role": "Values", "kind": "Measure", "entity": "formulas", "property": "REF Top Artist", "displayName": "Top Artista"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "REF Top Track", "displayName": "Top Canción"}]}}]}, {"pageId": null, "newPageIndex": 2, "title": "El Ritmo de Mi Día", "takeaway": "La escucha se concentra en tarde-noche entre semana; los domingos extienden el patrón hacia la madrugada.", "audience": "Portfolio viewer / self", "decision": "¿Tengo rituales musicales según la hora y el día? ¿El patrón de semana difiere del fin de semana?", "width": 1280, "height": 720, "interactivity": {"slicers": [{"field": "dim_calendar.year", "type": "between", "scope": "all_pages", "slot": "slicer_year", "displayName": "Año"}, {"field": "dim_calendar.week_type", "type": "dropdown", "scope": "page", "slot": "slicer_weektype", "displayName": "Tipo de Semana"}], "bookmarks": [{"name": "Días hábiles", "filter": "dim_calendar.week_type = 'Weekday'"}, {"name": "Fines de semana", "filter": "dim_calendar.week_type = 'Weekend'"}], "navigation": {"style": "top-bar", "showTitle": true}, "drillthrough": [], "tooltips": []}, "visuals": [{"visualId": "p2n01", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Avg Hours per Active Day", "message": "Intensidad media diaria de escucha.", "positionHint": {"col": 0, "row": 0, "colSpan": 4, "rowSpan": 1}, "justification": "KPI de contexto arriba-izquierda para anclar la lectura del heatmap. (BLUF)", "framework": "BLUF", "costWarning": ""}, {"visualId": "p2n02", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Streams per Active Day", "message": "Streams medios por día activo — frecuencia de inicio.", "positionHint": {"col": 4, "row": 0, "colSpan": 4, "rowSpan": 1}, "justification": "Segundo KPI de contexto. (BLUF)", "framework": "BLUF", "costWarning": ""}, {"visualId": "p2n03", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "REF Selected Date Range", "message": "Rango de fechas filtrado actualmente.", "positionHint": {"col": 8, "row": 0, "colSpan": 4, "rowSpan": 1}, "justification": "Texto de contexto del filtro activo para evitar ambigüedad. (Knaflic — contexto)", "framework": "Knaflic — contexto", "costWarning": ""}, {"visualId": "p2n04", "visualType": "pivotTable", "recommendedVisualType": "pivotTable", "metric": "# Total Hours Played × day_name (rows) × hour_label (columns)", "message": "Mapa de calor 7×24: revela rituales de escucha — commute matutino, tarde de trabajo, noche de ocio.", "positionHint": {"col": 0, "row": 1, "colSpan": 8, "rowSpan": 10}, "justification": "168 celdas (7 días × 24 horas) con formato condicional gradiente #121212→#1DB954 codifican la intensidad de escucha en cada bloque. Equivale a 168 mini-barras sin el ruido. Un solo vistazo revela patrones que ningún bar chart individual mostraría — el commute de las 8am, la siesta del mediodía, la sesión nocturna de las 11pm. Los bookmarks 'Días hábiles' vs 'Fin de semana' muestran si la rutina cambia. (Tufte — data-ink: máxima información por cm²; Gestalt — figura-fondo por intensidad; glance test — el patrón se lee en <5 segundos)", "framework": "Tufte — data-ink ratio; Gestalt — figura/fondo; glance test", "costWarning": "CRÍTICO: el formato condicional debe aplicarse POR COLUMNA (escala dentro de cada hora), NO por tabla entera — de lo contrario la hora con mayor volumen absoluto eclipsa todo lo demás. Considerar alternativa: escala por fila (por día) si el interés es comparar la distribución horaria dentro de cada día.", "binding": {"projections": [{"role": "Rows", "kind": "Column", "entity": "dim_calendar", "property": "day_name", "displayName": "Día"}, {"role": "Columns", "kind": "Column", "entity": "dim_time", "property": "hour_label", "displayName": "Hora"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "day_of_week_number", "direction": "Ascending"}, {"kind": "Column", "entity": "dim_time", "property": "hour_sort", "direction": "Ascending"}]}}, {"visualId": "p2n05", "visualType": "hundredPercentStackedBarChart", "recommendedVisualType": "hundredPercentStackedBarChart", "metric": "# Total Hours Played × week_type × day_part", "message": "¿Cómo se reparte el día de escucha? — Semana vs. Fin de semana por momento del día.", "positionHint": {"col": 8, "row": 1, "colSpan": 4, "rowSpan": 5}, "justification": "100% apilado elimina el efecto de volumen (hay más días hábiles que de fin de semana) y muestra la composición real: ¿en semana predomina la mañana (commute) o la noche? Sin normalización, el día hábil siempre 'ganará' por volumen. (IBCS — normalización para comparación justa; Knaflic — parte-de-un-todo con pocas partes: 4 day_parts)", "framework": "IBCS — normalización; Knaflic — parte-de-un-todo", "costWarning": "", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "week_type", "displayName": "Tipo"}, {"role": "Series", "kind": "Column", "entity": "dim_time", "property": "day_part", "displayName": "Momento"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}]}}, {"visualId": "p2n06", "visualType": "barChart", "recommendedVisualType": "barChart", "metric": "# Total Hours Played × day_name", "message": "¿Qué día de la semana escucho más? — ranking de días.", "positionHint": {"col": 8, "row": 6, "colSpan": 4, "rowSpan": 5}, "justification": "Complementa el heatmap: si el lunes domina en volumen pero el domingo en patrón nocturno, la combinación cuenta la historia 'commute vs. ocio'. Horizontal porque las etiquetas de días son largas. Ordenado por día de la semana (no por valor) para mantener el orden natural de lectura. (Knaflic — comparar categorías → barras; Gestalt — proximidad con el 100% stacked arriba — mismo eje de decisión)", "framework": "Knaflic — comparar categorías; Gestalt — proximidad", "costWarning": "", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "day_name", "displayName": "Día"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "day_of_week_number", "direction": "Ascending"}]}}]}, {"pageId": null, "newPageIndex": 3, "title": "Mi ADN de Escucha", "takeaway": "Los artistas más escuchados no son los más completados — hay dos universos distintos: escucha intencional y escucha de fondo.", "audience": "Portfolio viewer / self", "decision": "¿Cómo escucho? ¿Soy activo o pasivo? ¿En qué momento del día soy más impaciente con las canciones?", "width": 1280, "height": 720, "interactivity": {"slicers": [{"field": "dim_calendar.year", "type": "between", "scope": "all_pages", "slot": "slicer_year", "displayName": "Año"}], "bookmarks": [], "navigation": {"style": "top-bar", "showTitle": true}, "drillthrough": [{"targetPageId": null, "filterFields": ["dim_song_artist.master_metadata_album_artist_name"], "label": "Ver artista en detalle"}], "tooltips": [{"tooltipPageId": null, "appliesTo": ["p3n05"], "label": "Tooltip artista: streams + completion + horas totales"}]}, "visuals": [{"visualId": "p3n01", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Completion Rate", "message": "Tasa global de finalización de streams.", "positionHint": {"col": 0, "row": 0, "colSpan": 3, "rowSpan": 1}, "justification": "KPI header BLUF — el dato síntesis de la página. (BLUF)", "framework": "BLUF", "costWarning": ""}, {"visualId": "p3n02", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Skip Rate", "message": "Tasa global de skip.", "positionHint": {"col": 3, "row": 0, "colSpan": 3, "rowSpan": 1}, "justification": "KPI header. Junto a % Completion Rate da el cuadro completo: completion + skip no suman 100 porque hay streams terminados por otras razones. (BLUF; Knaflic — contexto)", "framework": "BLUF; Knaflic — contexto", "costWarning": ""}, {"visualId": "p3n03", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Shuffle Rate", "message": "Escucha en modo shuffle — proxy de escucha exploratoria vs. intencional.", "positionHint": {"col": 6, "row": 0, "colSpan": 3, "rowSpan": 1}, "justification": "KPI header. Alto shuffle = escucha exploratoria/pasiva. Bajo = playlists específicas o álbumes completos. (BLUF; Knaflic — contexto)", "framework": "BLUF; Knaflic — contexto", "costWarning": ""}, {"visualId": "p3n04", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Manual Start Rate", "message": "Streams iniciados manualmente — proxy de intención activa.", "positionHint": {"col": 9, "row": 0, "colSpan": 3, "rowSpan": 1}, "justification": "KPI header. Contrasta con % Shuffle Rate para revelar el espectro control/pasividad. (BLUF; Knaflic — contexto)", "framework": "BLUF; Knaflic — contexto", "costWarning": ""}, {"visualId": "p3n05", "visualType": "scatterChart", "recommendedVisualType": "scatterChart", "metric": "artist × # Streams (X) × % Completion Rate (Y) × # Total Hours Played (size)", "message": "Artistas con muchos streams y alto completion = favoritos reales. Artistas con streams altos pero completion bajo = música de fondo.", "positionHint": {"col": 0, "row": 1, "colSpan": 7, "rowSpan": 8}, "justification": "Un scatter de 2 medidas independientes por artista revela la tensión entre VOLUMEN (cuánto escucho a este artista) y COMPROMISO (qué % termino). La diagonal principal muestra lealtad genuina; los outliers abajo-derecha son 'música de fondo'; arriba-izquierda son 'joyas que apenas exploro'. El tamaño añade una tercera dimensión (horas totales) sin añadir un eje extra — nada de doble eje. Este visual hace visible algo que un simple ranking NUNCA podría mostrar: escuchar mucho ≠ comprometerse. (Knaflic — relación entre métricas → scatter; Tufte — 3 variables en un solo visual sin chartjunk; vs. alternativa rejectable: doble eje)", "framework": "Knaflic — relación entre métricas; Tufte — honestidad + densidad de información; sin doble eje", "costWarning": "Con miles de artistas el scatter se satura: filtrar al top 40 por '# Artist Rank by Hours' con un slicer o filtro de nivel de visual. Artistas con 1-2 streams tendrán completion rate extremo (0 o 100%) — son ruido estadístico, excluirlos con '# Streams >= 5'.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_song_artist", "property": "master_metadata_album_artist_name", "displayName": "Artista"}, {"role": "X", "kind": "Measure", "entity": "formulas", "property": "# Streams", "displayName": "Streams"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "% Completion Rate", "displayName": "% Completado"}, {"role": "Size", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}]}}, {"visualId": "p3n06", "visualType": "pivotTable", "recommendedVisualType": "pivotTable", "metric": "% Skip Rate × day_name (rows) × day_part (columns)", "message": "¿Cuándo soy más impaciente? — el mapa del fastidio musical por día y momento.", "positionHint": {"col": 7, "row": 1, "colSpan": 5, "rowSpan": 5}, "justification": "Heatmap 7×4 (día × momento_del_día) con formato condicional #1DB954(0%)→#E22134(máx%) revela si el skip varía con el humor semanal. ¿Salto más los lunes por la mañana? ¿Soy más paciente los domingos? Un bar chart de 4 day_parts no capturaría la interacción día×momento — se necesitan ambas dimensiones simultáneamente. (Gestalt — figura-fondo por color; Knaflic — color preatentivo con intención: rojo = impaciente, verde = comprometido)", "framework": "Gestalt — figura/fondo por color; Knaflic — color preatentivo con significado", "costWarning": "El gradiente verde→rojo debe aplicarse sobre la tabla entera (quiero comparar todos los bloques entre sí, no relativizar dentro de cada día). Asegurarse que el color rojo no se confunda con 'malo' — en este contexto, alto skip rate puede ser neutro (busco la canción correcta) o revelador del estado de ánimo.", "binding": {"projections": [{"role": "Rows", "kind": "Column", "entity": "dim_calendar", "property": "day_name", "displayName": "Día"}, {"role": "Columns", "kind": "Column", "entity": "dim_time", "property": "day_part", "displayName": "Momento"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "% Skip Rate", "displayName": "% Skip"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "day_of_week_number", "direction": "Ascending"}, {"kind": "Column", "entity": "dim_time", "property": "day_part_sort", "direction": "Ascending"}]}}, {"visualId": "p3n07", "visualType": "barChart", "recommendedVisualType": "barChart", "metric": "# Streams × reason_start", "message": "¿Cómo inicio mis streams? — el ratio escucha intencional (clickrow/playbtn) vs. flujo automático (trackdone, fwdbtn).", "positionHint": {"col": 7, "row": 6, "colSpan": 5, "rowSpan": 5}, "justification": "Las barras horizontales de reason_start revelan el ratio control/pasividad — qué porcentaje de streams los inicié yo vs. Spotify los continuó automáticamente. Es la dimensión más sub-analizada del dataset de Spotify Extended History y cuenta cómo uso la app: ¿activamente o como radio de fondo? (Knaflic — comparar categorías → barras ordenadas descendente; Tufte — honestidad: eje desde cero)", "framework": "Knaflic — comparar categorías; Tufte — honestidad", "costWarning": "El campo reason_start tiene valores técnicos de la API de Spotify ('clickrow', 'trackdone', 'fwdbtn', 'playbtn', 'appload', 'backbtn', 'unknown'). Si dim_reason_start no tiene una columna de etiqueta descriptiva, añadir una columna calculada en Power Query con nombres legibles antes de publicar.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_reason_start", "property": "reason_start", "displayName": "Inicio"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Streams", "displayName": "Streams"}], "sort": [{"kind": "Measure", "entity": "formulas", "property": "# Streams", "direction": "Descending"}]}}]}, {"pageId": null, "newPageIndex": 4, "title": "Mis Artistas", "takeaway": "El artista #1 ha cambiado al menos 3 veces en 9 años — la identidad musical es más dinámica de lo que parece.", "audience": "Portfolio viewer / self", "decision": "¿Quiénes definen mi identidad musical? ¿Cómo ha cambiado ese ranking a lo largo del tiempo?", "width": 1280, "height": 720, "interactivity": {"slicers": [{"field": "dim_calendar.year", "type": "between", "scope": "all_pages", "slot": "slicer_year", "displayName": "Año"}], "bookmarks": [], "navigation": {"style": "top-bar", "showTitle": true}, "drillthrough": [], "tooltips": []}, "visuals": [{"visualId": "p4n01", "visualType": "ribbonChart", "recommendedVisualType": "ribbonChart", "metric": "# Total Hours Played × year × artist", "message": "Evolución del ranking de artistas año a año: quién subió, quién cayó, quién apareció de la nada.", "positionHint": {"col": 0, "row": 0, "colSpan": 12, "rowSpan": 5}, "justification": "El ribbon chart es el visual correcto para mostrar CAMBIOS DE RANKING en el tiempo — cada banda de color es un artista, el ancho proporcional a las horas, la posición vertical al rank del año. Revela algo que ningún bar chart captura: la DINÁMICA de la identidad musical. '¿Siempre fui fan de este artista?' se responde en un vistazo. La alternativa (9 bar charts side-by-side) necesitaría 9 veces el espacio y aun así sería más difícil de leer. (Knaflic — ranking + tendencia temporal; Tufte — codificar 3 variables —quién/cuándo/cuánto— sin chartjunk; vs. alternativa rechazada: 9 bar charts o línea spaghetti de 10+ series)", "framework": "Knaflic — ranking + tendencia temporal; Tufte — densidad de información sin chartjunk", "costWarning": "Limitar a top 8-10 artistas: con más de 10 series las bandas se vuelven demasiado delgadas para leer. Usar slicer de '# Artist Rank by Hours' o filtro TopN en el visual.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "year", "displayName": "Año"}, {"role": "Series", "kind": "Column", "entity": "dim_song_artist", "property": "master_metadata_album_artist_name", "displayName": "Artista"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "year", "direction": "Ascending"}]}}, {"visualId": "p4n02", "visualType": "barChart", "recommendedVisualType": "barChart", "metric": "# Total Hours Played × artist (top 10)", "message": "El podio absoluto: top 10 artistas por horas totales de toda la historia.", "positionHint": {"col": 0, "row": 5, "colSpan": 5, "rowSpan": 7}, "justification": "Complementa el ribbon (que muestra evolución) con el ranking consolidado de toda la historia. Las barras horizontales ordenadas son la única alternativa honesta a la torta con más de 5 categorías. Horizontal porque los nombres de artistas son strings largos. (Knaflic — comparar categorías → barras ordenadas, NO torta ni velocímetro; Tufte — eje desde cero, sin truncado)", "framework": "Knaflic — barras para categorías; Tufte — honestidad, eje desde cero", "costWarning": "Limitar a top 10 y agrupar el resto como 'Otros' si se quiere mostrar el porcentaje que representan. Si se añaden más de 10 barras la comparación pierde foco. (antipatrón: torta > 5 categorías)", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_song_artist", "property": "master_metadata_album_artist_name", "displayName": "Artista"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "direction": "Descending"}]}}, {"visualId": "p4n03", "visualType": "tableEx", "recommendedVisualType": "tableEx", "metric": "track_name + artist + # Streams + % Completion Rate + # Avg Minutes per Stream", "message": "Las canciones que más me marcaron: volumen de escucha + compromiso real.", "positionHint": {"col": 5, "row": 5, "colSpan": 7, "rowSpan": 7}, "justification": "Una tabla con 5 columnas bien elegidas + formato condicional en % Completion Rate es la herramienta correcta para canciones — el nombre de la canción ES el dato, no puede codificarse en un visual. La columna '# Avg Minutes per Stream' revela si escucho canciones largas (prog, classical) o cortas (pop): dato imposible de ver en un bar chart. El formato condicional en Completion Rate señala cuáles escucho hasta el final sin añadir clutter. (Knaflic — valores exactos → tabla focalizada; Tufte — conditional formatting como dato, no decoración; Gestalt — alineación y orden dan estructura legible)", "framework": "Knaflic — valores exactos en tabla; Tufte — conditional formatting como dato; Gestalt — orden", "costWarning": "Máximo 5 columnas y top 20 filas. La tabla con 20+ columnas es antipatrón conocido (ver tipos-visual.md). Ordenar por # Streams descendente como default; dejar que el usuario cambie el orden con click en columna.", "binding": {"projections": [{"role": "Values", "kind": "Column", "entity": "dim_song_artist", "property": "master_metadata_track_name", "displayName": "Canción"}, {"role": "Values", "kind": "Column", "entity": "dim_song_artist", "property": "master_metadata_album_artist_name", "displayName": "Artista"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "# Streams", "displayName": "Streams"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "% Completion Rate", "displayName": "% Completo"}, {"role": "Values", "kind": "Measure", "entity": "formulas", "property": "# Avg Minutes per Stream", "displayName": "Min/Stream"}], "sort": [{"kind": "Measure", "entity": "formulas", "property": "# Streams", "direction": "Descending"}]}}]}, {"pageId": null, "newPageIndex": 5, "title": "Plataformas y Contexto", "takeaway": "La migración de plataformas es visible año a año — y el modo offline revela cuándo escucho sin conexión.", "audience": "Portfolio viewer / self", "decision": "¿Desde qué dispositivos escucho? ¿Cómo cambió eso con mi vida? ¿Dónde estaba cuando escuchaba sin conexión?", "width": 1280, "height": 720, "interactivity": {"slicers": [{"field": "dim_calendar.year", "type": "between", "scope": "all_pages", "slot": "slicer_year", "displayName": "Año"}, {"field": "dim_platform.device_type", "type": "dropdown", "scope": "page", "slot": "slicer_device", "displayName": "Tipo Dispositivo"}], "bookmarks": [], "navigation": {"style": "top-bar", "showTitle": true}, "drillthrough": [], "tooltips": []}, "visuals": [{"visualId": "p5n01", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Offline Rate", "message": "Porcentaje de streams en modo offline.", "positionHint": {"col": 0, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "KPI BLUF header — el dato de contexto más personal de plataformas: sin conexión = viaje, vuelo, zona sin cobertura. (BLUF)", "framework": "BLUF", "costWarning": ""}, {"visualId": "p5n02", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "% Private Session Rate", "message": "Streams en modo incógnito — contexto social de la escucha.", "positionHint": {"col": 3, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "KPI header. Alto % de sesión privada puede revelar que escucho cosas que 'no quiero que Spotify recomiende'. Dato de comportamiento interesante para el portfolio. (BLUF; Knaflic — lo concreto, lo personal)", "framework": "BLUF; Knaflic — lo personal > lo abstracto", "costWarning": ""}, {"visualId": "p5n03", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Countries Streamed From", "message": "Países distintos de conexión — proxy de viajes y mudanzas en 9 años.", "positionHint": {"col": 6, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "Un número deceptivamente simple que puede revelar años de viajes o mudanzas. Si es 5+, la audiencia se pregunta '¿dónde?'. (Knaflic — lo concreto ancla la historia)", "framework": "Knaflic — lo concreto", "costWarning": ""}, {"visualId": "p5n04", "visualType": "cardVisual", "recommendedVisualType": "cardVisual", "metric": "# Platform Groups Used", "message": "Grupos de plataformas distintos usados — diversidad del ecosistema.", "positionHint": {"col": 9, "row": 0, "colSpan": 3, "rowSpan": 2}, "justification": "KPI de diversidad de ecosistema. (BLUF)", "framework": "BLUF", "costWarning": ""}, {"visualId": "p5n05", "visualType": "hundredPercentStackedBarChart", "recommendedVisualType": "hundredPercentStackedBarChart", "metric": "# Total Hours Played × year × platform_group", "message": "La migración de plataformas año a año: cada barra = 100% del año, coloreado por dispositivo.", "positionHint": {"col": 0, "row": 2, "colSpan": 7, "rowSpan": 10}, "justification": "100% apilado horizontal elimina el sesgo de volumen (unos años tienen más streams que otros) y muestra la COMPOSICIÓN: ¿cuándo migré de Android a iOS? ¿cuándo empecé a usar Smart TV o PlayStation? El relato de vida está en la composición, no en el volumen. Sin normalización, años con más streams distorsionan la historia del cambio de dispositivo. (IBCS — escalas comparables para comparar composición; Tufte — honestidad: sin distorsión de volumen entre años; glance test — la migración se lee en <5 segundos desde arriba-izquierda del visual)", "framework": "IBCS — normalización; Tufte — honestidad gráfica; glance test", "costWarning": "Usar máximo 6-7 colores distintos para las series de platform_group. Los grupos 'Not Applicable' y 'Other' deben agruparse o excluirse si representan < 5% individual para evitar fragmentar la leyenda.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "year", "displayName": "Año"}, {"role": "Series", "kind": "Column", "entity": "dim_platform", "property": "platform_group", "displayName": "Plataforma"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "year", "direction": "Ascending"}]}}, {"visualId": "p5n06", "visualType": "barChart", "recommendedVisualType": "barChart", "metric": "# Total Hours Played × device_brand", "message": "¿Qué marcas de dispositivos dominaron mi escucha? — Apple vs. Samsung vs. Sony vs. Google.", "positionHint": {"col": 7, "row": 2, "colSpan": 5, "rowSpan": 5}, "justification": "Barras horizontales ordenadas por marca: insight personal sobre fidelidad de ecosistema. Apple, Samsung, Sony (PlayStation), Google — cada una cuenta una historia diferente. Complementa el platform_group con el nivel de marca. (Knaflic — comparar categorías → barras ordenadas)", "framework": "Knaflic — comparar categorías", "costWarning": "'Unknown' puede dominar si el parser de dim_platform no resolvió correctamente algunas marcas — verificar en vista previa antes de publicar y añadir reglas en Power Query si es necesario.", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_platform", "property": "device_brand", "displayName": "Marca"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "direction": "Descending"}]}}, {"visualId": "p5n07", "visualType": "hundredPercentStackedColumnChart", "recommendedVisualType": "hundredPercentStackedColumnChart", "metric": "# Total Hours Played × year × device_type", "message": "Mobile vs. Desktop vs. TV/Cast vs. Console: evolución del tipo de dispositivo año a año.", "positionHint": {"col": 7, "row": 7, "colSpan": 5, "rowSpan": 5}, "justification": "Complementa el 100% stacked horizontal (platform_group) con la abstracción de device_type (Mobile/Desktop/Console/TV). El formato vertical contrasta visualmente con el horizontal principal, señalando que son niveles distintos de análisis. Solo 5 valores posibles = 5 colores bien distinguibles. (IBCS — normalización; Gestalt — similitud con visual principal de plataformas pero diferenciado por orientación)", "framework": "IBCS — normalización; Gestalt — similitud + diferenciación por orientación", "costWarning": "", "binding": {"projections": [{"role": "Category", "kind": "Column", "entity": "dim_calendar", "property": "year", "displayName": "Año"}, {"role": "Series", "kind": "Column", "entity": "dim_platform", "property": "device_type", "displayName": "Tipo"}, {"role": "Y", "kind": "Measure", "entity": "formulas", "property": "# Total Hours Played", "displayName": "Horas"}], "sort": [{"kind": "Column", "entity": "dim_calendar", "property": "year", "direction": "Ascending"}]}}]}]};
+const INVENTORY = null;
+
+
+const SVGNS="http://www.w3.org/2000/svg";
+const VERDICT_COLORS={MANTENER:"#1a7f37",MODIFICAR:"#b35900",FUSIONAR:"#1f6feb",DEGRADAR:"#6e7781",ELIMINAR:"#b3261e"};
+const CANVAS_W=1280, CANVAS_H=720;
+const DEF_PAL={background:"#0E2841",accent:"#C8A84B",positive:"#3DBA7E",negative:"#E63535",text:"#FFFFFF",
+  series:["#1E6FBF","#C8A84B","#3DBA7E","#E63535","#7B68EE","#E8833A"]};
+const state={page:0, view:"propuesto", selKey:null};
+
+function palette(){
+  const ds=((PROPOSAL&&PROPOSAL.report&&PROPOSAL.report.designSystem)||{}).palette||{};
+  const p=Object.assign({}, DEF_PAL, ds);
+  if(!Array.isArray(p.series)||!p.series.length) p.series=DEF_PAL.series;
+  return p;
+}
+// deterministic 0..1 pseudo-random seeded by a string (no Math.random -> stable output)
+function seedRand(str){
+  let h=2166136261>>>0;
+  for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; }
+  return ()=>{ h+=0x6D2B79F5; let t=h; t=Math.imul(t^(t>>>15),1|t); t^=t+Math.imul(t^(t>>>7),61|t); return ((t^(t>>>14))>>>0)/4294967296; };
+}
+function synthSeries(seed,n,lo,hi){ const r=seedRand(seed),a=[]; for(let i=0;i<n;i++) a.push(lo+(hi-lo)*r()); return a; }
+
+function el(tag,props,kids){
+  const e=document.createElement(tag);
+  if(props) for(const k in props){ const v=props[k];
+    if(k==="style") Object.assign(e.style,v);
+    else if(k==="class") e.className=v;
+    else if(k==="text") e.textContent=v;
+    else if(k.slice(0,2)==="on") e.addEventListener(k.slice(2),v);
+    else if(v!=null) e.setAttribute(k,v);
+  }
+  (kids||[]).forEach(c=>{ if(c==null) return; e.appendChild(typeof c==="object"?c:document.createTextNode(String(c))); });
+  return e;
+}
+function sv(tag,attrs,kids){
+  const e=document.createElementNS(SVGNS,tag);
+  if(attrs) for(const k in attrs){ if(attrs[k]!=null) e.setAttribute(k,attrs[k]); }
+  (kids||[]).forEach(c=>{ if(c!=null) e.appendChild(c); });
+  return e;
+}
+function svText(s,attrs){ const t=sv("text",attrs); t.textContent=s; return t; } // textContent => safe
+
+function proposalPages(){ return (PROPOSAL&&PROPOSAL.pages)||[]; }
+function curPage(){ return proposalPages()[state.page]||{visuals:[]}; }
+function invByPageId(){ const m={}; if(INVENTORY&&INVENTORY.pages) INVENTORY.pages.forEach(p=>{m[p.pageId]=p;}); return m; }
+
+function resolvePos(v,idx){
+  const p=v.position;
+  if(p&&(+p.width>0||+p.height>0)) return {x:+p.x||0,y:+p.y||0,w:+p.width||0,h:+p.height||0,z:+p.z||idx};
+  const h=v.positionHint;
+  if(h) return {x:(+h.col||0)/12*CANVAS_W,y:(+h.row||0)*60,w:(+h.colSpan||3)/12*CANVAS_W,h:(+h.rowSpan||1)*60,z:idx};
+  const col=idx%2,row=Math.floor(idx/2);
+  return {x:16+col*623,y:162+row*0,w:605,h:540,z:idx};
+}
+function vType(v){ return v.visualType||v.recommendedVisualType||""; }
+function vLabel(v){ return v.title||v.metric||v.roleSummary||v.message||vType(v); }
+
+// ----- SVG preview renderers (synthetic data) ------------------------------ #
+function drawCard(svg,w,h,v,pal){
+  svg.appendChild(sv("rect",{x:0,y:0,width:w,height:h,rx:6,fill:pal.background}));
+  svg.appendChild(sv("rect",{x:0,y:0,width:5,height:h,fill:pal.accent}));
+  const label=vLabel(v), r=seedRand(v.visualId||label);
+  const val=Math.round(10+r()*990);
+  svg.appendChild(svText(label,{x:14,y:h*0.40,fill:pal.text,"font-size":Math.min(13,h*0.18),"font-family":"Segoe UI,Arial"}));
+  svg.appendChild(svText(String(val),{x:14,y:h*0.82,fill:pal.text,"font-size":Math.min(34,h*0.46),"font-weight":"700","font-family":"Segoe UI,Arial"}));
+}
+function chartFrame(svg,w,h,v,pal){
+  svg.appendChild(sv("rect",{x:0,y:0,width:w,height:h,rx:6,fill:pal.background,stroke:"rgba(255,255,255,.15)"}));
+  svg.appendChild(svText(vLabel(v),{x:12,y:20,fill:pal.text,"font-size":13,"font-weight":"600","font-family":"Segoe UI,Arial"}));
+  return {x0:14,y0:32,x1:w-14,y1:h-22};
+}
+function drawColumns(svg,w,h,v,pal,stacked){
+  const a=chartFrame(svg,w,h,v,pal); const n=6, groups=stacked?3:2;
+  const bw=(a.x1-a.x0)/n, gap=bw*0.18;
+  for(let i=0;i<n;i++){
+    const x=a.x0+i*bw+gap/2, bw2=bw-gap;
+    if(stacked){
+      let yacc=a.y1; const parts=synthSeries((v.visualId||"")+i,groups,.2,1);
+      const tot=parts.reduce((s,x)=>s+x,0);
+      parts.forEach((p,k)=>{ const ph=(a.y1-a.y0)*(p/tot); yacc-=ph;
+        svg.appendChild(sv("rect",{x,y:yacc,width:bw2,height:ph,fill:pal.series[k%pal.series.length]})); });
+    } else {
+      const sw=bw2/groups, vals=synthSeries((v.visualId||"")+i,groups,.25,1);
+      vals.forEach((val,k)=>{ const bh=(a.y1-a.y0)*val;
+        svg.appendChild(sv("rect",{x:x+k*sw,y:a.y1-bh,width:sw-2,height:bh,fill:pal.series[k%pal.series.length]})); });
+    }
+  }
+  svg.appendChild(sv("line",{x1:a.x0,y1:a.y1,x2:a.x1,y2:a.y1,stroke:"rgba(255,255,255,.3)"}));
+}
+function drawBars(svg,w,h,v,pal){
+  const a=chartFrame(svg,w,h,v,pal); const n=7;
+  const vals=synthSeries(v.visualId||"bars",n,.25,1).sort((x,y)=>y-x);
+  const bh=(a.y1-a.y0)/n;
+  vals.forEach((val,i)=>{ const y=a.y0+i*bh+bh*0.15, len=(a.x1-a.x0-60)*val;
+    svg.appendChild(sv("rect",{x:a.x0+60,y,width:len,height:bh*0.7,fill:i===0?pal.accent:pal.series[0]}));
+    svg.appendChild(svText("Item "+(i+1),{x:a.x0,y:y+bh*0.5,fill:pal.text,"font-size":9,"font-family":"Segoe UI,Arial"}));
+  });
+}
+function drawLine(svg,w,h,v,pal){
+  const a=chartFrame(svg,w,h,v,pal); const n=6;
+  for(let s=0;s<2;s++){
+    const vals=synthSeries((v.visualId||"line")+"_"+s,n,.2,1);
+    const pts=vals.map((val,i)=>[a.x0+i*((a.x1-a.x0)/(n-1)), a.y1-(a.y1-a.y0)*val]);
+    svg.appendChild(sv("polyline",{points:pts.map(p=>p[0]+","+p[1]).join(" "),fill:"none",
+      stroke:pal.series[s%pal.series.length],"stroke-width":2.5}));
+    pts.forEach(p=>svg.appendChild(sv("circle",{cx:p[0],cy:p[1],r:3,fill:pal.series[s%pal.series.length]})));
+  }
+  svg.appendChild(sv("line",{x1:a.x0,y1:a.y1,x2:a.x1,y2:a.y1,stroke:"rgba(255,255,255,.3)"}));
+}
+function drawTable(svg,w,h,v,pal){
+  svg.appendChild(sv("rect",{x:0,y:0,width:w,height:h,rx:6,fill:pal.background,stroke:"rgba(255,255,255,.15)"}));
+  svg.appendChild(svText(vLabel(v),{x:12,y:20,fill:pal.text,"font-size":13,"font-weight":"600","font-family":"Segoe UI,Arial"}));
+  const cols=4, rows=Math.max(3,Math.min(8,Math.floor((h-40)/22))), x0=12, y0=32, cw=(w-24)/cols, rh=(h-40)/rows;
+  svg.appendChild(sv("rect",{x:x0,y:y0,width:w-24,height:rh,fill:"rgba(255,255,255,.08)"}));
+  for(let c=0;c<cols;c++) svg.appendChild(svText("Col "+(c+1),{x:x0+c*cw+4,y:y0+rh*0.7,fill:pal.accent,"font-size":10,"font-family":"Segoe UI,Arial"}));
+  for(let rI=1;rI<rows;rI++){ const y=y0+rI*rh;
+    svg.appendChild(sv("line",{x1:x0,y1:y,x2:w-12,y2:y,stroke:"rgba(255,255,255,.12)"}));
+    for(let c=0;c<cols;c++) svg.appendChild(svText("·····",{x:x0+c*cw+4,y:y+rh*0.7,fill:pal.text,"font-size":10,"font-family":"Segoe UI,Arial"}));
+  }
+}
+function drawGeneric(svg,w,h,v,pal){
+  chartFrame(svg,w,h,v,pal);
+  svg.appendChild(svText(vType(v)||"visual",{x:w/2,y:h/2,fill:"rgba(255,255,255,.5)","font-size":12,"text-anchor":"middle","font-family":"Segoe UI,Arial"}));
+}
+function renderVisualSVG(box,w,h,v,pal){
+  const svg=sv("svg",{viewBox:"0 0 "+w+" "+h,preserveAspectRatio:"none"});
+  const t=vType(v);
+  if(t==="cardVisual"||t==="card"||t==="multiRowCard") drawCard(svg,w,h,v,pal);
+  else if(t==="lineChart"||t==="areaChart") drawLine(svg,w,h,v,pal);
+  else if(t==="barChart"||t==="stackedBarChart"||t==="hundredPercentStackedBarChart"||t==="clusteredBarChart") drawBars(svg,w,h,v,pal);
+  else if(t==="clusteredColumnChart") drawColumns(svg,w,h,v,pal,false);
+  else if(t==="columnChart"||t==="hundredPercentStackedColumnChart") drawColumns(svg,w,h,v,pal,true);
+  else if(t==="tableEx"||t==="pivotTable") drawTable(svg,w,h,v,pal);
+  else drawGeneric(svg,w,h,v,pal);
+  box.appendChild(svg);
+}
+
+function makeVisual(v,idx,pal,opts){
+  opts=opts||{};
+  const pos=resolvePos(v,idx);
+  const box=el("div",{class:"visual"+(opts.selKey===state.selKey?" sel":""),tabindex:"0"});
+  box.style.left=(pos.x/CANVAS_W*100)+"%"; box.style.top=(pos.y/CANVAS_H*100)+"%";
+  box.style.width=(pos.w/CANVAS_W*100)+"%"; box.style.height=(pos.h/CANVAS_H*100)+"%";
+  box.style.zIndex=pos.z||idx;
+  // render at the real pixel size for crisp proportions
+  renderVisualSVG(box,Math.max(40,pos.w),Math.max(30,pos.h),v,pal);
+  if(opts.verdict){ const c=VERDICT_COLORS[opts.verdict]||"#666";
+    box.appendChild(el("span",{class:"ribbon",style:{background:c},text:opts.verdict})); }
+  const act=()=>{ state.selKey=opts.selKey; render(); };
+  box.addEventListener("click",act);
+  box.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();act();} });
+  return box;
+}
+
+function renderInteractivity(canvas,page,pal){
+  const inter=page.interactivity||{};
+  (inter.slicers||[]).forEach((sl,i)=>{
+    const chip=el("div",{class:"chip slicer"},[ (sl.displayName||sl.field||"Slicer"),
+      el("span",{class:"caret",text:"▾"}) ]);
+    chip.style.right=(8+i*4)+"px"; chip.style.top="6px";
+    if(sl.default) chip.title="Default: "+sl.default;
+    canvas.appendChild(chip);
+  });
+  let bx=10;
+  (inter.bookmarks||[]).forEach(bk=>{
+    const chip=el("div",{class:"chip bm",text:bk.name||"Bookmark"});
+    chip.style.left=bx+"px"; chip.style.top="6px"; bx+=Math.max(70,(bk.name||"").length*8+24);
+    if(bk.filter) chip.title=bk.filter;
+    canvas.appendChild(chip);
+  });
+  const nav=inter.navigation;
+  if(nav&&nav.showTitle){
+    const t=el("div",{class:"chip nav",text:page.title||"Page"}); t.style.left="10px"; t.style.bottom="8px";
+    canvas.appendChild(t);
+  }
+}
+
+function renderCanvas(){
+  const pal=palette();
+  const canvas=el("div",{id:"canvas"});
+  canvas.style.background=pal.background;
+  const ppage=curPage();
+  const isRevisar=(MODE==="revisar");
+  if(isRevisar&&state.view==="actual"){
+    const inv=invByPageId()[ppage.pageId];
+    if(!inv||!(inv.visuals||[]).length){
+      canvas.appendChild(el("div",{style:{position:"absolute",inset:"0",display:"flex",alignItems:"center",
+        justifyContent:"center",color:"rgba(255,255,255,.6)",fontSize:"13px",textAlign:"center",padding:"20px"},
+        text:"Página nueva o sin equivalente actual — no hay estado previo que mostrar."}));
+      return canvas;
+    }
+    inv.visuals.forEach((v,i)=>canvas.appendChild(makeVisual(v,i,pal,{selKey:"actual:"+ppage.pageId+":"+(v.visualId||i)})));
+  } else {
+    (ppage.visuals||[]).forEach((v,i)=>canvas.appendChild(
+      makeVisual(v,i,pal,{verdict:isRevisar?v.verdict:null,selKey:"prop:"+state.page+":"+(v.visualId||i)})));
+    renderInteractivity(canvas,ppage,pal);
+  }
+  return canvas;
+}
+
+function detailRow(label,value){
+  if(value==null||value==="") return null;
+  return el("div",{class:"row"},[el("span",{class:"lbl",text:label}),el("span",{text:value})]);
+}
+function renderDetail(){
+  const d=el("aside",{id:"detail"});
+  const ppage=curPage(), isRevisar=(MODE==="revisar");
+  let v=null, fromActual=false;
+  if(state.selKey){
+    if(state.selKey.indexOf("actual:")===0){
+      fromActual=true; const inv=invByPageId()[ppage.pageId];
+      const vid=state.selKey.split(":").slice(2).join(":");
+      v=((inv&&inv.visuals)||[]).find(x=>(x.visualId||"")==vid)||null;
+    } else {
+      v=(ppage.visuals||[]).find((x,idx)=>("prop:"+state.page+":"+(x.visualId||idx))===state.selKey)||null;
+    }
+  }
+  if(!v){ d.appendChild(el("h3",{text:"Detalle"}));
+    d.appendChild(el("div",{class:"empty",text:"Haz clic en un visual para ver el porqué."})); return d; }
+  d.appendChild(el("h3",{text:vType(v)||"Visual"}));
+  if(isRevisar&&v.verdict){ const c=VERDICT_COLORS[v.verdict]||"#666";
+    d.appendChild(el("span",{class:"pill",style:{background:c},text:v.verdict})); }
+  d.appendChild(detailRow("Métrica",v.metric));
+  d.appendChild(detailRow("Mensaje",v.message||v.roleSummary));
+  if(isRevisar){ d.appendChild(detailRow("Razón",v.reason)); d.appendChild(detailRow("Qué se pierde",v.whatLost)); }
+  d.appendChild(detailRow("Justificación",v.justification));
+  d.appendChild(detailRow("Marco",v.framework));
+  if(v.costWarning) d.appendChild(el("div",{class:"row cost"},[el("span",{class:"lbl",text:"Costo / antipatrón"}),el("span",{text:v.costWarning})]));
+  const b=v.binding;
+  if(b&&b.projections){
+    const lines=b.projections.map(p=>(p.role||"?")+": "+(p.entity||"")+"."+(p.property||"")+" ["+(p.kind||"Measure")+"]");
+    d.appendChild(el("div",{class:"row bind"},[el("span",{class:"lbl",text:"Binding (build)"}),
+      el("div",{},[document.createTextNode(lines.join("  •  "))])]));
+  } else if(!fromActual){
+    d.appendChild(el("div",{class:"row"},[el("span",{class:"lbl",text:"Binding (build)"}),
+      el("span",{class:"empty",text:"sin binding — solo mockup (no se construye)"})]));
+  }
+  return d;
+}
+
+function renderTabs(){
+  const nav=el("nav",{id:"tabs"});
+  proposalPages().forEach((p,i)=>nav.appendChild(el("button",{class:(i===state.page?"on":""),
+    text:p.title||p.displayName||("Página "+(i+1)),onclick:()=>{state.page=i;state.selKey=null;render();}})));
+  return nav;
+}
+function renderHeader(){
+  const rep=(PROPOSAL&&PROPOSAL.report)||{};
+  const h=el("header",{},[el("h1",{text:rep.title||"Mockup de reporte"})]);
+  if(rep.throughLine) h.appendChild(el("div",{class:"bajada",text:"Hilo conductor: "+rep.throughLine}));
+  const bits=[]; if(rep.audience) bits.push("Audiencia: "+rep.audience); if(rep.framework) bits.push("Marco: "+rep.framework);
+  if(bits.length) h.appendChild(el("div",{class:"meta",text:bits.join("  ·  ")}));
+  if(MODE==="revisar"){
+    const t=el("div",{class:"toggle"});
+    t.appendChild(el("button",{class:(state.view==="actual"?"on":""),text:"Actual",onclick:()=>{state.view="actual";state.selKey=null;render();}}));
+    t.appendChild(el("button",{class:(state.view==="propuesto"?"on":""),text:"Propuesto",onclick:()=>{state.view="propuesto";state.selKey=null;render();}}));
+    h.appendChild(t);
+  }
+  return h;
+}
+function renderPageMeta(){
+  const p=curPage(), m=el("div",{class:"pagemeta"});
+  m.appendChild(el("div",{class:"title",text:(p.title||"Página "+(state.page+1))+(MODE==="revisar"?("  —  "+(state.view==="actual"?"estado ACTUAL":"propuesta")):"")}));
+  if(p.takeaway) m.appendChild(el("div",{class:"takeaway",text:"Takeaway: "+p.takeaway}));
+  const sub=[]; if(p.decision) sub.push("Decisión: "+p.decision);
+  if(p.layoutPreset) sub.push("Layout: "+p.layoutPreset);
+  if(sub.length) m.appendChild(el("div",{class:"decision",text:sub.join("  ·  ")}));
+  return m;
+}
+function renderLegend(){
+  if(MODE!=="revisar") return null;
+  const lg=el("div",{class:"legend"});
+  Object.keys(VERDICT_COLORS).forEach(k=>lg.appendChild(el("span",{},[el("i",{style:{background:VERDICT_COLORS[k]}}),document.createTextNode(k)])));
+  return lg;
+}
+function render(){
+  const app=document.getElementById("app"); app.textContent="";
+  app.appendChild(renderHeader());
+  app.appendChild(renderTabs());
+  const main=el("div",{class:"main"});
+  const stage=el("div",{id:"stage"});
+  stage.appendChild(renderPageMeta());
+  stage.appendChild(renderCanvas());
+  main.appendChild(stage);
+  main.appendChild(renderDetail());
+  app.appendChild(main);
+  const lg=renderLegend(); if(lg) app.appendChild(lg);
+  app.appendChild(el("div",{class:"note",text:"Vista previa con datos SINTÉTICOS (formas y proporciones ilustrativas, "
+    +"no valores reales) sobre coordenadas reales 1280×720. Es apoyo de diseño, no el render del reporte."}));
+}
+render();
+</script></body></html>

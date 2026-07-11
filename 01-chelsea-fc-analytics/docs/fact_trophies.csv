@@ -1,0 +1,6 @@
+trophy_id,season_id,competition_id,trophy_name,competition_type
+TR001,S1,C2,UEFA Champions League,European
+TR002,S2,C7,FIFA Club World Cup,International
+TR003,S2,C8,UEFA Super Cup,International
+TR004,S5,C6,UEFA Conference League,European
+TR005,S6,C3,FA Cup,Domestic Cup

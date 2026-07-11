@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "f10aad6e9f12c2122307",
+  "position": {
+    "x": 672.22222222222217,
+    "y": 205.55555555555554,
+    "z": 11000,
+    "height": 31.111111111111111,
+    "width": 118.88888888888889,
+    "tabOrder": 0
+  },
+  "visualGroup": {
+    "displayName": "Palmer Label",
+    "groupMode": "ScaleMode"
+  }
+}

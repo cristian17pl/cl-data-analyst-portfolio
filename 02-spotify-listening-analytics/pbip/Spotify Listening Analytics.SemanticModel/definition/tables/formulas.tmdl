@@ -1,0 +1,789 @@
+table formulas
+	lineageTag: 39b35641-d22e-4567-848a-182f1892ae10
+
+	measure '# Streams' = COUNTROWS(fact_streaming_history)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 54e53acf-d3e9-40a9-8a2f-19dd7a3b97a7
+
+	measure '# Track Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    NOT ISBLANK(fact_streaming_history[track_key])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 0bf95c0b-e8d6-4ab8-9c30-eddc96b8561f
+
+	measure '# Episode Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    NOT ISBLANK(fact_streaming_history[episode_key])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: ee988bd7-55cb-4c87-848b-7469b8a92a9b
+
+	measure '# Unique Tracks' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_streaming_history[track_key]),
+			    NOT ISBLANK(fact_streaming_history[track_key])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: a55f62fc-adcc-4676-990a-1cbae3fbbfef
+
+	measure '# Unique Artists' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_song_artist[master_metadata_album_artist_name]),
+			    TREATAS(VALUES(fact_streaming_history[track_key]), dim_song_artist[track_key]),
+			    NOT ISBLANK(dim_song_artist[master_metadata_album_artist_name])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 1ae044ce-34b5-4874-917e-064611c9024b
+
+	measure '# Unique Albums' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_song_artist[master_metadata_album_album_name]),
+			    TREATAS(VALUES(fact_streaming_history[track_key]), dim_song_artist[track_key]),
+			    NOT ISBLANK(dim_song_artist[master_metadata_album_album_name])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 732cbe4c-dbb8-4f13-8434-3f6a65f5c30d
+
+	measure '# Unique Episodes' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_episode[episode_key]),
+			    NOT ISBLANK(dim_episode[episode_key])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 7cfeffb0-9cd9-4522-9037-1a0e8ff13fb0
+
+	measure '# Active Listening Days' = DISTINCTCOUNT(fact_streaming_history[stream_date])
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: b68d778f-25c4-4ee5-9478-88c430c3b62f
+
+	measure '# Countries Streamed From' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_streaming_history[conn_country]),
+			    NOT ISBLANK(fact_streaming_history[conn_country])
+			)
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: 696d350b-210b-4410-a779-367bda4f3264
+
+	measure '# Platform Groups Used' = DISTINCTCOUNT(dim_platform[platform_group])
+		formatString: 0
+		displayFolder: 1_Overview\#
+		lineageTag: a2b9125a-a503-462d-82ee-af760753d4b8
+
+	measure '# Total Ms Played' = SUM(fact_streaming_history[ms_played])
+		formatString: 0
+		displayFolder: 2_Listening Time\#
+		lineageTag: 615c3797-184e-490b-a293-ec917e903b88
+
+	measure '# Total Minutes Played' = DIVIDE([# Total Ms Played], 60000)
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: f742a2ef-d53d-4f39-8650-094dfd37802b
+
+	measure '# Total Hours Played' = DIVIDE([# Total Ms Played], 3600000)
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: 1b1bcf5e-a7ce-465d-a684-2e973df8272a
+
+	measure '# Total Days Played' = DIVIDE([# Total Hours Played], 24)
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: c0e59e37-7bef-4f94-b19d-fd1e71e711a8
+
+	measure '# Avg Minutes per Stream' = DIVIDE([# Total Minutes Played], [# Streams])
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: ca0861c5-9763-4ac3-a079-e591219d226b
+
+	measure '# Avg Hours per Active Day' = DIVIDE([# Total Hours Played], [# Active Listening Days])
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: 91048c18-011c-4c9f-8374-0d89b35e33ed
+
+	measure '# Streams per Active Day' = DIVIDE([# Streams], [# Active Listening Days])
+		formatString: 0.00
+		displayFolder: 2_Listening Time\#
+		lineageTag: 73010027-850b-4259-b9ff-89bc261f126d
+
+	measure '# Skipped Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[skipped] = TRUE()
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 5dbdbdab-12f1-4b37-ad64-456dd3953f2e
+
+	measure '% Skip Rate' = DIVIDE([# Skipped Streams], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 75b53245-2aeb-4b8e-a6ba-4bc0d1baf3ea
+
+	measure '# Completed Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[reason_end] = "trackdone"
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 6324b70d-edae-4643-8dc1-7a482f506dad
+
+	measure '% Completion Rate' = DIVIDE([# Completed Streams], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 304872a9-c783-4212-877e-6eec777af39c
+
+	measure '# Forward Skip Ends' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[reason_end] = "fwdbtn"
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: dab3a8af-3643-4482-8fda-d5aae41dba57
+
+	measure '% Forward Skip End Rate' = DIVIDE([# Forward Skip Ends], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 24d90593-c4a0-4cbf-a374-42f60ae4f4eb
+
+	measure '# Shuffle Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[shuffle] = TRUE()
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 3c8d4d47-1055-4284-85a7-b20b570ea20e
+
+	measure '% Shuffle Rate' = DIVIDE([# Shuffle Streams], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 1ab4b966-fc3a-47b7-8ce5-0a8caa6ae458
+
+	measure '# Offline Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[offline] = TRUE()
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 6a2e8b45-345b-40f0-845e-19e23e270b82
+
+	measure '% Offline Rate' = DIVIDE([# Offline Streams], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 83765e6b-2747-4595-8312-049b170fc44c
+
+	measure '# Private Session Streams' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[incognito_mode] = TRUE()
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 77c632d0-bf44-40c4-b332-e82f145d811f
+
+	measure '% Private Session Rate' = DIVIDE([# Private Session Streams], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 6c8ed564-4942-41d6-96e1-ca4e82447d65
+
+	measure '# Manual Starts' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[reason_start] IN { "clickrow", "playbtn" }
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: 9629c8b8-9acb-410d-a1e8-aa6894bac1f8
+
+	measure '% Manual Start Rate' = DIVIDE([# Manual Starts], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 3e54bf1c-9ec0-4e22-990c-9b2a41c6e9cf
+
+	measure '# Auto Continuation Starts' =
+			
+			CALCULATE(
+			    [# Streams],
+			    fact_streaming_history[reason_start] = "trackdone"
+			)
+		formatString: 0
+		displayFolder: 3_Behavior\#
+		lineageTag: d9e47dcd-9b80-448f-858d-20ad8e49647d
+
+	measure '% Auto Continuation Rate' = DIVIDE([# Auto Continuation Starts], [# Streams])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3_Behavior\%
+		lineageTag: 9da3ed23-cbbd-4f23-915b-a574f26db75c
+
+	measure '# Hours Previous Month' =
+			
+			CALCULATE(
+			    [# Total Hours Played],
+			    DATEADD(dim_calendar[Date], -1, MONTH)
+			)
+		formatString: 0.00
+		displayFolder: 4_Trends\#
+		lineageTag: 11f63ce6-793a-4fb3-b25a-3302db5d46be
+
+	measure '% Hours MoM Growth' =
+			
+			VAR PreviousHours = [# Hours Previous Month]
+			RETURN
+			    DIVIDE([# Total Hours Played] - PreviousHours, PreviousHours)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 4_Trends\%
+		lineageTag: 7a128420-6437-43e8-bd8b-2cb1f122ef78
+
+	measure '# Hours Previous Year' =
+			
+			CALCULATE(
+			    [# Total Hours Played],
+			    DATEADD(dim_calendar[Date], -1, YEAR)
+			)
+		formatString: 0.00
+		displayFolder: 4_Trends\#
+		lineageTag: 688d6f73-8201-4e92-be48-0bb5ae483d6b
+
+	measure '% Hours YoY Growth' =
+			
+			VAR PreviousHours = [# Hours Previous Year]
+			RETURN
+			    DIVIDE([# Total Hours Played] - PreviousHours, PreviousHours)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 4_Trends\%
+		lineageTag: 0855aec3-6c65-4060-a7e8-7604b6b8bc94
+
+	measure '# Streams Previous Year' =
+			
+			CALCULATE(
+			    [# Streams],
+			    DATEADD(dim_calendar[Date], -1, YEAR)
+			)
+		formatString: 0
+		displayFolder: 4_Trends\#
+		lineageTag: 5383ab48-5ce8-4e7a-8a3e-cec963e0d4fb
+
+	measure '% Streams YoY Growth' =
+			
+			VAR PreviousStreams = [# Streams Previous Year]
+			RETURN
+			    DIVIDE([# Streams] - PreviousStreams, PreviousStreams)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 4_Trends\%
+		lineageTag: 4b3005b9-886d-4eaa-9971-6526f2bb5f17
+
+	measure '# Track Rank by Streams' =
+			
+			RANKX(
+			    ALLSELECTED(dim_song_artist[track_key]),
+			    [# Streams],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		displayFolder: 5_Rankings\#
+		lineageTag: 483823ef-765b-479f-96eb-c2c2df7f331a
+
+	measure '# Artist Rank by Hours' =
+			
+			RANKX(
+			    ALLSELECTED(dim_song_artist[master_metadata_album_artist_name]),
+			    [# Total Hours Played],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		displayFolder: 5_Rankings\#
+		lineageTag: 7fe7b238-15c0-484f-a069-d1bc9ec576d4
+
+	measure '# Platform Rank by Hours' =
+			
+			RANKX(
+			    ALLSELECTED(dim_platform[platform_group]),
+			    [# Total Hours Played],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		displayFolder: 5_Rankings\#
+		lineageTag: 2f904746-2caf-4d07-a9d4-bbd5250ccadd
+
+	measure 'REF Top Track' =
+			
+			VAR TopTrack =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            VALUES(dim_song_artist[track_key]),
+			            "@Track", CALCULATE(SELECTEDVALUE(dim_song_artist[master_metadata_track_name])),
+			            "@Artist", CALCULATE(SELECTEDVALUE(dim_song_artist[master_metadata_album_artist_name])),
+			            "@Streams", [# Streams],
+			            "@Hours", [# Total Hours Played]
+			        ),
+			        [@Streams], DESC,
+			        [@Hours], DESC,
+			        [@Track], ASC
+			    )
+			RETURN
+			    CONCATENATEX(TopTrack, [@Track] & " - " & [@Artist], ", ")
+		displayFolder: 6_Text Cards
+		lineageTag: 9648bd4d-9648-4e8e-8f78-f80e6e51e50e
+
+	measure 'REF Top Artist' =
+			
+			VAR TopArtist =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            VALUES(dim_song_artist[master_metadata_album_artist_name]),
+			            "@Artist", dim_song_artist[master_metadata_album_artist_name],
+			            "@Hours", [# Total Hours Played],
+			            "@Streams", [# Streams]
+			        ),
+			        [@Hours], DESC,
+			        [@Streams], DESC,
+			        [@Artist], ASC
+			    )
+			RETURN
+			    CONCATENATEX(TopArtist, [@Artist], ", ")
+		displayFolder: 6_Text Cards
+		lineageTag: b6007f66-6816-4245-9a01-a6696d3568ad
+
+	measure 'REF Top Platform Group' =
+			
+			VAR TopPlatform =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            VALUES(dim_platform[platform_group]),
+			            "@Platform", dim_platform[platform_group],
+			            "@Hours", [# Total Hours Played],
+			            "@Streams", [# Streams]
+			        ),
+			        [@Hours], DESC,
+			        [@Streams], DESC,
+			        [@Platform], ASC
+			    )
+			RETURN
+			    CONCATENATEX(TopPlatform, [@Platform], ", ")
+		displayFolder: 6_Text Cards
+		lineageTag: 093e5f5a-ff7e-4d64-81de-e0cf59a26559
+
+	measure 'REF Selected Date Range' =
+			
+			VAR MinSelectedDate = MIN(dim_calendar[Date])
+			VAR MaxSelectedDate = MAX(dim_calendar[Date])
+			RETURN
+			    FORMAT(MinSelectedDate, "MMM d, yyyy") & " - " & FORMAT(MaxSelectedDate, "MMM d, yyyy")
+		displayFolder: 6_Text Cards
+		lineageTag: a633e615-ea21-45bb-aef1-32e47b9e74e7
+
+	measure 'VIS _HTML Card Total Hours' =
+			
+			VAR _Total     = [# Total Hours Played]
+			VAR _PY        = [# Hours Previous Year]
+			VAR _Growth    = [% Hours YoY Growth]
+			-- colores y flecha según signo
+			VAR _IsPos     = _Growth >= 0
+			VAR _Color     = IF(_IsPos, "#4ade80", "#f87171")
+			VAR _BgColor   = IF(_IsPos, "#052e16", "#450a0a")
+			VAR _Border    = IF(_IsPos, "#166534", "#991b1b")
+			VAR _Arrow     = IF(_IsPos, "↑", "↓")
+			-- formateo de valores
+			VAR _TotalFmt  = FORMAT(_Total,  "#,##0.0") & " h"
+			VAR _PYFmt     = FORMAT(_PY,     "#,##0.0") & " h"
+			VAR _GrowthFmt = FORMAT(ABS(_Growth), "0.0%")
+			RETURN
+			    "<div style='font-family:Segoe UI,sans-serif;padding:12px 18px;"
+			        & "border-radius:10px;border:1.5px solid #2a2a2a;background:#121212;"
+			        & "width:100%;height:100%;box-sizing:border-box;"
+			        & "display:flex;flex-direction:column;justify-content:space-between;'>"
+			    & "<div style='font-size:10px;font-weight:600;color:#5c6370;"
+			        & "letter-spacing:.04em;'>"
+			        & "Total Hours Played</div>"
+			    & "<div style='font-size:25px;font-weight:600;color:#f1f1f1;"
+			        & "line-height:1.1;'>" & _TotalFmt & "</div>"
+			    & "<div style='display:flex;align-items:center;gap:8px;justify-content:flex-end;'>"
+			        & "<span style='background:"   & _BgColor
+			            & ";border:1px solid "     & _Border
+			            & ";color:"                & _Color
+			            & ";font-size:11px;font-weight:600;white-space:nowrap;"
+			            & "padding:2px 8px;border-radius:99px;'>"
+			            & _Arrow & " " & _GrowthFmt
+			        & "</span>"
+			        & "<span style='font-size:11px;color:#5c6370;'>"
+			            & "vs PY: " & _PYFmt
+			        & "</span>"
+			    & "</div>"
+			& "</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: 447568b1-051b-413d-abed-8b1853aa2cb9
+
+	measure 'VIS _HTML Card Unique Artists' =
+			
+			VAR _Total  = [# Unique Artists]
+			VAR _PY     = CALCULATE([# Unique Artists], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _Growth = DIVIDE(_Total - _PY, _PY)
+			-- colores y flecha según signo
+			VAR _IsPos     = _Growth >= 0
+			VAR _Color     = IF(_IsPos, "#4ade80", "#f87171")
+			VAR _BgColor   = IF(_IsPos, "#052e16", "#450a0a")
+			VAR _Border    = IF(_IsPos, "#166534", "#991b1b")
+			VAR _Arrow     = IF(_IsPos, "↑", "↓")
+			-- formateo de valores
+			VAR _TotalFmt  = FORMAT(_Total, "#,##0")
+			VAR _PYFmt     = FORMAT(_PY,    "#,##0")
+			VAR _GrowthFmt = FORMAT(ABS(_Growth), "0.0%")
+			RETURN
+			    "<div style='font-family:Segoe UI,sans-serif;padding:12px 18px;"
+			        & "border-radius:10px;border:1.5px solid #2a2a2a;background:#141414;"
+			        & "width:100%;height:100%;box-sizing:border-box;"
+			        & "display:flex;flex-direction:column;justify-content:space-between;'>"
+			    & "<div style='font-size:10px;font-weight:600;color:#5c6370;"
+			        & "letter-spacing:.04em;'>"
+			        & "Unique Artists</div>"
+			    & "<div style='font-size:25px;font-weight:600;color:#f1f1f1;"
+			        & "line-height:1.1;'>" & _TotalFmt & "</div>"
+			    & "<div style='display:flex;align-items:center;gap:8px;justify-content:flex-end;'>"
+			        & "<span style='background:"   & _BgColor
+			            & ";border:1px solid "     & _Border
+			            & ";color:"                & _Color
+			            & ";font-size:11px;font-weight:600;white-space:nowrap;"
+			            & "padding:2px 8px;border-radius:99px;'>"
+			            & _Arrow & " " & _GrowthFmt
+			        & "</span>"
+			        & "<span style='font-size:11px;color:#5c6370;'>"
+			            & "vs PY: " & _PYFmt
+			        & "</span>"
+			    & "</div>"
+			& "</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: 1df433cc-bc2c-45ca-8e71-faa21e0eb3d8
+
+	measure 'VIS _HTML Card Active Listening Days' = ```
+			
+			VAR _Total  = [# Active Listening Days]
+			VAR _PY     = CALCULATE([# Active Listening Days], SAMEPERIODLASTYEAR('dim_calendar'[Date])) 
+			VAR _Growth = DIVIDE(_Total - _PY, _PY)
+			-- colores y flecha según signo
+			VAR _IsPos     = _Growth >= 0
+			VAR _Color     = IF(_IsPos, "#4ade80", "#f87171")
+			VAR _BgColor   = IF(_IsPos, "#052e16", "#450a0a")
+			VAR _Border    = IF(_IsPos, "#166534", "#991b1b")
+			VAR _Arrow     = IF(_IsPos, "↑", "↓")
+			-- formateo de valores
+			VAR _TotalFmt  = FORMAT(_Total, "#,##0")
+			VAR _PYFmt     = FORMAT(_PY,    "#,##0")
+			VAR _GrowthFmt = FORMAT(ABS(_Growth), "0.0%")
+			RETURN
+			    "<div style='font-family:Segoe UI,sans-serif;padding:12px 18px;"
+			        & "border-radius:10px;border:1.5px solid #2a2a2a;background:#141414;"
+			        & "width:100%;height:100%;box-sizing:border-box;"
+			        & "display:flex;flex-direction:column;justify-content:space-between;'>"
+			    & "<div style='font-size:10px;font-weight:600;color:#5c6370;"
+			        & "letter-spacing:.04em;'>"
+			        & "Active Listening Days</div>"
+			    & "<div style='font-size:25px;font-weight:600;color:#f1f1f1;"
+			        & "line-height:1.1;'>" & _TotalFmt & "</div>"
+			    & "<div style='display:flex;align-items:center;gap:8px;justify-content:flex-end;'>"
+			        & "<span style='background:"   & _BgColor
+			            & ";border:1px solid "     & _Border
+			            & ";color:"                & _Color
+			            & ";font-size:11px;font-weight:600;white-space:nowrap;"
+			            & "padding:2px 8px;border-radius:99px;'>"
+			            & _Arrow & " " & _GrowthFmt
+			        & "</span>"
+			        & "<span style='font-size:11px;color:#5c6370;'>"
+			            & "vs PY: " & _PYFmt
+			        & "</span>"
+			    & "</div>"
+			& "</div>"
+			```
+		displayFolder: 7_Custom_Visuals
+		lineageTag: d2093cdc-29c6-4316-8f94-379f9742bebd
+
+	measure 'VIS _HTML Card Unique Tracks' = ```
+			
+			VAR _Total  = [# Unique Tracks]
+			VAR _PY     = CALCULATE([# Unique Tracks], SAMEPERIODLASTYEAR('dim_calendar'[Date])) 
+			VAR _Growth = DIVIDE(_Total - _PY, _PY)
+			-- colores y flecha según signo
+			VAR _IsPos     = _Growth >= 0
+			VAR _Color     = IF(_IsPos, "#4ade80", "#f87171")
+			VAR _BgColor   = IF(_IsPos, "#052e16", "#450a0a")
+			VAR _Border    = IF(_IsPos, "#166534", "#991b1b")
+			VAR _Arrow     = IF(_IsPos, "↑", "↓")
+			-- formateo de valores
+			VAR _TotalFmt  = FORMAT(_Total, "#,##0")
+			VAR _PYFmt     = FORMAT(_PY,    "#,##0")
+			VAR _GrowthFmt = FORMAT(ABS(_Growth), "0.0%")
+			RETURN
+			    "<div style='font-family:Segoe UI,sans-serif;padding:12px 18px;"
+			        & "border-radius:10px;border:1.5px solid #2a2a2a;background:#141414;"
+			        & "width:100%;height:100%;box-sizing:border-box;"
+			        & "display:flex;flex-direction:column;justify-content:space-between;'>"
+			    & "<div style='font-size:10px;font-weight:600;color:#5c6370;"
+			        & "letter-spacing:.04em;'>"
+			        & "Unique Tracks</div>"
+			    & "<div style='font-size:25px;font-weight:600;color:#f1f1f1;"
+			        & "line-height:1.1;'>" & _TotalFmt & "</div>"
+			    & "<div style='display:flex;align-items:center;gap:8px;justify-content:flex-end;'>"
+			        & "<span style='background:"   & _BgColor
+			            & ";border:1px solid "     & _Border
+			            & ";color:"                & _Color
+			            & ";font-size:11px;font-weight:600;white-space:nowrap;"
+			            & "padding:2px 8px;border-radius:99px;'>"
+			            & _Arrow & " " & _GrowthFmt
+			        & "</span>"
+			        & "<span style='font-size:11px;color:#5c6370;'>"
+			            & "vs PY: " & _PYFmt
+			        & "</span>"
+			    & "</div>"
+			& "</div>"
+			```
+		displayFolder: 7_Custom_Visuals
+		lineageTag: 589bcc47-31bc-45ab-953d-bead3b97ae21
+
+	measure 'REF Top Album' =
+			
+			VAR TopAlbum =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            VALUES(dim_song_artist[master_metadata_album_album_name]),
+			            "@Album",   CALCULATE(SELECTEDVALUE(dim_song_artist[master_metadata_album_album_name])),
+			            "@Artist",  CALCULATE(FIRSTNONBLANK(dim_song_artist[master_metadata_album_artist_name], 1)),
+			            "@Streams", [# Streams],
+			            "@Hours",   [# Total Hours Played]
+			        ),
+			        [@Streams], DESC,
+			        [@Hours],   DESC,
+			        [@Album],   ASC
+			    )
+			RETURN
+			    CONCATENATEX(TopAlbum, [@Album] & " - " & [@Artist], ", ")
+		displayFolder: 6_Text Cards
+		lineageTag: a5ca52c8-ef9b-4767-a1e9-4b670d56c10c
+
+	measure 'VIS HTML TOP Highlights' =
+			
+			VAR _Artist = IF(ISBLANK([REF Top Artist]),         "—", [REF Top Artist])
+			VAR _Track   = IF(ISBLANK([REF Top Track]),          "—", [REF Top Track])
+			VAR _Album   = IF(ISBLANK([REF Top Album]),          "—", [REF Top Album])
+			VAR _Plat    = IF(ISBLANK([REF Top Platform Group]), "—", [REF Top Platform Group])
+			RETURN
+			"<style>
+			.hi{display:flex;gap:8px;width:100%;height:100%;font-family:'Segoe UI',sans-serif;padding:6px;box-sizing:border-box;}
+			.c{flex:1;background:#121212;border-radius:8px;padding:14px 12px;border-left:3px solid #22cc66;display:flex;flex-direction:column;justify-content:center;overflow:hidden;min-width:0;}
+			.l{color:#6c7e93;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;white-space:nowrap;}
+			.v{color:#fff;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+			.g{color:#22cc66;}
+			</style>
+			<div class=""hi"">
+			<div class=""c""><div class=""l"">🎤 Top Artist</div><div class=""v"">" & _Artist & "</div></div>
+			<div class=""c""><div class=""l"">🎵 Top Track</div><div class=""v g"">" & _Track & "</div></div>
+			<div class=""c""><div class=""l"">💿 Top Album</div><div class=""v"">" & _Album & "</div></div>
+			<div class=""c""><div class=""l"">📱 Top Platform</div><div class=""v"">" & _Plat & "</div></div>
+			</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: bbee53b2-cce8-4a2c-a9f6-0bd6e88b30f8
+
+	measure 'REF Labels placeholder' = ```
+			0 
+			```
+		formatString: 0
+		displayFolder: 0_General
+		lineageTag: fa41c9d8-c78b-460b-929b-06d866622ddd
+
+	measure 'REF Labels Bar chart' = SELECTEDVALUE( dim_reason_start[reason_start_label])
+		displayFolder: 0_General
+		lineageTag: aedd2d3c-31b3-429a-a7dc-ca671917a329
+
+	measure 'VIS HTML Behavior Snapshot' =
+			
+			VAR _Completion = [% Completion Rate]
+			VAR _Skip       = [% Skip Rate]
+			VAR _Shuffle    = [% Shuffle Rate]
+			VAR _Manual     = [% Manual Start Rate]
+			VAR _CompletionFmt = FORMAT(_Completion, "0.0%")
+			VAR _SkipFmt       = FORMAT(_Skip,       "0.0%")
+			VAR _ShuffleFmt    = FORMAT(_Shuffle,    "0.0%")
+			VAR _ManualFmt     = FORMAT(_Manual,     "0.0%")
+			VAR _CompletionW = FORMAT(MIN(1, MAX(0, _Completion)), "0%")
+			VAR _SkipW       = FORMAT(MIN(1, MAX(0, _Skip)),       "0%")
+			VAR _ShuffleW    = FORMAT(MIN(1, MAX(0, _Shuffle)),    "0%")
+			VAR _ManualW     = FORMAT(MIN(1, MAX(0, _Manual)),     "0%")
+			RETURN
+			"<style>
+			.bv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;height:100%;font-family:'Segoe UI',sans-serif;padding:6px;box-sizing:border-box;}
+			.bi{background:#121212;border-radius:8px;border:1px solid #242424;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;}
+			.bl{color:#6c7e93;font-size:9px;text-transform:uppercase;letter-spacing:1.3px;white-space:nowrap;}
+			.bn{color:#f4f4f4;font-size:22px;font-weight:700;line-height:1.05;margin:7px 0 8px;}
+			.bt{height:5px;border-radius:99px;background:#252525;overflow:hidden;}
+			.bf{height:100%;border-radius:99px;background:#22cc66;}
+			.br{background:#e22134;}
+			.by{background:#ffc862;}
+			</style>
+			<div class=""bv"">
+			  <div class=""bi""><div class=""bl"">Completion</div><div class=""bn"">" & _CompletionFmt & "</div><div class=""bt""><div class=""bf"" style=""width:" & _CompletionW & """></div></div></div>
+			  <div class=""bi""><div class=""bl"">Skip Rate</div><div class=""bn"">" & _SkipFmt & "</div><div class=""bt""><div class=""bf br"" style=""width:" & _SkipW & """></div></div></div>
+			  <div class=""bi""><div class=""bl"">Shuffle</div><div class=""bn"">" & _ShuffleFmt & "</div><div class=""bt""><div class=""bf by"" style=""width:" & _ShuffleW & """></div></div></div>
+			  <div class=""bi""><div class=""bl"">Manual Starts</div><div class=""bn"">" & _ManualFmt & "</div><div class=""bt""><div class=""bf"" style=""width:" & _ManualW & """></div></div></div>
+			</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: b932204a-6277-4877-a064-65216a0710e1
+
+	measure 'VIS HTML Rhythm Snapshot' =
+			
+			VAR _Hours      = [# Total Hours Played]
+			VAR _HoursPY    = CALCULATE([# Total Hours Played], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _HoursG     = DIVIDE(_Hours - _HoursPY, _HoursPY)
+			VAR _HoursClass = IF(ISBLANK(_HoursG) || _HoursG >= 0, "pos", "neg")
+			VAR _HoursArrow = IF(ISBLANK(_HoursG), "•", IF(_HoursG >= 0, "↑", "↓"))
+			VAR _HoursFmt   = FORMAT(_Hours, "#,##0.0") & " h"
+			VAR _HoursPYFmt = IF(ISBLANK(_HoursPY), "—", FORMAT(_HoursPY, "#,##0.0") & " h")
+			VAR _HoursGFmt  = IF(ISBLANK(_HoursG), "—", FORMAT(ABS(_HoursG), "0.0%"))
+			
+			VAR _Avg        = [# Avg Hours per Active Day]
+			VAR _AvgPY      = CALCULATE([# Avg Hours per Active Day], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _AvgG       = DIVIDE(_Avg - _AvgPY, _AvgPY)
+			VAR _AvgClass   = IF(ISBLANK(_AvgG) || _AvgG >= 0, "pos", "neg")
+			VAR _AvgArrow   = IF(ISBLANK(_AvgG), "•", IF(_AvgG >= 0, "↑", "↓"))
+			VAR _AvgFmt     = FORMAT(_Avg, "0.0") & " h"
+			VAR _AvgPYFmt   = IF(ISBLANK(_AvgPY), "—", FORMAT(_AvgPY, "0.0") & " h")
+			VAR _AvgGFmt    = IF(ISBLANK(_AvgG), "—", FORMAT(ABS(_AvgG), "0.0%"))
+			
+			VAR _Streams    = [# Streams per Active Day]
+			VAR _StreamsPY  = CALCULATE([# Streams per Active Day], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _StreamsG   = DIVIDE(_Streams - _StreamsPY, _StreamsPY)
+			VAR _StreamsClass = IF(ISBLANK(_StreamsG) || _StreamsG >= 0, "pos", "neg")
+			VAR _StreamsArrow = IF(ISBLANK(_StreamsG), "•", IF(_StreamsG >= 0, "↑", "↓"))
+			VAR _StreamsFmt   = FORMAT(_Streams, "#,##0.0")
+			VAR _StreamsPYFmt = IF(ISBLANK(_StreamsPY), "—", FORMAT(_StreamsPY, "#,##0.0"))
+			VAR _StreamsGFmt  = IF(ISBLANK(_StreamsG), "—", FORMAT(ABS(_StreamsG), "0.0%"))
+			
+			VAR _Days       = [# Active Listening Days]
+			VAR _DaysPY     = CALCULATE([# Active Listening Days], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _DaysG      = DIVIDE(_Days - _DaysPY, _DaysPY)
+			VAR _DaysClass  = IF(ISBLANK(_DaysG) || _DaysG >= 0, "pos", "neg")
+			VAR _DaysArrow  = IF(ISBLANK(_DaysG), "•", IF(_DaysG >= 0, "↑", "↓"))
+			VAR _DaysFmt    = FORMAT(_Days, "#,##0")
+			VAR _DaysPYFmt  = IF(ISBLANK(_DaysPY), "—", FORMAT(_DaysPY, "#,##0"))
+			VAR _DaysGFmt   = IF(ISBLANK(_DaysG), "—", FORMAT(ABS(_DaysG), "0.0%"))
+			RETURN
+			"<style>
+			.rv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;height:100%;font-family:'Segoe UI',sans-serif;padding:6px;box-sizing:border-box;}
+			.ri{background:#141414;border-radius:8px;border:1px solid #2a2a2a;padding:11px 12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;}
+			.rl{color:#6c7e93;font-size:9px;text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+			.rn{color:#fff;font-size:20px;font-weight:700;line-height:1.05;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+			.rf{display:flex;align-items:center;gap:7px;justify-content:flex-end;min-width:0;}
+			.rp{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;}
+			.pos{background:#052e16;border:1px solid #166534;color:#4ade80;}
+			.neg{background:#450a0a;border:1px solid #991b1b;color:#f87171;}
+			.ry{font-size:10px;color:#5c6370;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+			</style>
+			<div class=""rv"">
+			  <div class=""ri""><div class=""rl"">Total Hours</div><div class=""rn"">" & _HoursFmt & "</div><div class=""rf""><span class=""rp " & _HoursClass & """>" & _HoursArrow & " " & _HoursGFmt & "</span><span class=""ry"">vs PY: " & _HoursPYFmt & "</span></div></div>
+			  <div class=""ri""><div class=""rl"">Avg Hours / Active Day</div><div class=""rn"">" & _AvgFmt & "</div><div class=""rf""><span class=""rp " & _AvgClass & """>" & _AvgArrow & " " & _AvgGFmt & "</span><span class=""ry"">vs PY: " & _AvgPYFmt & "</span></div></div>
+			  <div class=""ri""><div class=""rl"">Streams / Active Day</div><div class=""rn"">" & _StreamsFmt & "</div><div class=""rf""><span class=""rp " & _StreamsClass & """>" & _StreamsArrow & " " & _StreamsGFmt & "</span><span class=""ry"">vs PY: " & _StreamsPYFmt & "</span></div></div>
+			  <div class=""ri""><div class=""rl"">Active Days</div><div class=""rn"">" & _DaysFmt & "</div><div class=""rf""><span class=""rp " & _DaysClass & """>" & _DaysArrow & " " & _DaysGFmt & "</span><span class=""ry"">vs PY: " & _DaysPYFmt & "</span></div></div>
+			</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: 402fa61c-44aa-41f3-bb4b-5e371ca60c21
+
+	measure 'VIS HTML Platform Context Snapshot' =
+			
+			VAR _Offline      = [% Offline Rate]
+			VAR _OfflinePY    = CALCULATE([% Offline Rate], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _OfflineG     = DIVIDE(_Offline - _OfflinePY, _OfflinePY)
+			VAR _OfflineClass = IF(ISBLANK(_OfflineG) || _OfflineG >= 0, "pos", "neg")
+			VAR _OfflineArrow = IF(ISBLANK(_OfflineG), "•", IF(_OfflineG >= 0, "↑", "↓"))
+			VAR _OfflineFmt   = FORMAT(_Offline, "0.0%")
+			VAR _OfflinePYFmt = IF(ISBLANK(_OfflinePY), "—", FORMAT(_OfflinePY, "0.0%"))
+			VAR _OfflineGFmt  = IF(ISBLANK(_OfflineG), "—", FORMAT(ABS(_OfflineG), "0.0%"))
+			
+			VAR _Countries      = [# Countries Streamed From]
+			VAR _CountriesPY    = CALCULATE([# Countries Streamed From], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _CountriesG     = DIVIDE(_Countries - _CountriesPY, _CountriesPY)
+			VAR _CountriesClass = IF(ISBLANK(_CountriesG) || _CountriesG >= 0, "pos", "neg")
+			VAR _CountriesArrow = IF(ISBLANK(_CountriesG), "•", IF(_CountriesG >= 0, "↑", "↓"))
+			VAR _CountriesFmt   = FORMAT(_Countries, "#,##0")
+			VAR _CountriesPYFmt = IF(ISBLANK(_CountriesPY), "—", FORMAT(_CountriesPY, "#,##0"))
+			VAR _CountriesGFmt  = IF(ISBLANK(_CountriesG), "—", FORMAT(ABS(_CountriesG), "0.0%"))
+			
+			VAR _Groups      = [# Platform Groups Used]
+			VAR _GroupsPY    = CALCULATE([# Platform Groups Used], SAMEPERIODLASTYEAR('dim_calendar'[Date]))
+			VAR _GroupsG     = DIVIDE(_Groups - _GroupsPY, _GroupsPY)
+			VAR _GroupsClass = IF(ISBLANK(_GroupsG) || _GroupsG >= 0, "pos", "neg")
+			VAR _GroupsArrow = IF(ISBLANK(_GroupsG), "•", IF(_GroupsG >= 0, "↑", "↓"))
+			VAR _GroupsFmt   = FORMAT(_Groups, "#,##0")
+			VAR _GroupsPYFmt = IF(ISBLANK(_GroupsPY), "—", FORMAT(_GroupsPY, "#,##0"))
+			VAR _GroupsGFmt  = IF(ISBLANK(_GroupsG), "—", FORMAT(ABS(_GroupsG), "0.0%"))
+			RETURN
+			"<style>
+			.pv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;height:100%;font-family:'Segoe UI',sans-serif;padding:6px;box-sizing:border-box;}
+			.pi{background:#141414;border-radius:8px;border:1px solid #2a2a2a;padding:11px 12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;}
+			.pl{color:#6c7e93;font-size:9px;text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+			.pn{color:#fff;font-size:20px;font-weight:700;line-height:1.05;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+			.pf{display:flex;align-items:center;gap:7px;justify-content:flex-end;min-width:0;}
+			.pp{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;}
+			.pos{background:#052e16;border:1px solid #166534;color:#4ade80;}
+			.neg{background:#450a0a;border:1px solid #991b1b;color:#f87171;}
+			.py{font-size:10px;color:#5c6370;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+			</style>
+			<div class=""pv"">
+			  <div class=""pi""><div class=""pl"">Offline Rate</div><div class=""pn"">" & _OfflineFmt & "</div><div class=""pf""><span class=""pp " & _OfflineClass & """>" & _OfflineArrow & " " & _OfflineGFmt & "</span><span class=""py"">vs PY: " & _OfflinePYFmt & "</span></div></div>
+			  <div class=""pi""><div class=""pl"">Countries</div><div class=""pn"">" & _CountriesFmt & "</div><div class=""pf""><span class=""pp " & _CountriesClass & """>" & _CountriesArrow & " " & _CountriesGFmt & "</span><span class=""py"">vs PY: " & _CountriesPYFmt & "</span></div></div>
+			  <div class=""pi""><div class=""pl"">Platform Groups</div><div class=""pn"">" & _GroupsFmt & "</div><div class=""pf""><span class=""pp " & _GroupsClass & """>" & _GroupsArrow & " " & _GroupsGFmt & "</span><span class=""py"">vs PY: " & _GroupsPYFmt & "</span></div></div>
+			</div>"
+		displayFolder: 7_Custom_Visuals
+		lineageTag: fca15e00-36dc-475c-8d10-8bedf5e65a55
+
+	column Column
+		isHidden
+		formatString: 0
+		displayFolder: 7_Custom_Visuals
+		lineageTag: d36858fd-f18b-40e4-8f54-fd93f4bdc383
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition formulas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 8e6ad5350be148be9cb646d181b02d7f
+

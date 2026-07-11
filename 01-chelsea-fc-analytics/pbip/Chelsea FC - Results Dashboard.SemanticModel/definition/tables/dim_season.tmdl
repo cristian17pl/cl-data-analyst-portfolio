@@ -130,7 +130,7 @@ table dim_season
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(File.Contents("C:\Users\cepl1\Documents\CRISTIAN\Proyectos BI\Chelsea FC\dim_season.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    Origen = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\01-chelsea-fc-analytics\docs\dim_season.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"season_id", type text}, {"season_label", type text}, {"start_year", Int64.Type}, {"end_year", Int64.Type}, {"ownership_era", type text}, {"manager_primary", type text}, {"manager_secondary", type text}, {"pl_finish", type text}, {"ucl_result", type text}, {"europa_result", type text}, {"conference_result", type text}, {"fa_cup_result", type text}, {"efl_cup_result", type text}, {"cwc_result", type text}, {"trophies_won", type text}})
 				in

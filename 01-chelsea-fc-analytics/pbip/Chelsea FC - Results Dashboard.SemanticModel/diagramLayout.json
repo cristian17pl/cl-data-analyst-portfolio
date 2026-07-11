@@ -19,7 +19,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 1
         },
         {
           "location": {
@@ -32,7 +32,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 2
         },
         {
           "location": {
@@ -45,7 +45,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 3
         },
         {
           "location": {
@@ -58,7 +58,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 4
         },
         {
           "location": {
@@ -71,7 +71,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 5
         },
         {
           "location": {
@@ -84,7 +84,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 6
         },
         {
           "location": {
@@ -97,7 +97,7 @@
             "height": 224,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 7
         },
         {
           "location": {
@@ -110,7 +110,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 8
         },
         {
           "location": {
@@ -123,35 +123,37 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 9
         },
         {
           "location": {
-            "x": 1961.5411998964789,
-            "y": 326.08456886697428
+            "x": 1588.1318549540963,
+            "y": 159.24209559484589
           },
           "nodeIndex": "Calendar",
+          "nodeLineageTag": "53c99151-2684-43b1-99e2-558a864efc54",
           "size": {
             "height": 200,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 11
         },
         {
           "location": {
-            "x": 2245.5411998964792,
-            "y": 326.08456886697428
+            "x": 221.58310151196952,
+            "y": 171.15941511428366
           },
           "nodeIndex": "DAX Measures",
+          "nodeLineageTag": "e8f7a110-755a-400a-9d4d-f1d4465b2276",
           "size": {
             "height": 200,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 10
         }
       ],
       "name": "Todas las tablas",
-      "zoomValue": 50.346892102823141,
+      "zoomValue": 70.955543900968848,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -207,8 +209,8 @@
       "nodes": [
         {
           "location": {
-            "x": 333.1847511806298,
-            "y": 367
+            "x": 523.18475118062975,
+            "y": 393
           },
           "nodeIndex": "fact_player_wages",
           "nodeLineageTag": "023c0c35-8678-4b1f-ab53-70309c89b3cc",
@@ -220,8 +222,8 @@
         },
         {
           "location": {
-            "x": 577.36163941535983,
-            "y": 0
+            "x": 854.36163941535983,
+            "y": 93
           },
           "nodeIndex": "dim_season",
           "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
@@ -233,8 +235,8 @@
         },
         {
           "location": {
-            "x": 85,
-            "y": 2
+            "x": 190,
+            "y": 102
           },
           "nodeIndex": "dim_player",
           "nodeLineageTag": "dd99f935-572a-4170-b3a8-b6f92d4f2d28",
@@ -310,13 +312,13 @@
       "ordinal": 4,
       "scrollPosition": {
         "x": 0,
-        "y": 0
+        "y": 1.1211693641406024
       },
       "nodes": [
         {
           "location": {
-            "x": 319.1847511806298,
-            "y": 318
+            "x": 501.249981094526,
+            "y": 497.47999639511443
           },
           "nodeIndex": "fact_matches",
           "nodeLineageTag": "76f03aae-a367-41a2-a112-377f9e0f950e",
@@ -328,8 +330,8 @@
         },
         {
           "location": {
-            "x": 552.36163941535983,
-            "y": 0
+            "x": 203.60020288726247,
+            "y": 196.04813260634455
           },
           "nodeIndex": "dim_competition",
           "nodeLineageTag": "5f731ff3-9bf1-429d-8d62-c16daa78248c",
@@ -341,8 +343,8 @@
         },
         {
           "location": {
-            "x": 79,
-            "y": 0
+            "x": 502.85367457415919,
+            "y": 107.63225895749781
           },
           "nodeIndex": "dim_season",
           "nodeLineageTag": "243e56b5-bd94-4214-832b-b78cfe1382e3",
@@ -351,10 +353,23 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 823.135639040755,
+            "y": 153.67749299195984
+          },
+          "nodeIndex": "Calendar",
+          "nodeLineageTag": "53c99151-2684-43b1-99e2-558a864efc54",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Matches",
-      "zoomValue": 100,
+      "zoomValue": 89.192590520569482,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
@@ -364,7 +379,7 @@
       "ordinal": 5,
       "scrollPosition": {
         "x": 0,
-        "y": 4
+        "y": 0
       },
       "nodes": [
         {
@@ -421,7 +436,7 @@
         }
       ],
       "name": "Performance & Valuation",
-      "zoomValue": 100,
+      "zoomValue": 89.192590520569524,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

@@ -1,0 +1,308 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Money Flow",
+  "name": "84d3884d26b94f476251",
+  "options": {
+    "targetVisualNames": [],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "a6e916512a0f5cfdfee7",
+    "sections": {
+      "a6e916512a0f5cfdfee7": {
+        "visualContainers": {
+          "3a245c5177c44e3ca432": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "8fe654f828f9124b747e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "46c292e9476b02bbee42",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "$ Matchday Revenue 2 (£)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "95cc4fa3a68afee22dad",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "$ Broadcast Revenue (£)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "be9d554889b592262b3a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "$ Commercial Revenue (£)"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "columnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "8393c089d1d9fa5422e2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "58b05f4ddbff506df3d9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "VIS HTML Financial Snapshot"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+              "objects": {}
+            }
+          },
+          "b17bf136887b46508d45": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a584d1532e9520fb34bb",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e5efe11fd2ef68b52433",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "% Wage to Revenue Ratio"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "44e43c996fae571a0c66": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "18769ed5b50a6efe2441",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "VIS HTML Financial Sankey"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+              "objects": {}
+            }
+          },
+          "cca732ce658ce6b57f36": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "70c4da47a37b806bdc56",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "$ Total Revenue (£)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fa3cc11947c77d9045e8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DAX Measures"
+                        }
+                      },
+                      "Property": "$ Total Cost (£)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1af8473fe7f78513a086",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_season"
+                        }
+                      },
+                      "Property": "season_label"
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "578ed4b5d8dfab21f30d": {
+            "singleVisual": {
+              "visualType": "bookmarkNavigator",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

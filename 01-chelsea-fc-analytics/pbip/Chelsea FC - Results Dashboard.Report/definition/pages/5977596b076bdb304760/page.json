@@ -50,12 +50,17 @@
   "visualInteractions": [
     {
       "source": "5d68f98d9a2a1f721083",
-      "target": "aa55f1748d0bcab93cd8",
+      "target": "a5d6755036c145498db6",
       "type": "NoFilter"
     },
     {
+      "source": "a5d6755036c145498db6",
+      "target": "14726af46cb9473dac37",
+      "type": "HighlightFilter"
+    },
+    {
       "source": "5d68f98d9a2a1f721083",
-      "target": "57ccdafeffabd89f3c9b",
+      "target": "03e5695b54341d2a5d89",
       "type": "NoFilter"
     }
   ]
