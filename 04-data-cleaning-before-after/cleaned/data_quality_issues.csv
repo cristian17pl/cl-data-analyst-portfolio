@@ -1,0 +1,13 @@
+quality_issue,records
+ambiguous_order_date_format,1
+invalid_email,1
+invalid_order_date,1
+invalid_quantity,1
+invalid_unit_price,1
+missing_category,1
+missing_customer_id,1
+missing_email,1
+missing_product_sku,1
+negative_discount,1
+negative_unit_price,1
+non_positive_quantity,1

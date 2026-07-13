@@ -1,0 +1,2177 @@
+table formulas
+	lineageTag: fe706dac-3ca5-45d5-97fc-ce4318557faa
+
+	measure '$ Total Revenue' = SUM(fact_sales[Revenue])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 1_Sales\$
+		lineageTag: 9a3e8ae6-00d3-4ba9-8609-a92a7c9f6e16
+
+	measure '$ Total Cost' = SUM(fact_sales[Cost])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 1_Sales\$
+		lineageTag: d0ad75ab-6f9a-4d73-87ab-ddaf84f4ee04
+
+	measure '$ Gross Margin' = SUM(fact_sales[Margin])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 1_Sales\$
+		lineageTag: d0beee92-35fc-4e33-896e-61cb2a5339d0
+
+	measure '$ Avg Order Value' = DIVIDE([$ Total Revenue], [# Orders])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 1_Sales\$
+		lineageTag: 048a1859-eb91-4a0f-b1f5-be0996ed3d12
+
+	measure '$ Discount Amount' = SUMX(fact_sales, fact_sales[UnitPrice] * fact_sales[OrderQty] * fact_sales[UnitPriceDiscount])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 1_Sales\$
+		lineageTag: 6fdce20e-a4e7-43f4-9fa7-2295c06c09bd
+
+	measure '% Margin Rate' = DIVIDE([$ Gross Margin], [$ Total Revenue])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 1_Sales\%
+		lineageTag: 0efeb55e-9e25-4118-9f11-ec2609ed8a54
+
+	measure '% Discount Rate' = DIVIDE([$ Discount Amount], SUMX(fact_sales, fact_sales[UnitPrice] * fact_sales[OrderQty]))
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 1_Sales\%
+		lineageTag: 4f793dbe-27bf-4cce-9f61-65347d5caf07
+
+	measure '# Orders' = DISTINCTCOUNT(fact_sales[SalesOrderID])
+		formatString: #,0
+		displayFolder: 2_Volume\#
+		lineageTag: d6119953-8f94-4acc-b624-8614aed4bf20
+
+	measure '# Order Lines' = COUNTROWS(fact_sales)
+		formatString: #,0
+		displayFolder: 2_Volume\#
+		lineageTag: 7587bb17-f28b-4aeb-b8b5-335393f312d9
+
+	measure '# Units Sold' = SUM(fact_sales[OrderQty])
+		formatString: #,0
+		displayFolder: 2_Volume\#
+		lineageTag: 557df1fd-d760-4717-804a-a24a1665a008
+
+	measure '# Active Customers' = DISTINCTCOUNT(fact_sales[CustomerID])
+		formatString: #,0
+		displayFolder: 2_Volume\#
+		lineageTag: 53770e03-a42d-41eb-be2d-5bcf980a2691
+
+	measure '# Products Sold' = DISTINCTCOUNT(fact_sales[ProductID])
+		formatString: #,0
+		displayFolder: 2_Volume\#
+		lineageTag: c6ead15a-492e-4d61-b9fa-e3d6b7205933
+
+	measure '$ Target Revenue' =
+			CALCULATE(
+			    SUM(fact_targets[TargetRevenue]),
+			    TREATAS(VALUES(dim_product[Category]), fact_targets[Category])
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 3_Targets\$
+		lineageTag: af3d376f-7d23-4b8b-9ff6-63020eb4b77f
+
+	measure '$ Variance to Target' =
+			
+			[$ Revenue in Target Period] - [$ Target Revenue]
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 3_Targets\$
+		lineageTag: 15aaf55d-cfd3-472b-a470-a92604f8cb19
+
+	measure '% Target Attainment' =
+			
+			DIVIDE(
+			    [$ Revenue in Target Period],
+			    [$ Target Revenue]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 3_Targets\%
+		lineageTag: bc7efa99-ba99-4145-8346-731c490ff16e
+
+	measure '# Regions On Target' = COUNTROWS(FILTER(VALUES(dim_territory[Region]), [% Target Attainment] >= 1))
+		formatString: #,0
+		displayFolder: 3_Targets\#
+		lineageTag: 8729adcb-3e2c-46a0-967d-b4c5b3a5bb5d
+
+	measure '$ Revenue PY' = CALCULATE([$ Total Revenue], SAMEPERIODLASTYEAR(dim_date[Date]))
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 40cfa45b-c810-4c40-93cf-91d00fa41256
+
+	measure '$ Margin PY' = CALCULATE([$ Gross Margin], SAMEPERIODLASTYEAR(dim_date[Date]))
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: fe290e25-e458-41d1-94cf-97e927fbad42
+
+	measure '$ Revenue YTD' = TOTALYTD([$ Total Revenue], dim_date[Date])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 2990d354-ee98-4da8-b41e-16e2e3f8a4f9
+
+	measure '$ Revenue PY YTD' = CALCULATE([$ Revenue YTD], SAMEPERIODLASTYEAR(dim_date[Date]))
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 6e68386f-2ffe-432a-b0d8-68b6d65d74bb
+
+	measure '% Revenue YoY' = DIVIDE([$ Total Revenue] - [$ Revenue PY], [$ Revenue PY])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: 801d8dfb-7ebb-4e04-9aaf-6af4d04ecb06
+
+	measure '% Revenue YoY YTD' = DIVIDE([$ Revenue YTD] - [$ Revenue PY YTD], [$ Revenue PY YTD])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: d70557be-1914-4a64-b52e-8abbd7c6f352
+
+	measure '% Margin YoY' = DIVIDE([$ Gross Margin] - [$ Margin PY], [$ Margin PY])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: 126d816e-bc95-431c-a7b7-b2674e738713
+
+	measure '$ Revenue Online' = CALCULATE([$ Total Revenue], dim_channel[Channel] = "Online")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: bac8295b-2ece-4e5b-959b-f108b4043900
+
+	measure '$ Revenue Reseller' = CALCULATE([$ Total Revenue], dim_channel[Channel] = "Reseller")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: 1ddea907-68e9-4468-9073-f8ac240b9cc7
+
+	measure '% Margin Rate Online' = CALCULATE([% Margin Rate], dim_channel[Channel] = "Online")
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5_Channel\%
+		lineageTag: 9bebe7c5-a580-44ea-8298-69f9202ddab5
+
+	measure '% Margin Rate Reseller' = CALCULATE([% Margin Rate], dim_channel[Channel] = "Reseller")
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5_Channel\%
+		lineageTag: 8a19d62d-836f-439c-9f0e-07b98487a15d
+
+	measure '% Online Revenue Share' =
+			DIVIDE(
+				[$ Revenue Online],
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_channel[Channel])
+				)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5_Channel\%
+		lineageTag: b12359c2-b563-4eb3-b35a-abaab99fdd20
+
+	measure '# Region Rank by Revenue' = IF(ISINSCOPE(dim_territory[Region]), RANKX(ALL(dim_territory[Region]), [$ Total Revenue]))
+		formatString: 0
+		displayFolder: 6_Rankings\#
+		lineageTag: 145f77f7-fcfb-4ebe-955d-19d7f1dc67ce
+
+	measure '# Subcategory Rank by Revenue' = IF(ISINSCOPE(dim_product[Subcategory]), RANKX(ALL(dim_product[Subcategory]), [$ Total Revenue]))
+		formatString: 0
+		displayFolder: 6_Rankings\#
+		lineageTag: 59943173-359e-44c2-ac39-fcf0fb1a2c79
+
+	measure '# Product Rank by Revenue' = IF(ISINSCOPE(dim_product[ProductName]), RANKX(ALL(dim_product[ProductName]), [$ Total Revenue]))
+		formatString: 0
+		displayFolder: 6_Rankings\#
+		lineageTag: 887ce3cb-91ee-4499-af35-d79cf3a54f4b
+
+	measure 'REF Selected Region' = SELECTEDVALUE(dim_territory[Region], "All Regions")
+		displayFolder: 7_Text Cards
+		lineageTag: 597538cd-8761-478a-b402-da013e5a6599
+
+	measure 'REF Selected Year' =
+			VAR _y = SELECTEDVALUE(dim_date[Year])
+			RETURN IF(ISBLANK(_y), "All Years", FORMAT(_y, "0"))
+		displayFolder: 7_Text Cards
+		lineageTag: 0dafb4b0-d5da-4377-816b-be600d5b1da8
+
+	measure 'REF Top Region' = MAXX(TOPN(1, VALUES(dim_territory[Region]), [$ Total Revenue]), dim_territory[Region])
+		displayFolder: 7_Text Cards
+		lineageTag: d706c83f-7281-4d7f-91aa-c4f2902e13a7
+
+	measure 'REF Top Category' = MAXX(TOPN(1, VALUES(dim_product[Category]), [$ Total Revenue]), dim_product[Category])
+		displayFolder: 7_Text Cards
+		lineageTag: aee7a5d3-d523-47bf-a86d-f0b7f84a5068
+
+	measure 'REF Top Product' = MAXX(TOPN(1, VALUES(dim_product[ProductName]), [$ Total Revenue]), dim_product[ProductName])
+		displayFolder: 7_Text Cards
+		lineageTag: d5ce8f0b-6aa7-46f0-be2d-6fabcd1a33a3
+
+	measure '$ Revenue in Target Period' =
+			
+			VAR _TargetMonths =
+			    VALUES(fact_targets[YearMonth])
+			RETURN
+			    CALCULATE(
+			        [$ Total Revenue],
+			        KEEPFILTERS(
+			            TREATAS(
+			                _TargetMonths,
+			                dim_date[YearMonth]
+			            )
+			        )
+			    )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 3_Targets\$
+		lineageTag: 953e280a-4684-4f7b-b9ad-898de8441da1
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'VIS HTML Executive KPI Cards' =
+			
+			VAR _Revenue = [$ Total Revenue]
+			VAR _RevenuePY = [$ Revenue PY]
+			VAR _RevenueYoY = [% Revenue YoY]
+			
+			VAR _RevenueGood =
+			    COALESCE(_RevenueYoY, 0) >= 0
+			
+			VAR _RevenueColor =
+			    IF(_RevenueGood, "#3DBA7E", "#F87171")
+			
+			VAR _RevenuePill =
+			    IF(_RevenueGood, "#123F35", "#4A202A")
+			
+			VAR _RevenueArrow =
+			    IF(
+			        ISBLANK(_RevenueYoY),
+			        "•",
+			        IF(_RevenueGood, "↑", "↓")
+			    )
+			
+			VAR _RevenueFmt =
+			    SWITCH(
+			        TRUE(),
+			        ABS(_Revenue) >= 1000000000,
+			            FORMAT(_Revenue / 1000000000, "$0.0B"),
+			        ABS(_Revenue) >= 1000000,
+			            FORMAT(_Revenue / 1000000, "$0.0M"),
+			        ABS(_Revenue) >= 1000,
+			            FORMAT(_Revenue / 1000, "$0.0K"),
+			        FORMAT(_Revenue, "$#,0")
+			    )
+			
+			VAR _RevenuePYFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_RevenuePY), "—",
+			        ABS(_RevenuePY) >= 1000000000,
+			            FORMAT(_RevenuePY / 1000000000, "$0.0B"),
+			        ABS(_RevenuePY) >= 1000000,
+			            FORMAT(_RevenuePY / 1000000, "$0.0M"),
+			        ABS(_RevenuePY) >= 1000,
+			            FORMAT(_RevenuePY / 1000, "$0.0K"),
+			        FORMAT(_RevenuePY, "$#,0")
+			    )
+			
+			VAR _RevenueYoYFmt =
+			    IF(
+			        ISBLANK(_RevenueYoY),
+			        "—",
+			        FORMAT(ABS(_RevenueYoY), "0.0%")
+			    )
+			
+			VAR _Margin = [% Margin Rate]
+			VAR _GrossMargin = [$ Gross Margin]
+			
+			VAR _MarginPY =
+			    CALCULATE(
+			        [% Margin Rate],
+			        SAMEPERIODLASTYEAR(dim_date[Date])
+			    )
+			
+			VAR _MarginDelta =
+			    _Margin - _MarginPY
+			
+			VAR _MarginGood =
+			    COALESCE(_MarginDelta, 0) >= 0
+			
+			VAR _MarginColor =
+			    IF(_MarginGood, "#3DBA7E", "#F87171")
+			
+			VAR _MarginPill =
+			    IF(_MarginGood, "#123F35", "#4A202A")
+			
+			VAR _MarginArrow =
+			    IF(
+			        ISBLANK(_MarginDelta),
+			        "•",
+			        IF(_MarginGood, "↑", "↓")
+			    )
+			
+			VAR _MarginFmt =
+			    FORMAT(_Margin, "0.0%")
+			
+			VAR _GrossMarginFmt =
+			    SWITCH(
+			        TRUE(),
+			        ABS(_GrossMargin) >= 1000000000,
+			            FORMAT(_GrossMargin / 1000000000, "$0.0B"),
+			        ABS(_GrossMargin) >= 1000000,
+			            FORMAT(_GrossMargin / 1000000, "$0.0M"),
+			        ABS(_GrossMargin) >= 1000,
+			            FORMAT(_GrossMargin / 1000, "$0.0K"),
+			        FORMAT(_GrossMargin, "$#,0")
+			    )
+			
+			VAR _MarginDeltaFmt =
+			    IF(
+			        ISBLANK(_MarginDelta),
+			        "—",
+			        FORMAT(ABS(_MarginDelta) * 100, "0.0") & " pp"
+			    )
+			
+			VAR _Attainment = [% Target Attainment]
+			VAR _Target = [$ Target Revenue]
+			VAR _Variance = [$ Variance to Target]
+			
+			VAR _AttainmentGood =
+			    COALESCE(_Attainment, 0) >= 1
+			
+			VAR _AttainmentColor =
+			    IF(_AttainmentGood, "#3DBA7E", "#F87171")
+			
+			VAR _AttainmentPill =
+			    IF(_AttainmentGood, "#123F35", "#4A202A")
+			
+			VAR _AttainmentLabel =
+			    IF(_AttainmentGood, "Above plan", "Below plan")
+			
+			VAR _AttainmentFmt =
+			    IF(
+			        ISBLANK(_Attainment),
+			        "—",
+			        FORMAT(_Attainment, "0.0%")
+			    )
+			
+			VAR _TargetFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_Target), "—",
+			        ABS(_Target) >= 1000000000,
+			            FORMAT(_Target / 1000000000, "$0.0B"),
+			        ABS(_Target) >= 1000000,
+			            FORMAT(_Target / 1000000, "$0.0M"),
+			        ABS(_Target) >= 1000,
+			            FORMAT(_Target / 1000, "$0.0K"),
+			        FORMAT(_Target, "$#,0")
+			    )
+			
+			VAR _VarianceFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_Variance), "—",
+			        ABS(_Variance) >= 1000000000,
+			            FORMAT(ABS(_Variance) / 1000000000, "$0.0B"),
+			        ABS(_Variance) >= 1000000,
+			            FORMAT(ABS(_Variance) / 1000000, "$0.0M"),
+			        ABS(_Variance) >= 1000,
+			            FORMAT(ABS(_Variance) / 1000, "$0.0K"),
+			        FORMAT(ABS(_Variance), "$#,0")
+			    )
+			
+			VAR _ProgressWidth =
+			    FORMAT(
+			        MIN(
+			            1,
+			            MAX(
+			                0,
+			                COALESCE(_Attainment, 0)
+			            )
+			        ),
+			        "0%"
+			    )
+			
+			RETURN
+			    "<style>
+			    .kpi-wrap{
+			        display:grid;
+			        grid-template-columns:repeat(3,minmax(0,1fr));
+			        gap:12px;
+			        width:100%;
+			        height:100%;
+			        padding:3px;
+			        box-sizing:border-box;
+			        font-family:'Segoe UI',sans-serif;
+			    }
+			
+			    .kpi{
+			        background:#0E2841;
+			        border:1px solid #29445F;
+			        border-left:5px solid #C8A84B;
+			        border-radius:8px;
+			        padding:9px 13px;
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:space-between;
+			        min-width:0;
+			        overflow:hidden;
+			        box-sizing:border-box;
+			    }
+			
+			    .label{
+			        color:#B3C7D9;
+			        font-size:9px;
+			        font-weight:700;
+			        letter-spacing:1.1px;
+			        line-height:1;
+			        text-transform:uppercase;
+			        white-space:nowrap;
+			    }
+			
+			    .value{
+			        color:#FFFFFF;
+			        font-size:25px;
+			        font-weight:700;
+			        line-height:1;
+			        margin:4px 0;
+			        white-space:nowrap;
+			    }
+			
+			    .footer{
+			        display:flex;
+			        align-items:center;
+			        justify-content:space-between;
+			        gap:7px;
+			        min-width:0;
+			    }
+			
+			    .context{
+			        color:#7F96AA;
+			        font-size:9px;
+			        line-height:1;
+			        white-space:nowrap;
+			        overflow:hidden;
+			        text-overflow:ellipsis;
+			    }
+			
+			    .pill{
+			        font-size:9px;
+			        font-weight:700;
+			        line-height:1;
+			        padding:3px 7px;
+			        border-radius:99px;
+			        white-space:nowrap;
+			    }
+			
+			    .track{
+			        height:4px;
+			        background:#183A57;
+			        border-radius:99px;
+			        overflow:hidden;
+			        margin:0 0 5px;
+			    }
+			
+			    .fill{
+			        height:100%;
+			        border-radius:99px;
+			    }
+			    </style>
+			
+			    <div class='kpi-wrap'>
+			
+			        <div class='kpi'>
+			            <div class='label'>
+			                Revenue
+			            </div>
+			
+			            <div class='value'>" &
+			                _RevenueFmt &
+			            "</div>
+			
+			            <div class='footer'>
+			                <span class='context'>
+			                    vs PY: " & _RevenuePYFmt &
+			                "</span>
+			
+			                <span
+			                    class='pill'
+			                    style='color:" & _RevenueColor &
+			                    ";background:" & _RevenuePill & ";'
+			                >" &
+			                    _RevenueArrow & " " &
+			                    _RevenueYoYFmt & " YoY
+			                </span>
+			            </div>
+			        </div>
+			
+			        <div class='kpi'>
+			            <div class='label'>
+			                Profitability
+			            </div>
+			
+			            <div class='value'>" &
+			                _MarginFmt &
+			            "</div>
+			
+			            <div class='footer'>
+			                <span class='context'>" &
+			                    _GrossMarginFmt &
+			                    " gross margin
+			                </span>
+			
+			                <span
+			                    class='pill'
+			                    style='color:" & _MarginColor &
+			                    ";background:" & _MarginPill & ";'
+			                >" &
+			                    _MarginArrow & " " &
+			                    _MarginDeltaFmt & " YoY
+			                </span>
+			            </div>
+			        </div>
+			
+			        <div class='kpi'>
+			            <div class='label'>
+			                Target Performance
+			            </div>
+			
+			            <div class='value'>" &
+			                _AttainmentFmt &
+			            "</div>
+			
+			            <div class='track'>
+			                <div
+			                    class='fill'
+			                    style='width:" & _ProgressWidth &
+			                    ";background:" & _AttainmentColor & ";'
+			                ></div>
+			            </div>
+			
+			            <div class='footer'>
+			                <span class='context'>
+			                    Target " & _TargetFmt &
+			                "</span>
+			
+			                <span
+			                    class='pill'
+			                    style='color:" & _AttainmentColor &
+			                    ";background:" & _AttainmentPill & ";'
+			                >" &
+			                    _VarianceFmt & " " &
+			                    _AttainmentLabel &
+			                "</span>
+			            </div>
+			        </div>
+			
+			    </div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: 6edcfeae-efb9-4e87-a6bb-dd05bae05a11
+
+	measure '$ Revenue Change vs Comparable PY' =
+			VAR _LastVisibleDate = MAX(dim_date[Date])
+			VAR _CurrentYear = YEAR(_LastVisibleDate)
+			VAR _ComparisonEndDate =
+				DATE(
+					_CurrentYear - 1,
+					MONTH(_LastVisibleDate),
+					DAY(_LastVisibleDate)
+				)
+			VAR _CurrentPeriodRevenue =
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_date),
+					dim_date[Date] >= DATE(_CurrentYear, 1, 1),
+					dim_date[Date] <= _LastVisibleDate
+				)
+			VAR _PreviousPeriodRevenue =
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_date),
+					dim_date[Date] >= DATE(_CurrentYear - 1, 1, 1),
+					dim_date[Date] <= _ComparisonEndDate
+				)
+			RETURN
+				IF(
+					ISBLANK(_LastVisibleDate),
+					BLANK(),
+					_CurrentPeriodRevenue - _PreviousPeriodRevenue
+				)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: b2b0a74b-e02c-4992-9c89-4eda48e3b0ee
+
+	measure '% Revenue Mix' =
+			DIVIDE(
+				[$ Total Revenue],
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_product[Category])
+				)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 1_Sales\%
+		lineageTag: 5011b295-2486-4872-9104-4d73e48945b6
+
+	measure 'REF Category Revenue Bar Color' =
+			
+			VAR _CurrentRevenue =
+			    [$ Total Revenue]
+			
+			VAR _VisibleCategories =
+			    ALLSELECTED(dim_product[Category])
+			
+			VAR _HighestRevenue =
+			    MAXX(
+			        _VisibleCategories,
+			        CALCULATE([$ Total Revenue])
+			    )
+			
+			VAR _LowestRevenue =
+			    MINX(
+			        FILTER(
+			            _VisibleCategories,
+			            NOT ISBLANK(
+			                CALCULATE([$ Total Revenue])
+			            )
+			        ),
+			        CALCULATE([$ Total Revenue])
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_CurrentRevenue), BLANK(),
+			        _CurrentRevenue = _HighestRevenue, "#C8A84B",
+			        _CurrentRevenue = _LowestRevenue, "#F04444",
+			        "#1E6FBF"
+			    )
+		displayFolder: 7_Text Cards
+		lineageTag: 35f4fd88-64ab-4eb8-9d84-578ea9a24870
+
+	measure 'VIS HTML Current Leaders' =
+			
+			VAR _TotalRevenue =
+			    [$ Total Revenue]
+			
+			VAR _RegionTable =
+			    TOPN(
+			        1,
+			        VALUES(dim_territory[Region]),
+			        [$ Total Revenue], DESC,
+			        dim_territory[Region], ASC
+			    )
+			
+			VAR _CategoryTable =
+			    TOPN(
+			        1,
+			        VALUES(dim_product[Category]),
+			        [$ Total Revenue], DESC,
+			        dim_product[Category], ASC
+			    )
+			
+			VAR _ProductTable =
+			    TOPN(
+			        1,
+			        VALUES(dim_product[ProductName]),
+			        [$ Total Revenue], DESC,
+			        dim_product[ProductName], ASC
+			    )
+			
+			VAR _TopRegion =
+			    MAXX(
+			        _RegionTable,
+			        dim_territory[Region]
+			    )
+			
+			VAR _TopCategory =
+			    MAXX(
+			        _CategoryTable,
+			        dim_product[Category]
+			    )
+			
+			VAR _TopProduct =
+			    MAXX(
+			        _ProductTable,
+			        dim_product[ProductName]
+			    )
+			
+			VAR _TopRegionRevenue =
+			    MAXX(
+			        _RegionTable,
+			        [$ Total Revenue]
+			    )
+			
+			VAR _TopCategoryRevenue =
+			    MAXX(
+			        _CategoryTable,
+			        [$ Total Revenue]
+			    )
+			
+			VAR _TopProductRevenue =
+			    MAXX(
+			        _ProductTable,
+			        [$ Total Revenue]
+			    )
+			
+			VAR _RegionShare =
+			    DIVIDE(
+			        _TopRegionRevenue,
+			        _TotalRevenue
+			    )
+			
+			VAR _CategoryShare =
+			    DIVIDE(
+			        _TopCategoryRevenue,
+			        _TotalRevenue
+			    )
+			
+			VAR _ProductShare =
+			    DIVIDE(
+			        _TopProductRevenue,
+			        _TotalRevenue
+			    )
+			
+			VAR _RegionDisplay =
+			    COALESCE(
+			        _TopRegion,
+			        "No region"
+			    )
+			
+			VAR _CategoryDisplay =
+			    COALESCE(
+			        _TopCategory,
+			        "No category"
+			    )
+			
+			VAR _ProductDisplay =
+			    COALESCE(
+			        _TopProduct,
+			        "No product"
+			    )
+			
+			VAR _RegionRevenueFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_TopRegionRevenue), "—",
+			        ABS(_TopRegionRevenue) >= 1000000000,
+			            FORMAT(_TopRegionRevenue / 1000000000, "$0.0B"),
+			        ABS(_TopRegionRevenue) >= 1000000,
+			            FORMAT(_TopRegionRevenue / 1000000, "$0.0M"),
+			        ABS(_TopRegionRevenue) >= 1000,
+			            FORMAT(_TopRegionRevenue / 1000, "$0.0K"),
+			        FORMAT(_TopRegionRevenue, "$#,0")
+			    )
+			
+			VAR _CategoryRevenueFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_TopCategoryRevenue), "—",
+			        ABS(_TopCategoryRevenue) >= 1000000000,
+			            FORMAT(_TopCategoryRevenue / 1000000000, "$0.0B"),
+			        ABS(_TopCategoryRevenue) >= 1000000,
+			            FORMAT(_TopCategoryRevenue / 1000000, "$0.0M"),
+			        ABS(_TopCategoryRevenue) >= 1000,
+			            FORMAT(_TopCategoryRevenue / 1000, "$0.0K"),
+			        FORMAT(_TopCategoryRevenue, "$#,0")
+			    )
+			
+			VAR _ProductRevenueFmt =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_TopProductRevenue), "—",
+			        ABS(_TopProductRevenue) >= 1000000000,
+			            FORMAT(_TopProductRevenue / 1000000000, "$0.0B"),
+			        ABS(_TopProductRevenue) >= 1000000,
+			            FORMAT(_TopProductRevenue / 1000000, "$0.0M"),
+			        ABS(_TopProductRevenue) >= 1000,
+			            FORMAT(_TopProductRevenue / 1000, "$0.0K"),
+			        FORMAT(_TopProductRevenue, "$#,0")
+			    )
+			
+			VAR _RegionShareFmt =
+			    IF(
+			        ISBLANK(_RegionShare),
+			        "—",
+			        FORMAT(_RegionShare, "0.0%")
+			    )
+			
+			VAR _CategoryShareFmt =
+			    IF(
+			        ISBLANK(_CategoryShare),
+			        "—",
+			        FORMAT(_CategoryShare, "0.0%")
+			    )
+			
+			VAR _ProductShareFmt =
+			    IF(
+			        ISBLANK(_ProductShare),
+			        "—",
+			        FORMAT(_ProductShare, "0.0%")
+			    )
+			
+			RETURN
+			    "<style>
+			    html,
+			    body{
+			        width:100%;
+			        height:100%;
+			        margin:0;
+			        padding:0;
+			        overflow:hidden;
+			        background:transparent;
+			    }
+			
+			    *{
+			        box-sizing:border-box;
+			    }
+			
+			    .leaders{
+			        width:100vw;
+			        height:100vh;
+			        min-height:100%;
+			        overflow:hidden;
+			        display:grid;
+			        grid-template-rows:auto 1fr;
+			        background:#0E2841;
+			        border:1px solid #29445F;
+			        border-radius:8px;
+			        padding:17px 18px 16px;
+			        font-family:'Segoe UI',sans-serif;
+			    }
+			
+			    .leaders-header{
+			        display:flex;
+			        align-items:flex-start;
+			        justify-content:space-between;
+			        gap:12px;
+			        padding-bottom:14px;
+			        border-bottom:1px solid #29445F;
+			    }
+			
+			    .leaders-title-group{
+			        min-width:0;
+			    }
+			
+			    .leaders-title{
+			        color:#FFFFFF;
+			        font-size:17px;
+			        font-weight:700;
+			        line-height:1;
+			    }
+			
+			    .leaders-subtitle{
+			        color:#7F96AA;
+			        font-size:10px;
+			        line-height:1;
+			        margin-top:7px;
+			    }
+			
+			    .leaders-context{
+			        color:#7F96AA;
+			        font-size:9px;
+			        font-weight:700;
+			        letter-spacing:1.1px;
+			        line-height:1;
+			        text-transform:uppercase;
+			        white-space:nowrap;
+			        padding-top:2px;
+			    }
+			
+			    .leaders-grid{
+			        display:grid;
+			        grid-template-columns:1fr 1fr 1.45fr;
+			        min-height:0;
+			        height:100%;
+			    }
+			
+			    .leader{
+			        position:relative;
+			        min-width:0;
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        padding:12px 17px 2px;
+			        overflow:hidden;
+			    }
+			
+			    .leader:first-child{
+			        padding-left:0;
+			    }
+			
+			    .leader:last-child{
+			        padding-right:0;
+			    }
+			
+			    .leader:not(:last-child){
+			        border-right:1px solid #29445F;
+			    }
+			
+			    .leader-number{
+			        position:absolute;
+			        top:12px;
+			        right:14px;
+			        color:#29445F;
+			        font-size:30px;
+			        font-weight:800;
+			        line-height:1;
+			    }
+			
+			    .leader-label{
+			        color:#C8A84B;
+			        font-size:9px;
+			        font-weight:700;
+			        letter-spacing:1.1px;
+			        line-height:1;
+			        text-transform:uppercase;
+			        white-space:nowrap;
+			        margin-bottom:9px;
+			    }
+			
+			    .leader-value{
+			        position:relative;
+			        z-index:1;
+			        color:#FFFFFF;
+			        font-size:21px;
+			        font-weight:650;
+			        line-height:1.1;
+			        white-space:nowrap;
+			        overflow:hidden;
+			        text-overflow:ellipsis;
+			        padding-right:5px;
+			    }
+			
+			    .leader-product{
+			        font-size:18px;
+			        white-space:normal;
+			        display:-webkit-box;
+			        -webkit-box-orient:vertical;
+			        -webkit-line-clamp:2;
+			        max-height:42px;
+			    }
+			
+			    .leader-metrics{
+			        display:flex;
+			        align-items:center;
+			        gap:7px;
+			        margin-top:11px;
+			        min-width:0;
+			    }
+			
+			    .revenue-pill{
+			        color:#FFFFFF;
+			        background:#173A57;
+			        border:1px solid #294F6B;
+			        border-radius:99px;
+			        padding:4px 9px;
+			        font-size:10px;
+			        font-weight:700;
+			        line-height:1;
+			        white-space:nowrap;
+			    }
+			
+			    .share{
+			        color:#7F96AA;
+			        font-size:9px;
+			        line-height:1;
+			        white-space:nowrap;
+			    }
+			    </style>
+			
+			    <div class='leaders'>
+			
+			        <div class='leaders-header'>
+			
+			            <div class='leaders-title-group'>
+			                <div class='leaders-title'>
+			                    Current leaders
+			                </div>
+			
+			                <div class='leaders-subtitle'>
+			                    Highest-revenue contributors in the selected context
+			                </div>
+			            </div>
+			
+			            <div class='leaders-context'>
+			                Region · Category · Product
+			            </div>
+			
+			        </div>
+			
+			        <div class='leaders-grid'>
+			
+			            <div class='leader'>
+			
+			                <div class='leader-number'>
+			                    01
+			                </div>
+			
+			                <div class='leader-label'>
+			                    Top region
+			                </div>
+			
+			                <div class='leader-value'>" &
+			                    _RegionDisplay &
+			                "</div>
+			
+			                <div class='leader-metrics'>
+			                    <span class='revenue-pill'>" &
+			                        _RegionRevenueFmt &
+			                    "</span>
+			
+			                    <span class='share'>" &
+			                        _RegionShareFmt &
+			                        " of revenue
+			                    </span>
+			                </div>
+			
+			            </div>
+			
+			            <div class='leader'>
+			
+			                <div class='leader-number'>
+			                    02
+			                </div>
+			
+			                <div class='leader-label'>
+			                    Top category
+			                </div>
+			
+			                <div class='leader-value'>" &
+			                    _CategoryDisplay &
+			                "</div>
+			
+			                <div class='leader-metrics'>
+			                    <span class='revenue-pill'>" &
+			                        _CategoryRevenueFmt &
+			                    "</span>
+			
+			                    <span class='share'>" &
+			                        _CategoryShareFmt &
+			                        " of revenue
+			                    </span>
+			                </div>
+			
+			            </div>
+			
+			            <div class='leader'>
+			
+			                <div class='leader-number'>
+			                    03
+			                </div>
+			
+			                <div class='leader-label'>
+			                    Top product
+			                </div>
+			
+			                <div
+			                    class='leader-value leader-product'
+			                    title='" & _ProductDisplay & "'
+			                >" &
+			                    _ProductDisplay &
+			                "</div>
+			
+			                <div class='leader-metrics'>
+			                    <span class='revenue-pill'>" &
+			                        _ProductRevenueFmt &
+			                    "</span>
+			
+			                    <span class='share'>" &
+			                        _ProductShareFmt &
+			                        " of revenue
+			                    </span>
+			                </div>
+			
+			            </div>
+			
+			        </div>
+			
+			    </div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: 96e25f47-1913-4453-ab8a-95b74f410b63
+
+	measure '% Country Revenue Share' =
+			DIVIDE(
+				[$ Total Revenue],
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_territory[CountryCode])
+				)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 1_Sales\%
+		lineageTag: e6d2abcb-9999-4568-b0b0-95ac1dd95140
+
+	measure 'REF Region Attainment Bar Color' =
+			VAR _CurrentValue = [% Target Attainment]
+			VAR _VisibleRegions = ALLSELECTED(dim_territory[Region])
+			VAR _HighestValue = MAXX(_VisibleRegions, CALCULATE([% Target Attainment]))
+			VAR _LowestValue =
+				MINX(
+					FILTER(_VisibleRegions, NOT ISBLANK(CALCULATE([% Target Attainment]))),
+					CALCULATE([% Target Attainment])
+				)
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_CurrentValue), BLANK(),
+					_CurrentValue = _HighestValue, "#C8A84B",
+					_CurrentValue = _LowestValue, "#F04444",
+					"#1E6FBF"
+				)
+		displayFolder: 7_Text Cards
+		lineageTag: 7d199b31-a692-421c-b16d-c59929513be0
+
+	measure '$ Revenue Top 10 Subcategory' =
+			VAR _CurrentSubcategory = SELECTEDVALUE(dim_product[Subcategory])
+			VAR _TopSubcategories =
+				TOPN(
+					10,
+					ALLSELECTED(dim_product[Subcategory]),
+					[$ Total Revenue], DESC,
+					dim_product[Subcategory], ASC
+				)
+			RETURN
+				IF(
+					CONTAINS(
+						_TopSubcategories,
+						dim_product[Subcategory],
+						_CurrentSubcategory
+					),
+					[$ Total Revenue]
+				)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 6_Rankings\$
+		lineageTag: a51f2f0f-91bf-407e-ae47-b5a8b8171dd9
+
+	measure 'REF Subcategory Revenue Bar Color' =
+			VAR _CurrentRevenue = [$ Total Revenue]
+			VAR _TopSubcategories =
+				TOPN(
+					10,
+					ALLSELECTED(dim_product[Subcategory]),
+					[$ Total Revenue], DESC,
+					dim_product[Subcategory], ASC
+				)
+			VAR _HighestRevenue = MAXX(_TopSubcategories, CALCULATE([$ Total Revenue]))
+			VAR _LowestRevenue = MINX(_TopSubcategories, CALCULATE([$ Total Revenue]))
+			VAR _IsTopTen = CONTAINS(_TopSubcategories, dim_product[Subcategory], SELECTEDVALUE(dim_product[Subcategory]))
+			RETURN
+				SWITCH(
+					TRUE(),
+					NOT _IsTopTen || ISBLANK(_CurrentRevenue), BLANK(),
+					_CurrentRevenue = _HighestRevenue, "#C8A84B",
+					_CurrentRevenue = _LowestRevenue, "#F04444",
+					"#1E6FBF"
+				)
+		displayFolder: 7_Text Cards
+		lineageTag: 7c08f456-82ae-429c-916a-d96ca84412d1
+
+	measure '$ Revenue Top 20 Product' = IF([# Product Rank by Revenue] <= 20, [$ Total Revenue])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 6_Rankings\$
+		lineageTag: e02fd911-73dd-432a-b3b6-2a585a7f226c
+
+	measure '% Margin Rate Top 20 Product' = IF([# Product Rank by Revenue] <= 20, [% Margin Rate])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 6_Rankings\%
+		lineageTag: 7aeb0c46-2868-41c5-9eec-587aa478b934
+
+	measure '# Units Top 20 Product' = IF([# Product Rank by Revenue] <= 20, [# Units Sold])
+		formatString: #,0
+		displayFolder: 6_Rankings\#
+		lineageTag: 776b71df-d943-4baa-a925-190f066f376b
+
+	measure 'REF Product Margin Font Color' =
+			
+			VAR _Margin =
+			    [% Margin Rate]
+			
+			RETURN
+			    IF(
+			        ISBLANK(_Margin),
+			        "#FFFFFF",
+			        IF(
+			            _Margin < 0,
+			            "#FF3131"
+			        )
+			    )
+		displayFolder: 7_Text Cards
+		lineageTag: 029c7810-c136-420f-94d4-c762207c1cb2
+
+	measure 'Selected Metric Value' =
+			VAR _SelectedParameter =
+				SELECTCOLUMNS(
+					SUMMARIZE(
+						'Metric selector',
+						'Metric selector'[Metric selector],
+						'Metric selector'[Metric selector Fields]
+					),
+					"MetricName", 'Metric selector'[Metric selector]
+				)
+			VAR _Metric =
+				IF(
+					COUNTROWS(_SelectedParameter) = 1,
+					MAXX(_SelectedParameter, [MetricName]),
+					"$ Total Revenue"
+				)
+			RETURN
+				SWITCH(
+					_Metric,
+					"$ Total Revenue", [$ Total Revenue],
+					"$ Gross Margin", [$ Gross Margin],
+					"# Units Sold", [# Units Sold],
+					"# Orders", [# Orders],
+					[$ Total Revenue]
+				)
+		formatString: #,0
+		displayFolder: 7_Selectors
+		lineageTag: cde62d54-f297-43cf-ad27-cb0c41a850c8
+
+	measure '$ Gross Margin YTD' = TOTALYTD([$ Gross Margin], dim_date[Date])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 6dd057dd-79cb-46ea-a4e0-e7b066d46658
+
+	measure '$ Gross Margin PY YTD' = CALCULATE([$ Gross Margin YTD], SAMEPERIODLASTYEAR(dim_date[Date]))
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 00609b27-cae2-42c4-b3db-d2a0aa5bf9de
+
+	measure '% Margin Rate YTD' = DIVIDE([$ Gross Margin YTD], [$ Revenue YTD])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: 388e3608-3de3-4b90-8716-6b406fc9286e
+
+	measure '% Margin Rate PY YTD' = DIVIDE([$ Gross Margin PY YTD], [$ Revenue PY YTD])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: a8d854d0-92c0-447d-9d12-850bb14b8a40
+
+	measure 'pp Margin Rate vs PY YTD' = 100 * ([% Margin Rate YTD] - [% Margin Rate PY YTD])
+		formatString: 0.0 "pp";-0.0 "pp";0.0 "pp"
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: 98b15329-b402-49eb-995e-eef8724acd88
+
+	measure '# Orders YTD' = TOTALYTD([# Orders], dim_date[Date])
+		formatString: #,0
+		displayFolder: 4_Time Intelligence\#
+		lineageTag: 98c7bcd8-543f-41f6-abdc-3c9d451865a8
+
+	measure '# Orders PY YTD' = CALCULATE([# Orders YTD], SAMEPERIODLASTYEAR(dim_date[Date]))
+		formatString: #,0
+		displayFolder: 4_Time Intelligence\#
+		lineageTag: 825bcf0c-fddb-4cf7-b23c-a1b3e7aaeadc
+
+	measure '% Orders YoY YTD' = DIVIDE([# Orders YTD] - [# Orders PY YTD], [# Orders PY YTD])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 4_Time Intelligence\%
+		lineageTag: 1cc82c2c-0c77-42db-a8eb-b071fb01f96a
+
+	measure '# Units YTD' = TOTALYTD([# Units Sold], dim_date[Date])
+		formatString: #,0
+		displayFolder: 4_Time Intelligence\#
+		lineageTag: a9d08102-43d8-458a-acf8-7d4e6dd7f43d
+
+	measure '$ Avg Order Value YTD' = DIVIDE([$ Revenue YTD], [# Orders YTD])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: a5b4db02-6069-4028-a9e6-7063fe827c58
+
+	measure 'VIS HTML Trend KPI Cards' =
+			VAR _RevenueYTD = [$ Revenue YTD]
+			VAR _RevenuePYYTD = [$ Revenue PY YTD]
+			VAR _RevenueYoY = [% Revenue YoY YTD]
+			VAR _RevenueGood = COALESCE(_RevenueYoY, 0) >= 0
+			VAR _RevenueColor =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenueYoY), "#B3C7D9",
+					_RevenueGood, "#3DBA7E",
+					"#F87171"
+				)
+			VAR _RevenuePill =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenueYoY), "#183A57",
+					_RevenueGood, "#123F35",
+					"#4A202A"
+				)
+			VAR _RevenueArrow =
+				IF(
+					ISBLANK(_RevenueYoY),
+					"&#8226;",
+					IF(_RevenueGood, "&#8593;", "&#8595;")
+				)
+			VAR _RevenueYTDFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenueYTD), "&mdash;",
+					ABS(_RevenueYTD) >= 1000000000, FORMAT(_RevenueYTD / 1000000000, "$0.0B"),
+					ABS(_RevenueYTD) >= 1000000, FORMAT(_RevenueYTD / 1000000, "$0.0M"),
+					ABS(_RevenueYTD) >= 1000, FORMAT(_RevenueYTD / 1000, "$0.0K"),
+					FORMAT(_RevenueYTD, "$#,0")
+				)
+			VAR _RevenuePYYTDFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenuePYYTD), "&mdash;",
+					ABS(_RevenuePYYTD) >= 1000000000, FORMAT(_RevenuePYYTD / 1000000000, "$0.0B"),
+					ABS(_RevenuePYYTD) >= 1000000, FORMAT(_RevenuePYYTD / 1000000, "$0.0M"),
+					ABS(_RevenuePYYTD) >= 1000, FORMAT(_RevenuePYYTD / 1000, "$0.0K"),
+					FORMAT(_RevenuePYYTD, "$#,0")
+				)
+			VAR _RevenueYoYFmt =
+				IF(
+					ISBLANK(_RevenueYoY),
+					"&mdash;",
+					FORMAT(ABS(_RevenueYoY), "0.0%")
+				)
+			
+			VAR _MarginRateYTD = [% Margin Rate YTD]
+			VAR _GrossMarginYTD = [$ Gross Margin YTD]
+			VAR _MarginDeltaPP = [pp Margin Rate vs PY YTD]
+			VAR _MarginGood = COALESCE(_MarginDeltaPP, 0) >= 0
+			VAR _MarginColor =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_MarginDeltaPP), "#B3C7D9",
+					_MarginGood, "#3DBA7E",
+					"#F87171"
+				)
+			VAR _MarginPill =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_MarginDeltaPP), "#183A57",
+					_MarginGood, "#123F35",
+					"#4A202A"
+				)
+			VAR _MarginArrow =
+				IF(
+					ISBLANK(_MarginDeltaPP),
+					"&#8226;",
+					IF(_MarginGood, "&#8593;", "&#8595;")
+				)
+			VAR _MarginRateFmt =
+				IF(
+					ISBLANK(_MarginRateYTD),
+					"&mdash;",
+					FORMAT(_MarginRateYTD, "0.0%")
+				)
+			VAR _GrossMarginFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_GrossMarginYTD), "&mdash;",
+					ABS(_GrossMarginYTD) >= 1000000000, FORMAT(_GrossMarginYTD / 1000000000, "$0.0B"),
+					ABS(_GrossMarginYTD) >= 1000000, FORMAT(_GrossMarginYTD / 1000000, "$0.0M"),
+					ABS(_GrossMarginYTD) >= 1000, FORMAT(_GrossMarginYTD / 1000, "$0.0K"),
+					FORMAT(_GrossMarginYTD, "$#,0")
+				)
+			VAR _MarginDeltaFmt =
+				IF(
+					ISBLANK(_MarginDeltaPP),
+					"&mdash;",
+					FORMAT(ABS(_MarginDeltaPP), "0.0") & " pp"
+				)
+			
+			VAR _OrdersYTD = [# Orders YTD]
+			VAR _OrdersYoY = [% Orders YoY YTD]
+			VAR _UnitsYTD = [# Units YTD]
+			VAR _AOVYTD = [$ Avg Order Value YTD]
+			VAR _OrdersGood = COALESCE(_OrdersYoY, 0) >= 0
+			VAR _OrdersColor =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OrdersYoY), "#B3C7D9",
+					_OrdersGood, "#3DBA7E",
+					"#F87171"
+				)
+			VAR _OrdersPill =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OrdersYoY), "#183A57",
+					_OrdersGood, "#123F35",
+					"#4A202A"
+				)
+			VAR _OrdersArrow =
+				IF(
+					ISBLANK(_OrdersYoY),
+					"&#8226;",
+					IF(_OrdersGood, "&#8593;", "&#8595;")
+				)
+			VAR _OrdersYTDFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OrdersYTD), "&mdash;",
+					ABS(_OrdersYTD) >= 1000000, FORMAT(_OrdersYTD / 1000000, "0.0M"),
+					ABS(_OrdersYTD) >= 1000, FORMAT(_OrdersYTD / 1000, "0.0K"),
+					FORMAT(_OrdersYTD, "#,0")
+				)
+			VAR _OrdersYoYFmt =
+				IF(
+					ISBLANK(_OrdersYoY),
+					"&mdash;",
+					FORMAT(ABS(_OrdersYoY), "0.0%")
+				)
+			VAR _UnitsYTDFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_UnitsYTD), "&mdash;",
+					ABS(_UnitsYTD) >= 1000000, FORMAT(_UnitsYTD / 1000000, "0.0M"),
+					ABS(_UnitsYTD) >= 1000, FORMAT(_UnitsYTD / 1000, "0.0K"),
+					FORMAT(_UnitsYTD, "#,0")
+				)
+			VAR _AOVYTDFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_AOVYTD), "&mdash;",
+					ABS(_AOVYTD) >= 1000000, FORMAT(_AOVYTD / 1000000, "$0.0M"),
+					ABS(_AOVYTD) >= 1000, FORMAT(_AOVYTD / 1000, "$0.0K"),
+					FORMAT(_AOVYTD, "$#,0")
+				)
+			
+			RETURN
+				"<style>
+				.trend-kpi-wrap{
+					display:grid;
+					grid-template-columns:repeat(3,minmax(0,1fr));
+					gap:12px;
+					width:100%;
+					height:100%;
+					padding:3px;
+					box-sizing:border-box;
+					font-family:'Segoe UI',Arial,sans-serif;
+				}
+				.trend-kpi{
+					background:#0E2841;
+					border:1px solid #29445F;
+					border-left:5px solid #C8A84B;
+					border-radius:8px;
+					padding:9px 13px;
+					display:flex;
+					flex-direction:column;
+					justify-content:space-between;
+					min-width:0;
+					overflow:hidden;
+					box-sizing:border-box;
+				}
+				.trend-label{
+					color:#B3C7D9;
+					font-size:9px;
+					font-weight:700;
+					letter-spacing:1.1px;
+					line-height:1;
+					text-transform:uppercase;
+					white-space:nowrap;
+				}
+				.trend-value{
+					color:#FFFFFF;
+					font-size:25px;
+					font-weight:700;
+					line-height:1;
+					margin:4px 0;
+					white-space:nowrap;
+				}
+				.trend-footer{
+					display:flex;
+					align-items:center;
+					justify-content:space-between;
+					gap:7px;
+					min-width:0;
+				}
+				.trend-context{
+					color:#7F96AA;
+					font-size:9px;
+					line-height:1;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+				}
+				.trend-pill{
+					font-size:9px;
+					font-weight:700;
+					line-height:1;
+					padding:3px 7px;
+					border-radius:99px;
+					white-space:nowrap;
+				}
+				</style>
+				<div class='trend-kpi-wrap'>
+					<div class='trend-kpi'>
+						<div class='trend-label'>Revenue Pace</div>
+						<div class='trend-value'>" & _RevenueYTDFmt & "</div>
+						<div class='trend-footer'>
+							<span class='trend-context'>vs PY YTD: " & _RevenuePYYTDFmt & "</span>
+							<span class='trend-pill' style='color:" & _RevenueColor & ";background:" & _RevenuePill & ";'>" & _RevenueArrow & " " & _RevenueYoYFmt & " YoY</span>
+						</div>
+					</div>
+					<div class='trend-kpi'>
+						<div class='trend-label'>Profit Quality</div>
+						<div class='trend-value'>" & _MarginRateFmt & "</div>
+						<div class='trend-footer'>
+							<span class='trend-context'>" & _GrossMarginFmt & " gross margin YTD</span>
+							<span class='trend-pill' style='color:" & _MarginColor & ";background:" & _MarginPill & ";'>" & _MarginArrow & " " & _MarginDeltaFmt & " vs PY</span>
+						</div>
+					</div>
+					<div class='trend-kpi'>
+						<div class='trend-label'>Commercial Activity</div>
+						<div class='trend-value'>" & _OrdersYTDFmt & " orders</div>
+						<div class='trend-footer'>
+							<span class='trend-context'>" & _UnitsYTDFmt & " units &middot; " & _AOVYTDFmt & " AOV</span>
+							<span class='trend-pill' style='color:" & _OrdersColor & ";background:" & _OrdersPill & ";'>" & _OrdersArrow & " " & _OrdersYoYFmt & " YoY</span>
+						</div>
+					</div>
+				</div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: 94b95f13-af05-42f4-bc00-43042e925785
+
+	measure 'REF Margin Rate Font Color' =
+			VAR _MarginRate = [% Margin Rate]
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_MarginRate), "#FFFFFF",
+					_MarginRate < 0, "#FF3131",
+					"#FFFFFF"
+				)
+		displayFolder: 7_Text Cards
+		lineageTag: db47ab2b-2eba-4bcd-bb45-0496750802f2
+
+	measure '$ Gross Margin Online' = CALCULATE([$ Gross Margin], dim_channel[Channel] = "Online")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: cdf7614b-3da2-4304-936a-b56715225b56
+
+	measure '$ Gross Margin Reseller' = CALCULATE([$ Gross Margin], dim_channel[Channel] = "Reseller")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: f48b49bf-d84b-4e96-9a21-125c0156b14e
+
+	measure '$ Avg Order Value Online' = CALCULATE([$ Avg Order Value], dim_channel[Channel] = "Online")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: 7251d406-f90d-44ba-8c50-86e134999819
+
+	measure '$ Avg Order Value Reseller' = CALCULATE([$ Avg Order Value], dim_channel[Channel] = "Reseller")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 5_Channel\$
+		lineageTag: c5402f5b-cbe8-4f3d-9b8a-9332b205af14
+
+	measure '% Reseller Revenue Share' =
+			DIVIDE(
+				[$ Revenue Reseller],
+				CALCULATE(
+					[$ Total Revenue],
+					REMOVEFILTERS(dim_channel[Channel])
+				)
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 5_Channel\%
+		lineageTag: 0b174087-fc10-450e-85b7-46165817b1be
+
+	measure 'VIS HTML Channel KPI Cards' =
+			VAR _OnlineRevenue = [$ Revenue Online]
+			VAR _OnlineShare = [% Online Revenue Share]
+			VAR _OnlineMarginRate = [% Margin Rate Online]
+			VAR _OnlineGrossMargin = [$ Gross Margin Online]
+			VAR _OnlineAOV = [$ Avg Order Value Online]
+			
+			VAR _ResellerRevenue = [$ Revenue Reseller]
+			VAR _ResellerShare = [% Reseller Revenue Share]
+			VAR _ResellerMarginRate = [% Margin Rate Reseller]
+			VAR _ResellerGrossMargin = [$ Gross Margin Reseller]
+			VAR _ResellerAOV = [$ Avg Order Value Reseller]
+			
+			VAR _RevenueMultiple = DIVIDE(_ResellerRevenue, _OnlineRevenue)
+			VAR _MarginGapPP = 100 * (_OnlineMarginRate - _ResellerMarginRate)
+			VAR _GrossMarginGap = _OnlineGrossMargin - _ResellerGrossMargin
+			
+			VAR _OnlineRevenueFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OnlineRevenue), "&mdash;",
+					ABS(_OnlineRevenue) >= 1000000000, FORMAT(_OnlineRevenue / 1000000000, "$0.0B"),
+					ABS(_OnlineRevenue) >= 1000000, FORMAT(_OnlineRevenue / 1000000, "$0.0M"),
+					ABS(_OnlineRevenue) >= 1000, FORMAT(_OnlineRevenue / 1000, "$0.0K"),
+					FORMAT(_OnlineRevenue, "$#,0")
+				)
+			VAR _OnlineShareFmt = IF(ISBLANK(_OnlineShare), "&mdash;", FORMAT(_OnlineShare, "0.0%"))
+			VAR _OnlineMarginRateFmt = IF(ISBLANK(_OnlineMarginRate), "&mdash;", FORMAT(_OnlineMarginRate, "0.0%"))
+			VAR _OnlineGrossMarginFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OnlineGrossMargin), "&mdash;",
+					ABS(_OnlineGrossMargin) >= 1000000000, FORMAT(_OnlineGrossMargin / 1000000000, "$0.0B;-$0.0B"),
+					ABS(_OnlineGrossMargin) >= 1000000, FORMAT(_OnlineGrossMargin / 1000000, "$0.0M;-$0.0M"),
+					ABS(_OnlineGrossMargin) >= 1000, FORMAT(_OnlineGrossMargin / 1000, "$0.0K;-$0.0K"),
+					FORMAT(_OnlineGrossMargin, "$#,0;-$#,0")
+				)
+			VAR _OnlineAOVFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_OnlineAOV), "&mdash;",
+					ABS(_OnlineAOV) >= 1000000, FORMAT(_OnlineAOV / 1000000, "$0.0M"),
+					ABS(_OnlineAOV) >= 1000, FORMAT(_OnlineAOV / 1000, "$0.0K"),
+					FORMAT(_OnlineAOV, "$#,0")
+				)
+			
+			VAR _ResellerRevenueFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_ResellerRevenue), "&mdash;",
+					ABS(_ResellerRevenue) >= 1000000000, FORMAT(_ResellerRevenue / 1000000000, "$0.0B"),
+					ABS(_ResellerRevenue) >= 1000000, FORMAT(_ResellerRevenue / 1000000, "$0.0M"),
+					ABS(_ResellerRevenue) >= 1000, FORMAT(_ResellerRevenue / 1000, "$0.0K"),
+					FORMAT(_ResellerRevenue, "$#,0")
+				)
+			VAR _ResellerShareFmt = IF(ISBLANK(_ResellerShare), "&mdash;", FORMAT(_ResellerShare, "0.0%"))
+			VAR _ResellerMarginRateFmt = IF(ISBLANK(_ResellerMarginRate), "&mdash;", FORMAT(_ResellerMarginRate, "0.0%"))
+			VAR _ResellerGrossMarginFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_ResellerGrossMargin), "&mdash;",
+					ABS(_ResellerGrossMargin) >= 1000000000, FORMAT(_ResellerGrossMargin / 1000000000, "$0.0B;-$0.0B"),
+					ABS(_ResellerGrossMargin) >= 1000000, FORMAT(_ResellerGrossMargin / 1000000, "$0.0M;-$0.0M"),
+					ABS(_ResellerGrossMargin) >= 1000, FORMAT(_ResellerGrossMargin / 1000, "$0.0K;-$0.0K"),
+					FORMAT(_ResellerGrossMargin, "$#,0;-$#,0")
+				)
+			VAR _ResellerAOVFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_ResellerAOV), "&mdash;",
+					ABS(_ResellerAOV) >= 1000000, FORMAT(_ResellerAOV / 1000000, "$0.0M"),
+					ABS(_ResellerAOV) >= 1000, FORMAT(_ResellerAOV / 1000, "$0.0K"),
+					FORMAT(_ResellerAOV, "$#,0")
+				)
+			
+			VAR _RevenueMultipleFmt = IF(ISBLANK(_RevenueMultiple), "&mdash;", FORMAT(_RevenueMultiple, "0.0x"))
+			VAR _MarginGapFmt = IF(ISBLANK(_MarginGapPP), "&mdash;", FORMAT(ABS(_MarginGapPP), "0.0") & " pp")
+			VAR _GrossMarginGapFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_GrossMarginGap), "&mdash;",
+					ABS(_GrossMarginGap) >= 1000000000, FORMAT(_GrossMarginGap / 1000000000, "$0.0B"),
+					ABS(_GrossMarginGap) >= 1000000, FORMAT(_GrossMarginGap / 1000000, "$0.0M"),
+					ABS(_GrossMarginGap) >= 1000, FORMAT(_GrossMarginGap / 1000, "$0.0K"),
+					FORMAT(_GrossMarginGap, "$#,0")
+				)
+			
+			VAR _OnlineGood = COALESCE(_OnlineMarginRate, 0) >= 0
+			VAR _OnlineColor = IF(_OnlineGood, "#3DBA7E", "#F87171")
+			VAR _OnlinePill = IF(_OnlineGood, "#123F35", "#4A202A")
+			VAR _ResellerGood = COALESCE(_ResellerMarginRate, 0) >= 0
+			VAR _ResellerColor = IF(_ResellerGood, "#3DBA7E", "#F87171")
+			VAR _ResellerPill = IF(_ResellerGood, "#123F35", "#4A202A")
+			
+			RETURN
+				"<style>
+				.channel-kpi-wrap{
+					display:grid;
+					grid-template-columns:repeat(3,minmax(0,1fr));
+					gap:12px;
+					width:100%;
+					height:100%;
+					padding:3px;
+					box-sizing:border-box;
+					font-family:'Segoe UI',Arial,sans-serif;
+				}
+				.channel-kpi{
+					background:#0E2841;
+					border:1px solid #29445F;
+					border-left:5px solid #C8A84B;
+					border-radius:8px;
+					padding:9px 13px;
+					display:flex;
+					flex-direction:column;
+					justify-content:space-between;
+					min-width:0;
+					overflow:hidden;
+					box-sizing:border-box;
+				}
+				.channel-label{
+					display:flex;
+					align-items:center;
+					justify-content:space-between;
+					gap:8px;
+					color:#B3C7D9;
+					font-size:9px;
+					font-weight:700;
+					letter-spacing:1.1px;
+					line-height:1;
+					text-transform:uppercase;
+					white-space:nowrap;
+				}
+				.channel-tag{
+					color:#7F96AA;
+					font-size:8px;
+					font-weight:600;
+					letter-spacing:.5px;
+				}
+				.channel-value{
+					color:#FFFFFF;
+					font-size:25px;
+					font-weight:700;
+					line-height:1;
+					margin:4px 0;
+					white-space:nowrap;
+				}
+				.channel-footer{
+					display:flex;
+					align-items:center;
+					justify-content:space-between;
+					gap:7px;
+					min-width:0;
+				}
+				.channel-context{
+					color:#7F96AA;
+					font-size:9px;
+					line-height:1;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+				}
+				.channel-pill{
+					font-size:9px;
+					font-weight:700;
+					line-height:1;
+					padding:3px 7px;
+					border-radius:99px;
+					white-space:nowrap;
+				}
+				</style>
+				<div class='channel-kpi-wrap'>
+					<div class='channel-kpi'>
+						<div class='channel-label'><span>Online Engine</span><span class='channel-tag'>" & _OnlineShareFmt & " revenue share</span></div>
+						<div class='channel-value'>" & _OnlineRevenueFmt & "</div>
+						<div class='channel-footer'>
+							<span class='channel-context'>" & _OnlineGrossMarginFmt & " gross margin - " & _OnlineAOVFmt & " AOV</span>
+							<span class='channel-pill' style='color:" & _OnlineColor & ";background:" & _OnlinePill & ";'>" & _OnlineMarginRateFmt & " margin</span>
+						</div>
+					</div>
+					<div class='channel-kpi'>
+						<div class='channel-label'><span>Reseller Scale</span><span class='channel-tag'>" & _ResellerShareFmt & " revenue share</span></div>
+						<div class='channel-value'>" & _ResellerRevenueFmt & "</div>
+						<div class='channel-footer'>
+							<span class='channel-context'>" & _ResellerGrossMarginFmt & " gross margin - " & _ResellerAOVFmt & " AOV</span>
+							<span class='channel-pill' style='color:" & _ResellerColor & ";background:" & _ResellerPill & ";'>" & _ResellerMarginRateFmt & " margin</span>
+						</div>
+					</div>
+					<div class='channel-kpi'>
+						<div class='channel-label'><span>Channel Trade-off</span><span class='channel-tag'>Reseller vs Online</span></div>
+						<div class='channel-value'>" & _RevenueMultipleFmt & " revenue</div>
+						<div class='channel-footer'>
+							<span class='channel-context'>" & _GrossMarginGapFmt & " gross-margin gap</span>
+							<span class='channel-pill' style='color:#F87171;background:#4A202A;'>&#8595; " & _MarginGapFmt & " margin</span>
+						</div>
+					</div>
+				</div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: 2543e1c3-5e72-4b13-958a-d66319038e06
+
+	measure '# Regions With Target' =
+			COUNTROWS(
+				FILTER(
+					VALUES(dim_territory[Region]),
+					NOT ISBLANK([$ Target Revenue])
+				)
+			)
+		formatString: #,0
+		displayFolder: 3_Targets\#
+		lineageTag: 94c72070-c4b2-4f74-ae36-ab97a29a210a
+
+	measure '# Regions Below Target' = MAX(0, [# Regions With Target] - [# Regions On Target])
+		formatString: #,0
+		displayFolder: 3_Targets\#
+		lineageTag: 32a7c36c-ef53-47e5-a6e5-d00eb9dab074
+
+	measure '% Regions On Target' = DIVIDE([# Regions On Target], [# Regions With Target])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 3_Targets\%
+		lineageTag: a2ec6703-ea21-4575-b002-0f688628b697
+
+	measure 'REF Target Attainment Background Color' =
+			VAR _Attainment = [% Target Attainment]
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Attainment), "#0E2841",
+					_Attainment >= 1, "#3DBA7E",
+					_Attainment >= 0.9, "#E8A33D",
+					"#E63535"
+				)
+		displayFolder: 7_Text Cards
+		lineageTag: 12a59daa-4db7-44ba-8965-28152cb28ef1
+
+	measure 'REF Target Variance Font Color' =
+			VAR _Variance = [$ Variance to Target]
+			RETURN
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Variance), "#FFFFFF",
+					_Variance < 0, "#FF3131",
+					_Variance > 0, "#3DBA7E",
+					"#FFFFFF"
+				)
+		displayFolder: 7_Text Cards
+		lineageTag: 15156b4d-2d56-4c11-8f40-792c25bdce35
+
+	measure 'VIS HTML Target KPI Cards' =
+			VAR _Revenue = [$ Revenue in Target Period]
+			VAR _Target = [$ Target Revenue]
+			VAR _Variance = [$ Variance to Target]
+			VAR _Attainment = [% Target Attainment]
+			VAR _AttainmentDeltaPP = 100 * (_Attainment - 1)
+			VAR _RegionsOnTarget = [# Regions On Target]
+			VAR _RegionsWithTarget = [# Regions With Target]
+			VAR _RegionsBelowTarget = [# Regions Below Target]
+			VAR _RegionCoverage = [% Regions On Target]
+			
+			VAR _PlanGood = COALESCE(_Variance, 0) >= 0
+			VAR _PlanColor = IF(_PlanGood, "#3DBA7E", "#F87171")
+			VAR _PlanPill = IF(_PlanGood, "#123F35", "#4A202A")
+			VAR _PlanLabel = IF(_PlanGood, "above plan", "below plan")
+			VAR _CoverageGood = COALESCE(_RegionsBelowTarget, 0) = 0
+			VAR _CoverageColor = IF(_CoverageGood, "#3DBA7E", "#F87171")
+			VAR _CoveragePill = IF(_CoverageGood, "#123F35", "#4A202A")
+			
+			VAR _RevenueFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Revenue), "&mdash;",
+					ABS(_Revenue) >= 1000000000, FORMAT(_Revenue / 1000000000, "$0.0B"),
+					ABS(_Revenue) >= 1000000, FORMAT(_Revenue / 1000000, "$0.0M"),
+					ABS(_Revenue) >= 1000, FORMAT(_Revenue / 1000, "$0.0K"),
+					FORMAT(_Revenue, "$#,0")
+				)
+			VAR _TargetFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Target), "&mdash;",
+					ABS(_Target) >= 1000000000, FORMAT(_Target / 1000000000, "$0.0B"),
+					ABS(_Target) >= 1000000, FORMAT(_Target / 1000000, "$0.0M"),
+					ABS(_Target) >= 1000, FORMAT(_Target / 1000, "$0.0K"),
+					FORMAT(_Target, "$#,0")
+				)
+			VAR _VarianceFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Variance), "&mdash;",
+					ABS(_Variance) >= 1000000000, FORMAT(ABS(_Variance) / 1000000000, "$0.0B"),
+					ABS(_Variance) >= 1000000, FORMAT(ABS(_Variance) / 1000000, "$0.0M"),
+					ABS(_Variance) >= 1000, FORMAT(ABS(_Variance) / 1000, "$0.0K"),
+					FORMAT(ABS(_Variance), "$#,0")
+				)
+			VAR _AttainmentFmt = IF(ISBLANK(_Attainment), "&mdash;", FORMAT(_Attainment, "0.0%"))
+			VAR _AttainmentDeltaFmt = IF(ISBLANK(_AttainmentDeltaPP), "&mdash;", FORMAT(ABS(_AttainmentDeltaPP), "0.0") & " pp")
+			VAR _RegionCountFmt =
+				IF(
+					ISBLANK(_RegionsWithTarget) || _RegionsWithTarget = 0,
+					"&mdash;",
+					FORMAT(_RegionsOnTarget, "#,0") & " of " & FORMAT(_RegionsWithTarget, "#,0")
+				)
+			VAR _RegionCoverageFmt = IF(ISBLANK(_RegionCoverage), "&mdash;", FORMAT(_RegionCoverage, "0.0%"))
+			VAR _RegionsBelowFmt = FORMAT(COALESCE(_RegionsBelowTarget, 0), "#,0")
+			
+			RETURN
+				"<style>
+				.target-kpi-wrap{
+					display:grid;
+					grid-template-columns:repeat(3,minmax(0,1fr));
+					gap:12px;
+					width:100%;
+					height:100%;
+					padding:3px;
+					box-sizing:border-box;
+					font-family:'Segoe UI',Arial,sans-serif;
+				}
+				.target-kpi{
+					background:#0E2841;
+					border:1px solid #29445F;
+					border-left:5px solid #C8A84B;
+					border-radius:8px;
+					padding:9px 13px;
+					display:flex;
+					flex-direction:column;
+					justify-content:space-between;
+					min-width:0;
+					overflow:hidden;
+					box-sizing:border-box;
+				}
+				.target-label{
+					color:#B3C7D9;
+					font-size:9px;
+					font-weight:700;
+					letter-spacing:1.1px;
+					line-height:1;
+					text-transform:uppercase;
+					white-space:nowrap;
+				}
+				.target-value{
+					color:#FFFFFF;
+					font-size:25px;
+					font-weight:700;
+					line-height:1;
+					margin:4px 0;
+					white-space:nowrap;
+				}
+				.target-footer{
+					display:flex;
+					align-items:center;
+					justify-content:space-between;
+					gap:7px;
+					min-width:0;
+				}
+				.target-context{
+					color:#7F96AA;
+					font-size:9px;
+					line-height:1;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+				}
+				.target-pill{
+					font-size:9px;
+					font-weight:700;
+					line-height:1;
+					padding:3px 7px;
+					border-radius:99px;
+					white-space:nowrap;
+				}
+				</style>
+				<div class='target-kpi-wrap'>
+					<div class='target-kpi'>
+						<div class='target-label'>Revenue vs Plan</div>
+						<div class='target-value'>" & _RevenueFmt & "</div>
+						<div class='target-footer'>
+							<span class='target-context'>Target " & _TargetFmt & "</span>
+							<span class='target-pill' style='color:" & _PlanColor & ";background:" & _PlanPill & ";'>" & _VarianceFmt & " " & _PlanLabel & "</span>
+						</div>
+					</div>
+					<div class='target-kpi'>
+						<div class='target-label'>Plan Attainment</div>
+						<div class='target-value'>" & _AttainmentFmt & "</div>
+						<div class='target-footer'>
+							<span class='target-context'>Threshold 100%</span>
+							<span class='target-pill' style='color:" & _PlanColor & ";background:" & _PlanPill & ";'>" & _AttainmentDeltaFmt & " " & _PlanLabel & "</span>
+						</div>
+					</div>
+					<div class='target-kpi'>
+						<div class='target-label'>Regional Coverage</div>
+						<div class='target-value'>" & _RegionCountFmt & " regions</div>
+						<div class='target-footer'>
+							<span class='target-context'>" & _RegionCoverageFmt & " on target</span>
+							<span class='target-pill' style='color:" & _CoverageColor & ";background:" & _CoveragePill & ";'>" & _RegionsBelowFmt & " below target</span>
+						</div>
+					</div>
+				</div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: 45339923-cd51-425b-bde6-afce86cc599b
+
+	measure '$ Revenue Top 15 Product' = IF([# Product Rank by Revenue] <= 15, [$ Total Revenue])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 6_Rankings\$
+		lineageTag: 40e12ef6-1e58-4ccc-a694-4aaef89993cd
+
+	measure '% Margin Rate Top 15 Product' = IF([# Product Rank by Revenue] <= 15, [% Margin Rate])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 6_Rankings\%
+		lineageTag: 54fc390b-8ab7-46e0-a2f2-7480dd86d40c
+
+	measure '# Units Top 15 Product' = IF([# Product Rank by Revenue] <= 15, [# Units Sold])
+		formatString: #,0
+		displayFolder: 6_Rankings\#
+		lineageTag: 9940ab63-e1da-47f6-a981-8e9ae289e7e4
+
+	measure 'VIS HTML Territory KPI Cards' =
+			VAR _Region = [REF Selected Region]
+			VAR _Revenue = [$ Total Revenue]
+			VAR _RevenuePY = [$ Revenue PY]
+			VAR _RevenueYoY = [% Revenue YoY]
+			VAR _Target = [$ Target Revenue]
+			VAR _Variance = [$ Variance to Target]
+			VAR _Attainment = [% Target Attainment]
+			VAR _MarginRate = [% Margin Rate]
+			VAR _GrossMargin = [$ Gross Margin]
+			VAR _AOV = [$ Avg Order Value]
+			
+			VAR _RevenueGood = COALESCE(_RevenueYoY, 0) >= 0
+			VAR _RevenueColor = IF(_RevenueGood, "#3DBA7E", "#F87171")
+			VAR _RevenuePill = IF(_RevenueGood, "#123F35", "#4A202A")
+			VAR _RevenueArrow = IF(ISBLANK(_RevenueYoY), "&#8226;", IF(_RevenueGood, "&#8593;", "&#8595;"))
+			VAR _TargetGood = COALESCE(_Attainment, 0) >= 1
+			VAR _TargetColor = IF(_TargetGood, "#3DBA7E", "#F87171")
+			VAR _TargetPill = IF(_TargetGood, "#123F35", "#4A202A")
+			VAR _TargetLabel = IF(_TargetGood, "above plan", "below plan")
+			
+			VAR _RevenueFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Revenue), "&mdash;",
+					ABS(_Revenue) >= 1000000000, FORMAT(_Revenue / 1000000000, "$0.0B"),
+					ABS(_Revenue) >= 1000000, FORMAT(_Revenue / 1000000, "$0.0M"),
+					ABS(_Revenue) >= 1000, FORMAT(_Revenue / 1000, "$0.0K"),
+					FORMAT(_Revenue, "$#,0")
+				)
+			VAR _RevenuePYFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenuePY), "&mdash;",
+					ABS(_RevenuePY) >= 1000000000, FORMAT(_RevenuePY / 1000000000, "$0.0B"),
+					ABS(_RevenuePY) >= 1000000, FORMAT(_RevenuePY / 1000000, "$0.0M"),
+					ABS(_RevenuePY) >= 1000, FORMAT(_RevenuePY / 1000, "$0.0K"),
+					FORMAT(_RevenuePY, "$#,0")
+				)
+			VAR _RevenueYoYFmt = IF(ISBLANK(_RevenueYoY), "&mdash;", FORMAT(ABS(_RevenueYoY), "0.0%"))
+			VAR _TargetFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Target), "&mdash;",
+					ABS(_Target) >= 1000000000, FORMAT(_Target / 1000000000, "$0.0B"),
+					ABS(_Target) >= 1000000, FORMAT(_Target / 1000000, "$0.0M"),
+					ABS(_Target) >= 1000, FORMAT(_Target / 1000, "$0.0K"),
+					FORMAT(_Target, "$#,0")
+				)
+			VAR _VarianceFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Variance), "&mdash;",
+					ABS(_Variance) >= 1000000000, FORMAT(ABS(_Variance) / 1000000000, "$0.0B"),
+					ABS(_Variance) >= 1000000, FORMAT(ABS(_Variance) / 1000000, "$0.0M"),
+					ABS(_Variance) >= 1000, FORMAT(ABS(_Variance) / 1000, "$0.0K"),
+					FORMAT(ABS(_Variance), "$#,0")
+				)
+			VAR _AttainmentFmt = IF(ISBLANK(_Attainment), "&mdash;", FORMAT(_Attainment, "0.0%"))
+			VAR _MarginRateFmt = IF(ISBLANK(_MarginRate), "&mdash;", FORMAT(_MarginRate, "0.0%"))
+			VAR _GrossMarginFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_GrossMargin), "&mdash;",
+					ABS(_GrossMargin) >= 1000000000, FORMAT(_GrossMargin / 1000000000, "$0.0B;-$0.0B"),
+					ABS(_GrossMargin) >= 1000000, FORMAT(_GrossMargin / 1000000, "$0.0M;-$0.0M"),
+					ABS(_GrossMargin) >= 1000, FORMAT(_GrossMargin / 1000, "$0.0K;-$0.0K"),
+					FORMAT(_GrossMargin, "$#,0;-$#,0")
+				)
+			VAR _AOVFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_AOV), "&mdash;",
+					ABS(_AOV) >= 1000000, FORMAT(_AOV / 1000000, "$0.0M"),
+					ABS(_AOV) >= 1000, FORMAT(_AOV / 1000, "$0.0K"),
+					FORMAT(_AOV, "$#,0")
+				)
+			
+			RETURN
+				"<style>
+				.territory-kpi-wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%;height:100%;padding:3px;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+				.territory-kpi{background:#0E2841;border:1px solid #29445F;border-left:5px solid #C8A84B;border-radius:8px;padding:9px 13px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;box-sizing:border-box;}
+				.territory-label{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#B3C7D9;font-size:9px;font-weight:700;letter-spacing:1.1px;line-height:1;text-transform:uppercase;white-space:nowrap;}
+				.territory-tag{color:#7F96AA;font-size:8px;font-weight:600;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;}
+				.territory-value{color:#FFFFFF;font-size:25px;font-weight:700;line-height:1;margin:4px 0;white-space:nowrap;}
+				.territory-footer{display:flex;align-items:center;justify-content:space-between;gap:7px;min-width:0;}
+				.territory-context{color:#7F96AA;font-size:9px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+				.territory-pill{font-size:9px;font-weight:700;line-height:1;padding:3px 7px;border-radius:99px;white-space:nowrap;}
+				</style>
+				<div class='territory-kpi-wrap'>
+					<div class='territory-kpi'>
+						<div class='territory-label'><span>Territory Revenue</span><span class='territory-tag'>" & _Region & "</span></div>
+						<div class='territory-value'>" & _RevenueFmt & "</div>
+						<div class='territory-footer'><span class='territory-context'>vs PY " & _RevenuePYFmt & "</span><span class='territory-pill' style='color:" & _RevenueColor & ";background:" & _RevenuePill & ";'>" & _RevenueArrow & " " & _RevenueYoYFmt & " YoY</span></div>
+					</div>
+					<div class='territory-kpi'>
+						<div class='territory-label'><span>Target Performance</span><span class='territory-tag'>Comparable period</span></div>
+						<div class='territory-value'>" & _AttainmentFmt & "</div>
+						<div class='territory-footer'><span class='territory-context'>Target " & _TargetFmt & "</span><span class='territory-pill' style='color:" & _TargetColor & ";background:" & _TargetPill & ";'>" & _VarianceFmt & " " & _TargetLabel & "</span></div>
+					</div>
+					<div class='territory-kpi'>
+						<div class='territory-label'><span>Profitability</span><span class='territory-tag'>Margin quality</span></div>
+						<div class='territory-value'>" & _MarginRateFmt & "</div>
+						<div class='territory-footer'><span class='territory-context'>" & _GrossMarginFmt & " gross margin</span><span class='territory-pill' style='color:#B3C7D9;background:#183A57;'>" & _AOVFmt & " AOV</span></div>
+					</div>
+				</div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: e16c7a78-4fd5-458f-bfc2-9a3617526c50
+
+	measure '$ Revenue Last 12M Tooltip' =
+			VAR _LastVisibleDate =
+				CALCULATE(
+					MAX(fact_sales[OrderDate]),
+					ALLSELECTED(dim_date)
+				)
+			VAR _LastVisibleMonth =
+				DATE(
+					YEAR(_LastVisibleDate),
+					MONTH(_LastVisibleDate),
+					1
+				)
+			VAR _FirstVisibleMonth = EDATE(_LastVisibleMonth, -11)
+			VAR _CurrentMonth = MAX(dim_date[MonthStart])
+			RETURN
+				IF(
+					NOT ISBLANK(_LastVisibleDate)
+						&& _CurrentMonth >= _FirstVisibleMonth
+						&& _CurrentMonth <= _LastVisibleMonth,
+					[$ Total Revenue]
+				)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 4_Time Intelligence\$
+		lineageTag: 7d2d24aa-9f12-4d55-aef1-f7600667ade3
+
+	measure 'VIS HTML Tooltip KPI Cards' =
+			VAR _Region = [REF Selected Region]
+			VAR _Revenue = [$ Total Revenue]
+			VAR _RevenuePY = [$ Revenue PY]
+			VAR _RevenueYoY = [% Revenue YoY]
+			VAR _YoYGood = COALESCE(_RevenueYoY, 0) >= 0
+			VAR _YoYColor = IF(_YoYGood, "#3DBA7E", "#F87171")
+			VAR _YoYPill = IF(_YoYGood, "#123F35", "#4A202A")
+			VAR _YoYArrow = IF(ISBLANK(_RevenueYoY), "&#8226;", IF(_YoYGood, "&#8593;", "&#8595;"))
+			VAR _RevenueFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_Revenue), "&mdash;",
+					ABS(_Revenue) >= 1000000000, FORMAT(_Revenue / 1000000000, "$0.0B"),
+					ABS(_Revenue) >= 1000000, FORMAT(_Revenue / 1000000, "$0.0M"),
+					ABS(_Revenue) >= 1000, FORMAT(_Revenue / 1000, "$0.0K"),
+					FORMAT(_Revenue, "$#,0")
+				)
+			VAR _RevenuePYFmt =
+				SWITCH(
+					TRUE(),
+					ISBLANK(_RevenuePY), "&mdash;",
+					ABS(_RevenuePY) >= 1000000000, FORMAT(_RevenuePY / 1000000000, "$0.0B"),
+					ABS(_RevenuePY) >= 1000000, FORMAT(_RevenuePY / 1000000, "$0.0M"),
+					ABS(_RevenuePY) >= 1000, FORMAT(_RevenuePY / 1000, "$0.0K"),
+					FORMAT(_RevenuePY, "$#,0")
+				)
+			VAR _YoYFmt = IF(ISBLANK(_RevenueYoY), "&mdash;", FORMAT(ABS(_RevenueYoY), "0.0%"))
+			RETURN
+				"<style>
+				.tooltip-kpi-wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;height:100%;padding:1px;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+				.tooltip-kpi{background:#0E2841;border:1px solid #29445F;border-left:4px solid #C8A84B;border-radius:6px;padding:6px 9px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;box-sizing:border-box;}
+				.tooltip-label{display:flex;align-items:center;justify-content:space-between;gap:5px;color:#B3C7D9;font-size:7px;font-weight:700;letter-spacing:.8px;line-height:1;text-transform:uppercase;white-space:nowrap;}
+				.tooltip-tag{color:#7F96AA;font-size:6px;letter-spacing:.3px;overflow:hidden;text-overflow:ellipsis;}
+				.tooltip-value{color:#FFFFFF;font-size:20px;font-weight:700;line-height:1;margin:2px 0;white-space:nowrap;}
+				.tooltip-footer{display:flex;align-items:center;justify-content:space-between;gap:4px;min-width:0;}
+				.tooltip-context{color:#7F96AA;font-size:7px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+				.tooltip-pill{font-size:7px;font-weight:700;line-height:1;padding:2px 5px;border-radius:99px;white-space:nowrap;}
+				</style>
+				<div class='tooltip-kpi-wrap'>
+					<div class='tooltip-kpi'>
+						<div class='tooltip-label'><span>Revenue</span><span class='tooltip-tag'>" & _Region & "</span></div>
+						<div class='tooltip-value'>" & _RevenueFmt & "</div>
+						<div class='tooltip-footer'><span class='tooltip-context'>vs PY " & _RevenuePYFmt & "</span></div>
+					</div>
+					<div class='tooltip-kpi'>
+						<div class='tooltip-label'><span>YoY Change</span><span class='tooltip-tag'>vs prior year</span></div>
+						<div class='tooltip-value' style='color:" & _YoYColor & ";'>" & _YoYFmt & "</div>
+						<div class='tooltip-footer'><span class='tooltip-context'>Revenue momentum</span><span class='tooltip-pill' style='color:" & _YoYColor & ";background:" & _YoYPill & ";'>" & _YoYArrow & " YoY</span></div>
+					</div>
+				</div>"
+		displayFolder: 0_Custom_Visuals
+		lineageTag: eca9fc71-55e7-4752-8055-f5073dfcdbb0
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: e4d673c4-9f30-4c6e-8ac2-c93e2dfb0482
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition formulas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = f9d3e2615c48475d8b0a450e529112e9
+

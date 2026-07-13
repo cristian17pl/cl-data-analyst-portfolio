@@ -1,0 +1,34 @@
+relationship AutoDetected_dc6dedb6-2a71-4dd8-ad0c-b374fc9feef6
+	isActive: false
+	fromColumn: dim_customer.TerritoryID
+	toColumn: dim_territory.TerritoryID
+
+relationship AutoDetected_bb1185c9-a06a-4df5-a96b-b71196f8e520
+	fromColumn: fact_sales.ChannelKey
+	toColumn: dim_channel.ChannelKey
+
+relationship AutoDetected_1d6096d2-9d41-4bbe-b149-353dbd9e82f2
+	fromColumn: fact_sales.CustomerID
+	toColumn: dim_customer.CustomerID
+
+relationship AutoDetected_fd162b5c-c1c4-496a-a686-efdb568176f5
+	fromColumn: fact_sales.TerritoryID
+	toColumn: dim_territory.TerritoryID
+
+relationship AutoDetected_99f6b086-ae61-4359-9f87-da197cd3876a
+	fromColumn: fact_sales.ProductID
+	toColumn: dim_product.ProductID
+
+relationship AutoDetected_2d7aee15-8910-4a6e-8225-47254df8bced
+	fromColumn: fact_targets.TerritoryID
+	toColumn: dim_territory.TerritoryID
+
+relationship fact_sales_OrderDate_dim_date_Date
+	fromColumn: fact_sales.OrderDate
+	toColumn: dim_date.Date
+
+relationship fact_targets_YearMonth_dim_date_YearMonth
+	toCardinality: many
+	fromColumn: fact_targets.YearMonth
+	toColumn: dim_date.YearMonth
+

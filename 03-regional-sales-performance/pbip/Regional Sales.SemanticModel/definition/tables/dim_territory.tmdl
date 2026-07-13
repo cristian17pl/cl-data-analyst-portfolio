@@ -1,0 +1,51 @@
+table dim_territory
+	lineageTag: 71c0562c-1f21-4d3d-b91c-77c3d237fb56
+
+	column TerritoryID
+		dataType: int64
+		formatString: 0
+		lineageTag: f4d4d903-2e27-412c-beb7-90d4abcbadc5
+		summarizeBy: none
+		sourceColumn: TerritoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 4855ab47-7bc4-4914-87b6-0fd553709359
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryCode
+		dataType: string
+		lineageTag: efcc4a9a-179f-4bdc-9c5c-68a447de00ec
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: 458a6a23-a83e-486e-89a8-b1e4bf3e485a
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_territory = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\03-regional-sales-performance\docs\dim_territory.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"TerritoryID", Int64.Type}, {"Region", type text}, {"CountryCode", type text}, {"Continent", type text}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

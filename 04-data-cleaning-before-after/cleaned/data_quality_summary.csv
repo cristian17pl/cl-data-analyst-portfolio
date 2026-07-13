@@ -1,0 +1,9 @@
+metric,value
+raw_rows,63.0
+clean_rows,61.0
+removed_duplicate_order_ids,2.0
+valid_records,50.0
+records_requiring_review,11.0
+valid_rate_pct,81.97
+review_rate_pct,18.03
+valid_record_net_sales,4003.7

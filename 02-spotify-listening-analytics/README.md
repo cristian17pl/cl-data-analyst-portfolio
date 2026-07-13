@@ -24,7 +24,7 @@ The PDF includes the final report pages with short narrative notes explaining th
 
 ## Data Note
 
-This project uses a personal Spotify Extended Streaming History export. The raw files live under `docs/my_spotify_data/` and include audio/video streaming history JSON files plus Spotify's export readme.
+This project uses a personal Spotify Extended Streaming History export. The raw files live locally under `docs/my_spotify_data/` and include audio/video streaming history JSON files plus Spotify's export readme. That folder is intentionally git-ignored and is not distributed in the public repository.
 
 The dataset was not generated synthetically. It comes from real account-level Spotify usage data and was transformed inside Power BI for analysis. The Spotify export arrives as event-level JSON history, so the model starts from a single streaming-history fact table and then derives supporting dimension tables for dates, time, platforms, artists/tracks, episodes, and stream start/end reasons.
 
@@ -210,9 +210,7 @@ The calendar table uses explicit English month and weekday labels so visual axes
 02-spotify-listening-analytics/
 |-- README.md
 |-- docs/
-|   |-- my_spotify_data/
-|   |   |-- ReadMeFirst_ExtendedStreamingHistory.pdf
-|   |   `-- Spotify Extended Streaming History/
+|   |-- my_spotify_data/              # local source export; git-ignored
 |   `-- Visuals/
 |       |-- html-visuals-dax.md
 |       |-- Spotify Visuals.pptx
@@ -228,7 +226,7 @@ The calendar table uses explicit English month and weekday labels so visual axes
 ## How to Open
 
 1. Open `pbip/Spotify Listening Analytics.pbip` in Power BI Desktop.
-2. Refresh the semantic model if prompted.
+2. The PBIP definitions can be inspected without the private source export. To refresh, place your own Extended Streaming History files locally and update the folder source path in Power Query.
 3. Use the report tabs or in-report navigation to move through the analysis.
 
 For a static preview, open:

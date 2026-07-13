@@ -207,11 +207,27 @@ tempCodeRunnerFile.py
 02-spotify-listening-analytics/docs/*.zip
 02-spotify-listening-analytics/docs/my_spotify_data/
 02-spotify-listening-analytics/docs/Spotify Extended Streaming History/
-02-spotify-listening-analytics/**/*.json
+
+# Generated storytelling workspaces (final PDFs and required source screenshots stay tracked)
+**/storytelling-output/
+
+# Public raw source extracts that are not required by the checked-in semantic model
+03-regional-sales-performance/docs/raw/*.csv
 
 # Power BI local/cache artifacts
 *.pbix
 **/.pbi/
+
+# Olist source CSVs (public dataset; downloaded locally, not redistributed)
+05-sql-business-analysis/raw/*.csv
+
+# Local agent/session and render artifacts
+/.agents/
+/.claude/
+/tmp/
+
+# Unrelated local scratch artifact
+/becas-europa-datos-ia-mobile.html
 
 # Ruff stuff:
 .ruff_cache/

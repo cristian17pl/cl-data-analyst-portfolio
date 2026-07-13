@@ -1,0 +1,17 @@
+check_type,check_name,actual,expected,status
+row_count,customers,99441,99441.0,pass
+row_count,geolocation,1000163,1000163.0,pass
+row_count,order_items,112650,112650.0,pass
+row_count,order_payments,103886,103886.0,pass
+row_count,order_reviews,99224,99224.0,pass
+row_count,orders,99441,99441.0,pass
+row_count,products,32951,32951.0,pass
+row_count,sellers,3095,3095.0,pass
+row_count,product_category_translation,71,71.0,pass
+orphan_count,orders_without_customer,0,0.0,pass
+orphan_count,items_without_order,0,0.0,pass
+orphan_count,items_without_product,0,0.0,pass
+orphan_count,items_without_seller,0,0.0,pass
+orphan_count,payments_without_order,0,0.0,pass
+orphan_count,reviews_without_order,0,0.0,pass
+diagnostic,orders_with_multiple_review_rows,547,,informational

@@ -1,0 +1,17 @@
+# Keep source files consistent across operating systems.
+*.md text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+*.json text eol=lf
+*.tmdl text eol=lf
+*.csv text eol=lf
+*.svg text eol=lf
+
+# Never apply line-ending conversion to binary portfolio artifacts.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pptx binary
+*.abf binary
+*.pbix binary

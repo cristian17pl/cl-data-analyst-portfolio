@@ -1,0 +1,5 @@
+duckdb>=1.5,<2
+pandas>=2.2,<3
+Pillow>=11,<13
+reportlab>=4.2,<5
+pypdf>=5,<7

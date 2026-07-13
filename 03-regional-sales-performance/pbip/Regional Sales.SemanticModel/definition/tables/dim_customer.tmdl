@@ -1,0 +1,51 @@
+table dim_customer
+	lineageTag: 5708e000-f0fd-4ce5-85c2-1589d86e5fcd
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: c327fb39-7347-4dbf-8d29-c7d0e1d71929
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 0f0b183d-1942-4b61-a659-09f6bbfdbd11
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 6e4adefa-c8b7-48ce-85a6-22b619d4b3d7
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryID
+		dataType: int64
+		formatString: 0
+		lineageTag: c22cf474-2f0b-49c4-b7b1-3299f905e8a8
+		summarizeBy: none
+		sourceColumn: TerritoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\03-regional-sales-performance\docs\dim_customer.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"CustomerID", Int64.Type}, {"Segment", type text}, {"CustomerName", type text}, {"TerritoryID", Int64.Type}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

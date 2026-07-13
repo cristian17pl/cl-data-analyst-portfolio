@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
+  "items": [
+    {
+      "name": "8b66a462f748b1dc41d5",
+      "displayName": "My Artists",
+      "children": [
+        "d406124a76eb0d94c9d2",
+        "82264887f98206072f03"
+      ]
+    }
+  ]
+}

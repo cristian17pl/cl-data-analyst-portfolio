@@ -1,0 +1,71 @@
+table fact_targets
+	lineageTag: 97988ecc-ebb7-46ce-b69c-6dab3ab6cba0
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: b0836661-3bb4-400e-8885-11a6bb6a807e
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c6e8916-af4d-4758-b8cb-a3e9b3922b9d
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: b2cfab34-dcf1-495b-972d-fe01315dd432
+		summarizeBy: sum
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryID
+		dataType: int64
+		formatString: 0
+		lineageTag: eccb85aa-a79c-438f-ab8b-389aec32277c
+		summarizeBy: none
+		sourceColumn: TerritoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 78316d49-932e-4ebb-96d9-3732494bc015
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column TargetRevenue
+		dataType: double
+		lineageTag: a4cc5257-c04c-4b32-af42-44d708648967
+		summarizeBy: sum
+		sourceColumn: TargetRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_targets = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\cristian.perez\Documents\Cristian Personal\Git\repositorio personal\cl-data-analyst-portfolio\03-regional-sales-performance\docs\fact_targets.csv"), [Delimiter = ",", Columns = 6, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Year", Int64.Type}, {"MonthNumber", Int64.Type}, {"YearMonth", Int64.Type}, {"TerritoryID", Int64.Type}, {"Category", type text}, {"TargetRevenue", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,44 @@
+table 'Metric selector'
+	lineageTag: 15e155a4-e0a7-473d-9131-b4c71d4e4114
+
+	column 'Metric selector'
+		lineageTag: 36df7973-8a9a-490c-9e4f-ea591a3b79c0
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Metric selector Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Metric selector Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Metric selector Fields'
+		isHidden
+		lineageTag: c7dcaa19-4154-4bda-8db6-768b1624a1d9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Metric selector Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Metric selector Order'
+		isHidden
+		formatString: 0
+		lineageTag: 6ed68d12-567f-4455-ab0c-5ce3cd2ce471
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Metric selector' = calculated
+		mode: import
+		source = {("$ Total Revenue", NAMEOF('formulas'[$ Total Revenue]), 0), ("$ Gross Margin", NAMEOF('formulas'[$ Gross Margin]), 1), ("# Units Sold", NAMEOF('formulas'[# Units Sold]), 2), ("# Orders", NAMEOF('formulas'[# Orders]), 3)}
+
+	annotation PBI_Id = a4f0bd93e48f4dfd96995c23b4a1f717
+

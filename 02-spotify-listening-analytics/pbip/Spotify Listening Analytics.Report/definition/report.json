@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU05",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "htmlContent443BE3AD55E043BF878BED274D3A6855"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "Fluent2-CY26SU05",
+          "path": "BaseThemes/Fluent2-CY26SU05.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Cover22940197229563586.SVG",
+          "path": "Cover22940197229563586.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "My_Artists6150749744701287.SVG",
+          "path": "My_Artists6150749744701287.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "My_Daily_Rhythm1332981549492318.SVG",
+          "path": "My_Daily_Rhythm1332981549492318.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "My_Listening_DNA4811242137367122.SVG",
+          "path": "My_Listening_DNA4811242137367122.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Platforms_&_Context07709368693842322.SVG",
+          "path": "Platforms_&_Context07709368693842322.SVG",
+          "type": "Image"
+        },
+        {
+          "name": "Sound_Overview7620560155060657.SVG",
+          "path": "Sound_Overview7620560155060657.SVG",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

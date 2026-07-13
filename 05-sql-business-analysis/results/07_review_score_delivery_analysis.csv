@@ -1,0 +1,11 @@
+delivery_status,review_score,reviewed_orders,avg_delivery_days,score_mix_pct
+late,5,1703,23.89,22.23
+late,4,944,26.31,12.32
+late,3,872,29.51,11.38
+late,2,602,32.19,7.86
+late,1,3540,35.66,46.21
+on_time_or_early,5,55045,9.79,62.44
+on_time_or_early,4,17944,11.08,20.35
+on_time_or_early,3,7044,11.84,7.99
+on_time_or_early,2,2319,12.02,2.63
+on_time_or_early,1,5811,11.84,6.59

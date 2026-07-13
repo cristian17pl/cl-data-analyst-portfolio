@@ -204,7 +204,7 @@ The report also uses calculated columns for opponent strength tiering:
 ## How to Open
 
 1. Open the Power BI Project from the `pbip` folder in Power BI Desktop.
-2. Refresh the semantic model if prompted.
+2. If you refresh after cloning, update the CSV source paths to the cloned project's `docs/` folder; Power BI stores the original author's local paths in the M partitions.
 3. Use the landing page buttons or report tabs to navigate the analysis.
 
 For a static preview, open:

@@ -1,0 +1,26 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-HN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["dim_channel","dim_customer","dim_date","dim_product","dim_territory","fact_sales","fact_targets"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_channel
+ref table dim_customer
+ref table dim_date
+ref table dim_product
+ref table dim_territory
+ref table fact_sales
+ref table fact_targets
+ref table formulas
+ref table 'Metric selector'
+
+ref cultureInfo es-ES
+
