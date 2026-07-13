@@ -211,6 +211,10 @@ tempCodeRunnerFile.py
 # Generated storytelling workspaces (final PDFs and required source screenshots stay tracked)
 **/storytelling-output/
 
+# Personal skill-development notes (not portfolio deliverables)
+**/storytelling-designer-session-notes.md
+**/storytelling-designer-skill-upgrade-notes.md
+
 # Public raw source extracts that are not required by the checked-in semantic model
 03-regional-sales-performance/docs/raw/*.csv
 
